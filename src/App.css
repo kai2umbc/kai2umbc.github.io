@@ -1,0 +1,13 @@
+body {
+    margin: 0; /* Reset default body margin */
+}
+
+.App {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Make the app at least fill the screen height */
+}
+
+.App > * {
+    flex-shrink: 0; /* Prevent content from shrinking below its minimum size */
+}
