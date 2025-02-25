@@ -29,7 +29,7 @@ const Home = () => {
                 <div className="relative">
                     <div className="w-full animate-slideDown">
                         <img
-                            src={`${import.meta.env.BASE_URL}src/img/front page.jpg`}
+                            src="kai2umbc/kai2umbc.github.io/src/img/front page.jpg"
                             alt="AI Brain Illustration"
                             className="w-full h-screen object-cover"
                             style={{
