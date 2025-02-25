@@ -13,9 +13,9 @@ const Navbar = () => {
 
         switch (path) {
             case '/':
-                return "src/img/KAI2 Logo.jpg";
+                return "/assests/img/Black KAI2 Logo.jpg";
             default:
-                return "src/img/Circuit Infused Human Profile Art.jpg";
+                return "/assests/img/Green KAI2 Logo.jpg";
         }
     };
 
