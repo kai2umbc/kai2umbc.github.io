@@ -82,6 +82,9 @@ const memberData = {
 };
 
 const Member = () => {
+    // Default placeholder image for members without an image
+    const placeholderImage = '/assests/img/placeholder.jpg';
+
     return (
         <div className="min-h-screen">
             <div className="bg-[#091c22] h-[25vh] flex flex-col justify-center items-center">
@@ -111,42 +114,48 @@ const Member = () => {
                                             key={`${member.name}-${index}`}
                                             className="w-72 overflow-hidden hover:shadow-lg transition-shadow"
                                         >
-                                            <CardContent className="p-0">
+                                            <CardContent className="p-0 flex flex-col">
                                                 {member.externalLink ? (
                                                     <a
                                                         href={member.externalLink}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="block"
+                                                        className="block w-full"
                                                     >
-                                                        <div className="aspect-square overflow-hidden">
+                                                        <div className="w-full h-64 overflow-hidden">
                                                             <img
-                                                                src={member.image}
+                                                                src={member.image || placeholderImage}
                                                                 alt={member.name}
                                                                 className="w-full h-full object-cover transition-transform hover:scale-105"
+                                                                onError={(e) => {
+                                                                    e.target.src = placeholderImage;
+                                                                }}
                                                             />
                                                         </div>
-                                                        <div className="p-4">
+                                                        <div className="p-4 bg-white">
                                                             <h3 className="font-semibold text-lg mb-1">{member.name}</h3>
-                                                            <p className="#717568 text-sm mb-1">{member.university}</p>
+                                                            <p className="text-gray-600 text-sm mb-1">{member.university}</p>
                                                             <p className="text-sm">{member.title}</p>
                                                         </div>
                                                     </a>
                                                 ) : (
-                                                    <div>
-                                                        <div className="aspect-square overflow-hidden">
+                                                    <>
+                                                        <div className="w-full h-64 overflow-hidden">
                                                             <img
-                                                                src={member.image}
+                                                                src={member.image || placeholderImage}
                                                                 alt={member.name}
                                                                 className="w-full h-full object-cover"
+                                                                onError={(e) => {
+                                                                    e.target.src = placeholderImage;
+                                                                }}
                                                             />
                                                         </div>
-                                                        <div className="p-4">
+                                                        <div className="p-4 bg-white">
                                                             <h3 className="font-semibold text-lg mb-1">{member.name}</h3>
-                                                            <p className="#717568 text-sm mb-1">{member.university}</p>
+                                                            <p className="text-gray-600 text-sm mb-1">{member.university}</p>
                                                             <p className="text-sm">{member.title}</p>
                                                         </div>
-                                                    </div>
+                                                    </>
                                                 )}
                                             </CardContent>
                                         </Card>

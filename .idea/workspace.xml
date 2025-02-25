@@ -4,38 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="">
+    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/assets/KAI2 Logo-C_2oWJsq.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/assets/index-C10vBn3V.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/assets/index-Cw-KIM-n.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/Circuit Infused Human Profile Art.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/KAI2 Logo.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/consistent-ai.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/explainable-ai.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/front page.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/members/Ali Mohammadi.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/members/Ben Lagnese.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/members/Gerald Ndawula.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/members/Harisahan Venkata.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/members/Manas Gaur.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/members/Mathew Dawit.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/members/Nancy Tyagi.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/members/Priyanshul Govil.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/members/Saksham Kumar Sharma.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/members/Sarvesh B.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/members/Sriram Vema.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/members/Surjodeep Sarkar.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/members/Yash Saxena.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/reliable-ai.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/safe-ai.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/trustworthy-ai.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/index-C10vBn3V.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/index-CYBjZeiy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/_metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/chunk-U7P2NEEE.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/chunk-U7P2NEEE.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/class-variance-authority.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/class-variance-authority.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/class-variance-authority.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/class-variance-authority.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/clsx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/clsx.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/tailwind-merge.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/tailwind-merge.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/button.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/button.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/card.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/card.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/input.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/input.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/pagination.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/pagination.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/utils.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Members.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Members.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/allMembers/labHead/Manas Gaur.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/allMembers/masterStudents/Ben Lagnese.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/allMembers/undergradStudents/Mathew Dawit.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Publications.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Publications.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,10 +38,19 @@
     <option name="myRunOnSave" value="true" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="side-branch" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="OptimizeOnSaveOptions">
     <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
