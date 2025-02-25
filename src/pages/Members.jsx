@@ -19,12 +19,12 @@ const memberData = {
             image: '/assets/members/Yash Saxena.jpg',
             externalLink: 'https://yashsaxena21.github.io/Portfolio/'
         },
-        {
-            name: 'Nilanjana Das',
-            university: 'UMBC',
-            title: 'PhD Student',
-            image: ''
-        },
+        // {
+        //     name: 'Nilanjana Das',
+        //     university: 'UMBC',
+        //     title: 'PhD Student',
+        //     image: ''
+        // },
         {
             name: 'Ali Mohammadi',
             university: 'UMBC',
