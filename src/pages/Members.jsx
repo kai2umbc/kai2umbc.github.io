@@ -7,7 +7,7 @@ const memberData = {
             name: 'Manas Gaur',
             university: 'UMBC',
             title: 'Assistant Professor',
-            image: '/assests/img/members/Manas Gaur.jpg',
+            image: '/public/assets/members/Manas Gaur.jpg',
             externalLink: 'https://manasgaur.github.io/'
         }
     ],
@@ -16,7 +16,7 @@ const memberData = {
             name: 'Yash Saxena',
             university: 'UMBC',
             title: 'PhD Student',
-            image: '/assests/img/members/Yash Saxena.jpg',
+            image: '/public/assets/members/Yash Saxena.jpg',
             externalLink: 'https://yashsaxena21.github.io/Portfolio/'
         },
         {
@@ -29,14 +29,14 @@ const memberData = {
             name: 'Ali Mohammadi',
             university: 'UMBC',
             title: 'PhD Student',
-            image: '/assests/img/members/Ali Mohammadi.JPG',
+            image: '/public/assets/members/Ali Mohammadi.JPG',
             externalLink: 'https://mohammadi-ali.github.io/'
         },
         {
             name: 'Sarvesh Baskar',
             university: 'BITS Pilani Goa Campus',
             title: 'Visiting Research Scholar',
-            image: '/assests/img/members/Sarvesh B.jpg'
+            image: '/public/assets/members/Sarvesh B.jpg',
         },
     ],
     "Masters Students": [
@@ -44,19 +44,19 @@ const memberData = {
             name: 'Priyanshul Govil',
             university: 'UMBC',
             title: 'Masters Student',
-            image: '/assests/img/members/Priyanshul Govil.jpg'
+            image: '/public/assets/members/Priyanshul Govil.jpg'
         },
         {
             name: 'Saksham Kumar Sharma',
             university: 'UMBC',
             title: 'Masters Student',
-            image: '/assests/img/members/Saksham Kumar Sharma.jpg'
+            image: '/public/assets/members/Saksham Kumar Sharma.jpg'
         },
         {
             name: 'Benjamin Lagnese',
             university: 'UMBC',
             title: 'Masters Student',
-            image: '/assests/img/members/Ben Lagnese.jpg'
+            image: '/public/assets/members/Ben Lagnese.jpg'
         },
     ],
     "Undergraduate Students": [
@@ -64,19 +64,19 @@ const memberData = {
             name: 'Gerald Ndawula',
             university: 'UMBC',
             title: 'Senior',
-            image: '/assests/img/members/Gerald Ndawula.jpg'
+            image: '/public/assets/members/Gerald Ndawula.jpg'
         },
         {
             name: 'Mathew Dawit',
             university: 'UMBC',
             title: 'Freshman',
-            image: '/assests/img/members/Mathew Dawit.jpg'
+            image: '/public/assets/members/Mathew Dawit.jpg'
         },
         {
             name: 'Sriram Vema',
             university: 'UMBC',
             title: '',
-            image: '/assests/img/members/Sriram Vema.jpg'
+            image: 'public/assets/members/Sriram Vema.jpg'
         },
     ]
 };

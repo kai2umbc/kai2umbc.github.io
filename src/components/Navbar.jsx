@@ -13,9 +13,9 @@ const Navbar = () => {
 
         switch (path) {
             case '/':
-                return "/assests/img/Black KAI2 Logo.jpg";
+                return "/public/assets/Black KAI2 Logo.jpg";
             default:
-                return "/assests/img/Green KAI2 Logo.jpg";
+                return "/public/assets/Green KAI2 Logo.jpg";
         }
     };
 
