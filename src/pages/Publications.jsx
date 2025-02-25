@@ -84,7 +84,9 @@ const PublicationsPage = () => {
                                             )?.['external-id-value']}`
                                             : null),
                                     journal: workSummary['journal-title']?.value,
-                                    authors: authors
+                                    authors: authors,
+                                    // Add a placeholder image for publications
+                                    image: '/assets/img/publications/publication-placeholder.jpg'
                                 });
                             }
                         }
@@ -130,6 +132,14 @@ const PublicationsPage = () => {
         window.scrollTo(0, 0);
     };
 
+    // Function to determine width based on number of items
+    const getFlexWidth = (count) => {
+        if (count === 1) return 'w-72';
+        if (count === 2) return 'w-[600px]';
+        if (count === 3) return 'w-[900px]';
+        return 'w-[1200px]';
+    };
+
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -156,11 +166,9 @@ const PublicationsPage = () => {
                 </div>
             </div>
 
-            <div className="max-w-4xl mx-auto p-6">
-
-
+            <div className="w-full py-8">
                 {/* Search Input */}
-                <div className="relative mb-6">
+                <div className="relative mb-6 max-w-md mx-auto">
                     <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground"/>
                     <Input
                         type="text"
@@ -178,48 +186,77 @@ const PublicationsPage = () => {
                     </div>
                 )}
 
-                {/* Publications list */}
-                <div className="space-y-4 mb-8">
-                    {currentPublications.map((pub, index) => (
-                        <Card key={index} className="hover:shadow-lg transition-shadow">
-                            <CardContent className="p-4">
-                                <h2 className="text-xl font-semibold mb-2">
-                                    {pub.url ? (
-                                        <a
-                                            href={pub.url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-blue-600 hover:text-blue-800 hover:underline"
-                                        >
-                                            {pub.title}
-                                        </a>
-                                    ) : (
-                                        pub.title
-                                    )}
-                                </h2>
-                                <div className="text-gray-600">
-                                    {pub.journal && (
-                                        <span className="block">{pub.journal}</span>
-                                    )}
-                                    {pub.authors.length > 0 && (
-                                        <div className="text-sm mt-2 italic">
-                                            {pub.authors.join(', ')}
-                                        </div>
-                                    )}
-                                    <div className="flex gap-4 mt-2 text-sm">
-                                        {pub.year && (
-                                            <span>{pub.year}</span>
+                {/* Publications list - styled like member cards */}
+                <div className="mb-12">
+                    <div className="flex justify-center">
+                        <div className={`max-w-4xl flex flex-wrap gap-6 justify-center mx-auto`}>
+                            {currentPublications.map((pub, index) => (
+                                <Card
+                                    key={index}
+                                    className="w-72 overflow-hidden hover:shadow-lg transition-shadow"
+                                >
+                                    <CardContent className="p-0">
+                                        {pub.url ? (
+                                            <a
+                                                href={pub.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="block"
+                                            >
+                                                <div className="p-4">
+                                                    <h3 className="font-semibold text-lg mb-1 line-clamp-2">{pub.title}</h3>
+                                                    {pub.journal && (
+                                                        <p className="text-sm mb-1 text-gray-600">{pub.journal}</p>
+                                                    )}
+                                                    {pub.authors.length > 0 && (
+                                                        <p className="text-sm italic line-clamp-2">
+                                                            {pub.authors.join(', ')}
+                                                        </p>
+                                                    )}
+                                                    <div className="flex gap-2 mt-2 text-sm">
+                                                        {pub.year && (
+                                                            <span
+                                                                className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">{pub.year}</span>
+                                                        )}
+                                                        {pub.type && (
+                                                            <span
+                                                                className="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs capitalize">
+                                                                {pub.type.toLowerCase().replace('-', ' ')}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        ) : (
+                                            <div className="p-4">
+                                                <h3 className="font-semibold text-lg mb-1 line-clamp-2">{pub.title}</h3>
+                                                {pub.journal && (
+                                                    <p className="text-sm mb-1 text-gray-600">{pub.journal}</p>
+                                                )}
+                                                {pub.authors.length > 0 && (
+                                                    <p className="text-sm italic line-clamp-2">
+                                                        {pub.authors.join(', ')}
+                                                    </p>
+                                                )}
+                                                <div className="flex gap-2 mt-2 text-sm">
+                                                    {pub.year && (
+                                                        <span
+                                                            className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">{pub.year}</span>
+                                                    )}
+                                                    {pub.type && (
+                                                        <span
+                                                            className="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs capitalize">
+                                                            {pub.type.toLowerCase().replace('-', ' ')}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
                                         )}
-                                        {pub.type && (
-                                            <span className="capitalize">
-                                            {pub.type.toLowerCase().replace('-', ' ')}
-                                        </span>
-                                        )}
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
                 {/* Pagination */}
