@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from './components/Navbar';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {HashRouter, Route, Routes} from "react-router-dom";
 import Members from "./pages/Members.jsx";
 import News from "./pages/News.jsx";
 import Research from "./pages/Research.jsx";
@@ -14,7 +14,7 @@ function App() {
 
         <div className="App">
             <div className="min-h-screen relative pb-[300px]">
-                <BrowserRouter>
+                <HashRouter>
 
                     <Navbar/>
 
@@ -32,7 +32,7 @@ function App() {
                     <Footer/>
 
 
-                </BrowserRouter>
+                </HashRouter>
             </div>
 
 
