@@ -61,7 +61,7 @@ const Navbar = () => {
     const navItems = [
         {name: 'Research', href: '/research'},
         {name: 'News', href: '/news'},
-        {name: 'Grants', href: '/grants'},
+        {name: 'Talks', href: '/talks'},
         {name: 'Publications', href: '/publications'},
         {name: 'Members', href: '/members'},
         {name: 'Join', href: '/#join-lab'},
