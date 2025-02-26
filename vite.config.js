@@ -16,8 +16,9 @@ export default defineConfig({
         },
     },
     build: {
-        rollupOptions: {
-            input: "/index.html",  // Ensure using the correct entry point
-        },
+        outDir: "dist",
+    },
+    server: {
+        historyApiFallback: true, // Ensures routing works in dev mode
     },
 });
