@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="" />
+    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Footer.jsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -212,6 +215,8 @@
       <workItem from="1740532282764" duration="5647000" />
       <workItem from="1740546563863" duration="3000" />
       <workItem from="1740546864724" duration="4794000" />
+      <workItem from="1740551799357" duration="186000" />
+      <workItem from="1740584994528" duration="4002000" />
     </task>
     <task id="LOCAL-00001" summary="fixed most">
       <option name="closed" value="true" />
@@ -317,7 +322,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740551186454</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="added alumni to members page">
+      <option name="closed" value="true" />
+      <created>1740551978247</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1740551978247</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -348,7 +361,8 @@
     <MESSAGE value="small fixes for AAAI" />
     <MESSAGE value="fixed sizing for shadcn card for research page and members page" />
     <MESSAGE value="replaced grants with talks and added dummy information to lab news" />
-    <option name="LAST_COMMIT_MESSAGE" value="replaced grants with talks and added dummy information to lab news" />
+    <MESSAGE value="added alumni to members page" />
+    <option name="LAST_COMMIT_MESSAGE" value="added alumni to members page" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
