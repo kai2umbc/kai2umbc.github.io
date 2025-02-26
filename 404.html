@@ -5,8 +5,8 @@
     <title>Redirecting...</title>
     <script>
         (function () {
-            var path = window.location.pathname.replace(/\/+/g, "/"); // Fix excessive slashes
-            var newUrl = window.location.origin + path;
+            var pathname = window.location.pathname;
+            var newUrl = window.location.origin + "/" + pathname;
             window.location.replace(newUrl);
         })();
     </script>
