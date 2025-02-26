@@ -50,6 +50,28 @@ const PublicationsPage = () => {
                 "Kaushik Roy",
                 "Amit Sheth"
             ]
+        },
+        'reasons': {
+            title: "REASONS: A benchmark for REtrieval and Automated citationS Of scieNtific Sentences using Public and Proprietary LLMs",
+            url: "https://arxiv.org/abs/2310.05157",
+            authors: [
+                "Ali Mohammadi",
+                "Manas Gaur",
+                "Nilanjana Das",
+                "Jennifer D'Souza",
+                "Amit Sheth"
+            ]
+        },
+        'iot mental health': {
+            title: "IoT-Based Preventive Mental Health Using Knowledge Graphs and Standards for Better Well-Being",
+            url: "https://dl.acm.org/doi/10.1145/3608737",
+            authors: [
+                "Manas Gaur",
+                "Amanuel Alambo",
+                "Swati Padhee",
+                "Kaushik Roy",
+                "Amit Sheth"
+            ]
         }
     };
 
@@ -197,6 +219,26 @@ const PublicationsPage = () => {
 
             // Process special cases
             for (const [pubId, pub] of publicationMap.entries()) {
+                // Enhanced matching for specific papers
+                if (pub.title.toLowerCase().includes('reasons') &&
+                    pub.title.toLowerCase().includes('benchmark')) {
+                    const specialPub = specialPublications['reasons'];
+                    pub.title = specialPub.title;
+                    pub.url = specialPub.url;
+                    pub.authors = specialPub.authors;
+                    continue;
+                }
+
+                if (pub.title.toLowerCase().includes('preventive mental health') &&
+                    pub.title.toLowerCase().includes('knowledge graph')) {
+                    const specialPub = specialPublications['iot mental health'];
+                    pub.title = specialPub.title;
+                    pub.url = specialPub.url;
+                    pub.authors = specialPub.authors;
+                    continue;
+                }
+
+                // Generic matching for other special publications
                 for (const [keyword, specialPub] of Object.entries(specialPublications)) {
                     if (pub.title.toLowerCase().includes(keyword.toLowerCase())) {
                         pub.title = specialPub.title;
