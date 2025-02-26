@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="added more orcidIds and commented whose ID">
+    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="added Ali's WellDunn publication">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Publications.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Publications.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,7 +216,7 @@
       <workItem from="1740546563863" duration="3000" />
       <workItem from="1740546864724" duration="4794000" />
       <workItem from="1740551799357" duration="186000" />
-      <workItem from="1740584994528" duration="6660000" />
+      <workItem from="1740584994528" duration="7782000" />
     </task>
     <task id="LOCAL-00001" summary="fixed most">
       <option name="closed" value="true" />
@@ -345,7 +346,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740608579811</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="added Ali's WellDunn publication">
+      <option name="closed" value="true" />
+      <created>1740611151984</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1740611151984</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -379,7 +388,8 @@
     <MESSAGE value="added alumni to members page" />
     <MESSAGE value="made the footer not cover information on mobile" />
     <MESSAGE value="added more orcidIds and commented whose ID" />
-    <option name="LAST_COMMIT_MESSAGE" value="added more orcidIds and commented whose ID" />
+    <MESSAGE value="added Ali's WellDunn publication" />
+    <option name="LAST_COMMIT_MESSAGE" value="added Ali's WellDunn publication" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
