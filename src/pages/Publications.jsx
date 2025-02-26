@@ -76,7 +76,8 @@ const PublicationsPage = () => {
                                         ?.map(a => a['credit-name']?.value)
                                     || [];
 
-                                allPublications.push({
+                                // Create the publication object
+                                let publication = {
                                     title: workSummary.title?.['title']?.value || 'Untitled',
                                     year: publicationYear,
                                     type: workSummary.type,
@@ -90,7 +91,21 @@ const PublicationsPage = () => {
                                             : null),
                                     journal: workSummary['journal-title']?.value,
                                     authors: authors
-                                });
+                                };
+
+                                // Check if this is Ali Mohammadi's WellDunn publication
+                                if (orcidId === '0009-0004-5685-1899' &&
+                                    publication.title &&
+                                    publication.title.toLowerCase().includes('welldunn') &&
+                                    publication.title.toLowerCase().includes('robustness') &&
+                                    publication.title.toLowerCase().includes('explainability')) {
+
+                                    // Update the publication with the preferred title and ACL link
+                                    publication.title = "WellDunn: On the Robustness and Explainability of Language Models and Large Language Models in Identifying Wellness Dimensions";
+                                    publication.url = "https://aclanthology.org/2024.blackboxnlp-1.23/";
+                                }
+
+                                allPublications.push(publication);
                             }
                         }
                     }
