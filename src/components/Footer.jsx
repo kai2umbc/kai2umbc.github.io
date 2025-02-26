@@ -14,18 +14,15 @@ const Footer = () => {
             const targetId = link.split('#')[1];
 
             if (!isHome) {
-                // First scroll to top, then navigate to home with scroll instruction
                 window.scrollTo(0, 0);
                 navigate('/', {state: {scrollTo: targetId}});
             } else {
-                // If already on home page, just scroll to section
                 const element = document.getElementById(targetId);
                 if (element) {
                     element.scrollIntoView({behavior: 'smooth'});
                 }
             }
         } else {
-            // For non-hash links, first scroll to top, then navigate
             window.scrollTo(0, 0);
             navigate(link);
         }
@@ -56,9 +53,9 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="bg-black text-white py-8 px-6 absolute bottom-0 left-0 right-0 w-full">
+        <footer className="bg-black text-white py-4 px-4 md:py-8 md:px-6 absolute bottom-0 left-0 right-0 w-full">
             <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-8">
                     {/* Logo Section */}
                     <div>
                         <a href="/" onClick={(e) => handleNavClick(e, '/')}>
@@ -81,7 +78,7 @@ const Footer = () => {
                             <a
                                 href={section.link}
                                 onClick={(e) => handleNavClick(e, section.link)}
-                                className="block text-gray-400 hover:text-white text-sm transition-colors mb-4"
+                                className="block text-gray-400 hover:text-white text-sm transition-colors mb-2 md:mb-4 py-1"
                             >
                                 {section.title}
                             </a>
@@ -91,7 +88,7 @@ const Footer = () => {
                                         <a
                                             href={item.link}
                                             onClick={(e) => handleNavClick(e, item.link)}
-                                            className="text-gray-400 hover:text-white text-sm transition-colors"
+                                            className="text-gray-400 hover:text-white text-sm transition-colors py-1"
                                         >
                                             {item.name}
                                         </a>
