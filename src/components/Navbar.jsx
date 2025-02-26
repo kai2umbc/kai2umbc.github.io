@@ -35,18 +35,23 @@ const Navbar = () => {
         e.preventDefault();
 
         if (href.includes('#')) {
-            const isHome = window.location.pathname === '/';
+            const isHome = location.pathname === '/';
             const targetId = href.split('#')[1];
 
             if (!isHome) {
+                // First scroll to top, then navigate to home with scroll instruction
+                window.scrollTo(0, 0);
                 navigate('/', {state: {scrollTo: targetId}});
             } else {
+                // If already on home page, just scroll to section
                 const element = document.getElementById(targetId);
                 if (element) {
                     element.scrollIntoView({behavior: 'smooth'});
                 }
             }
         } else {
+            // For non-hash links, first scroll to top, then navigate
+            window.scrollTo(0, 0);
             navigate(href);
         }
 
@@ -69,7 +74,7 @@ const Navbar = () => {
                     <div className="flex justify-between items-center relative">
                         {/* Logo Container */}
                         <div className="flex-shrink-0 pl-4 md:pl-8">
-                            <a href="/" className="block">
+                            <a href="/" onClick={(e) => handleNavClick(e, '/')}>
                                 <div className="h-16 w-16">
                                     <img
                                         src={getNavbarImage()}

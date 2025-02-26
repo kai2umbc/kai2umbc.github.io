@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {ArrowRight, Linkedin, Mail} from 'lucide-react';
 import {Card, CardContent} from '@/components/ui/card';
 
 const Home = () => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (location.state?.scrollTo) {
@@ -21,6 +22,11 @@ const Home = () => {
             }
         }
     }, [location]);
+
+    const handleNavigation = (path) => {
+        navigate(path);
+        window.scrollTo(0, 0);
+    };
 
     return (
         <div className="w-full">
@@ -70,11 +76,12 @@ const Home = () => {
                                 environment
                                 where innovative ideas flourish and groundbreaking research takes shape.
                             </p>
-                            <a href="/members"
-                               className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded transition-all duration-300 hover:bg-[#CBDFE2] hover:text-black">
+                            <button
+                                onClick={() => handleNavigation('/members')}
+                                className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded transition-all duration-300 hover:bg-[#CBDFE2] hover:text-black">
                                 <span>Our Lab</span>
                                 <ArrowRight size={16}/>
-                            </a>
+                            </button>
                         </CardContent>
                     </Card>
 
@@ -91,11 +98,12 @@ const Home = () => {
                                 learning models. We're particularly interested in making AI systems more transparent and
                                 reliable.
                             </p>
-                            <a href="/research"
-                               className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded transition-all duration-300 hover:bg-[#CBDFE2] hover:text-black">
+                            <button
+                                onClick={() => handleNavigation('/research')}
+                                className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded transition-all duration-300 hover:bg-[#CBDFE2] hover:text-black">
                                 <span>Our Science</span>
                                 <ArrowRight size={16}/>
-                            </a>
+                            </button>
                         </CardContent>
                     </Card>
 
@@ -109,11 +117,12 @@ const Home = () => {
                                 various IEEE transactions. We regularly share our findings with the broader AI community
                                 through peer-reviewed papers, technical reports, and conference presentations.
                             </p>
-                            <a href="/publications"
-                               className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded transition-all duration-300 hover:bg-[#CBDFE2] hover:text-black">
+                            <button
+                                onClick={() => handleNavigation('/publications')}
+                                className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded transition-all duration-300 hover:bg-[#CBDFE2] hover:text-black">
                                 <span>Our Papers</span>
                                 <ArrowRight size={16}/>
-                            </a>
+                            </button>
                         </CardContent>
                     </Card>
                 </div>
