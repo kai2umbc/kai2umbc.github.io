@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/research-card';
 import NetworkGraph from '/src/components/NetworkGraph.jsx';
 
 const Research = () => {
