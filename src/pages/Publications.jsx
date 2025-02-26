@@ -13,10 +13,15 @@ import {
 
 const PublicationsPage = () => {
     const orcidIds = [
-        '0000-0002-5411-2230',
-        '0009-0000-8632-0491',
-        '0000-0002-3995-7235',
-        '0009-0006-3831-6811',
+        '0000-0002-5411-2230', // Manas Gaur
+        '0009-0000-8632-0491', // Yash Saxena
+        '0000-0002-3995-7235', // Shaswati Saha
+        '0009-0006-3831-6811', // Sarvesh Baskar
+        '0009-0004-5685-1899', // Ali Mohammadi
+        '0009-0006-9813-9351', // Nancy Tyagi
+        '0000-0002-0147-2777', // Surjodeep Sarkar
+        '0009-0006-6081-9896', // Seyedreza Mohseni
+        '0009-0003-8906-0914', // Nilanjana Das
     ];
 
     const [publications, setPublications] = useState([]);
