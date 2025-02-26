@@ -4,36 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="deploy update">
+    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="new fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/Black KAI2 Logo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/Black KAI2 Logo.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/Green KAI2 Logo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/Green KAI2 Logo.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/consistent-ai.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/consistent-ai.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/explainable-ai.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/explainable-ai.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/front page.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/front page.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/members/Ali Mohammadi.JPG" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/members/Ali Mohammadi.JPG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/members/Ben Lagnese.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/members/Ben Lagnese.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/members/Gerald Ndawula.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/members/Gerald Ndawula.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/members/Harisahan Venkata.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/members/Harisahan Venkata.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/members/Manas Gaur.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/members/Manas Gaur.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/members/Mathew Dawit.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/members/Mathew Dawit.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/members/Nancy Tyagi.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/members/Nancy Tyagi.jpeg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/members/Priyanshul Govil.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/members/Priyanshul Govil.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/members/Saksham Kumar Sharma.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/members/Saksham Kumar Sharma.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/members/Sarvesh B.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/members/Sarvesh B.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/members/Sriram Vema.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/members/Sriram Vema.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/members/Surjodeep Sarkar.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/members/Surjodeep Sarkar.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/members/Yash Saxena.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/members/Yash Saxena.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/reliable-ai.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/reliable-ai.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/safe-ai.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/safe-ai.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assests/img/trustworthy-ai.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/trustworthy-ai.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Footer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/img/frontPage.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Members.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Members.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,6 +55,7 @@
     &quot;npm.npm dev.executor&quot;: &quot;Run&quot;,
     &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -238,6 +212,7 @@
       <workItem from="1740507176570" duration="9000" />
       <workItem from="1740510207442" duration="500000" />
       <workItem from="1740515474303" duration="1093000" />
+      <workItem from="1740532282764" duration="297000" />
     </task>
     <task id="LOCAL-00001" summary="fixed most">
       <option name="closed" value="true" />
@@ -279,11 +254,46 @@
       <option name="project" value="LOCAL" />
       <updated>1740515213614</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="small fixes">
+      <option name="closed" value="true" />
+      <created>1740516954675</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1740516954675</updated>
+    </task>
+    <task id="LOCAL-00007" summary="last fix">
+      <option name="closed" value="true" />
+      <created>1740517656167</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1740517656167</updated>
+    </task>
+    <task id="LOCAL-00008" summary="new fix">
+      <option name="closed" value="true" />
+      <created>1740518609761</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1740518609761</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fixed most" />
@@ -291,7 +301,10 @@
     <MESSAGE value="updated package.json" />
     <MESSAGE value="deploy" />
     <MESSAGE value="deploy update" />
-    <option name="LAST_COMMIT_MESSAGE" value="deploy update" />
+    <MESSAGE value="small fixes" />
+    <MESSAGE value="last fix" />
+    <MESSAGE value="new fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="new fix" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
