@@ -40,8 +40,8 @@ const Footer = () => {
             ]
         },
         {
-            title: 'Grants',
-            link: '/grants',
+            title: 'Talks',
+            link: '/talks',
             items: [
                 {name: 'Publications', link: '/publications'}
             ]

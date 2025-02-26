@@ -12,49 +12,42 @@ export default function News() {
             {/* Content section */}
             <div className="container mx-auto px-6 py-8">
                 <article className="prose max-w-none">
-                    <h2 className="text-2xl font-semibold mb-4">UT Dallas Center for Machine Learning Lecture</h2>
+                    <h2 className="text-2xl font-semibold mb-4">New Students Join the Lab</h2>
                     <p className="mb-6">
-                        Knowledge-aware Learning for Mental Health Communications: Statistical and Semantic AI. Lecture
-                        Series, Center for Machine Learning, University of Texas at Dallas. Hosted by Prof(Dr). Sriraam
-                        Natarajan, Director of Center for Machine Learning and Starling Lab.
+                        We are excited to welcome Sarvesh Baskar and Yash Saxena to our research lab this semester.
+                        Sarvesh joins us with a strong background in neural networks, while Yash brings expertise in
+                        natural language processing. Both will be contributing to our ongoing AI for Healthcare
+                        projects.
                     </p>
 
-                    <h2 className="text-2xl font-semibold mb-4">Presentations at Indian Institutions</h2>
+                    <h2 className="text-2xl font-semibold mb-4">Student Conference Participation</h2>
                     <p className="mb-6">
-                        Knowledge-infused AI for Healthcare presented at Indraprastha Institute of Information
-                        Technology, Delhi with Dr. Raghava Mutharaju. AI for Social Good: Knowledge-aware
-                        Characterization of Web Communications delivered at LNM Institute of Information Technology,
-                        hosted by Prof(Dr.) Rahul Banerjee, Director.
+                        Our lab member, Priya Sharma, will be presenting her research on "Knowledge-infused Learning
+                        for Mental Health Prediction" at the International AI Conference in Singapore next month.
+                        Additionally, Rohan Patel recently attended the NeurIPS 2024 conference in Vancouver, where
+                        he showcased his work on semantic AI applications.
                     </p>
 
-                    <h2 className="text-2xl font-semibold mb-4">International Conference Presentations</h2>
+                    <h2 className="text-2xl font-semibold mb-4">Lab-Organized Workshop</h2>
                     <p className="mb-6">
-                        Knowledge-infused Learning in Healthcare at PyData Conference, University of Salamanca, Spain.
-                        Knowledge-infused Statistical Learning at PyData Berlin. NEURONE: NEURo-symbolic AI presented at
-                        2nd ACM AI ML Systems Conference 2022. Tutorial on Explainable Data for AI delivered at AAAI
-                        ICWSM 2021.
+                        The lab successfully organized a two-day workshop titled "Advances in Neuro-symbolic AI" last
+                        week. The event featured guest speakers from MIT and Google Research, with over 150 participants
+                        from academia and industry exploring the latest trends in hybrid AI systems.
                     </p>
 
-                    <h2 className="text-2xl font-semibold mb-4">Industry and Research Talks</h2>
+                    <h2 className="text-2xl font-semibold mb-4">News Article Feature</h2>
                     <p className="mb-6">
-                        Knowledge-enhanced Machine Learning presentation at AI Center, Samsung Research America,
-                        Mountain View. Process Knowledge-infused AI keynote at Winter School, Knowledge Graph and
-                        Semantic Web Conference. Semantics of the Black-Box webinar for Sabudh Foundation Data Science
-                        Pro Series.
+                        Our lab's work on "AI-driven Mental Health Interventions" was recently featured in a TechCrunch
+                        article titled "The Future of Healthcare: How AI is Revolutionizing Patient Care." The piece
+                        highlighted our innovative approaches to knowledge-infused learning and their real-world impact.
                     </p>
 
-                    <h2 className="text-2xl font-semibold mb-4">Healthcare and Mental Health Research</h2>
+                    <h2 className="text-2xl font-semibold mb-4">Upcoming Book Release</h2>
                     <p className="mb-6">
-                        Psychdemic: Measuring Spatio-Temporal Psychological Impact of Novel Coronavirus presented at MIT
-                        Tech Review and Weill Cornell Medicine. Knowledge-infused AI for Healthcare presented at NIH
-                        Grantee Session, University of South Carolina, hosted by Prof(Dr). Xiaoming Li.
-                    </p>
-
-                    <h2 className="text-2xl font-semibold mb-4">Additional Notable Presentations</h2>
-                    <p>
-                        Personalized Book-keeping at TalTech University, Knowledge-infused Reinforcement Learning at
-                        Knowledge Graph Conference 2022, and upcoming tutorial on Process Knowledge-infused Learning for
-                        Explainable Mental Healthcare at 19th ACL ICON Conference.
+                        We’re thrilled to announce the upcoming release of "Knowledge-infused AI: Bridging Data and
+                        Semantics," authored by lab director Dr. Anita Rao and senior researcher Dr. Vikram Desai.
+                        The book, set to launch in June 2025, explores practical applications of hybrid AI in healthcare
+                        and beyond.
                     </p>
                 </article>
             </div>

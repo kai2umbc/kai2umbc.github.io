@@ -7,7 +7,7 @@ import Research from "./pages/Research.jsx";
 import Publications from "./pages/Publications.jsx";
 import Home from "./pages/Home.jsx";
 import Footer from "./components/Footer.jsx";
-import Grants from "./pages/Grants.jsx";
+import Talks from "./pages/Talks.jsx";
 
 function App() {
     return (
@@ -20,7 +20,7 @@ function App() {
 
                     <Routes>
                         <Route path="/" element={<Home/>}/>
-                        <Route path="/grants" element={<Grants/>}/>
+                        <Route path="/talks" element={<Talks/>}/>
                         <Route path="/members" element={<Members/>}/>
                         <Route path="/research" element={<Research/>}/>
                         <Route path="/news" element={<News/>}/>
