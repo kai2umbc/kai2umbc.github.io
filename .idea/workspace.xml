@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="small fixes for AAAI">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/_metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Members.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Members.jsx" afterDir="false" />
-    </list>
+    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -215,7 +211,7 @@
       <workItem from="1740515474303" duration="1093000" />
       <workItem from="1740532282764" duration="5647000" />
       <workItem from="1740546563863" duration="3000" />
-      <workItem from="1740546864724" duration="2359000" />
+      <workItem from="1740546864724" duration="4794000" />
     </task>
     <task id="LOCAL-00001" summary="fixed most">
       <option name="closed" value="true" />
@@ -305,7 +301,23 @@
       <option name="project" value="LOCAL" />
       <updated>1740548058431</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="fixed sizing for shadcn card for research page and members page">
+      <option name="closed" value="true" />
+      <created>1740550135718</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1740550135718</updated>
+    </task>
+    <task id="LOCAL-00013" summary="replaced grants with talks and added dummy information to lab news">
+      <option name="closed" value="true" />
+      <created>1740551186454</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1740551186454</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -334,7 +346,9 @@
     <MESSAGE value="Fix routing for GitHub Pages" />
     <MESSAGE value="Fix more routing for GitHub Pages" />
     <MESSAGE value="small fixes for AAAI" />
-    <option name="LAST_COMMIT_MESSAGE" value="small fixes for AAAI" />
+    <MESSAGE value="fixed sizing for shadcn card for research page and members page" />
+    <MESSAGE value="replaced grants with talks and added dummy information to lab news" />
+    <option name="LAST_COMMIT_MESSAGE" value="replaced grants with talks and added dummy information to lab news" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

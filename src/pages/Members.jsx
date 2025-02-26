@@ -72,9 +72,11 @@ const memberData = {
             title: 'Freshman',
             image: '/assets/members/Mathew Dawit.jpg'
         },
+    ],
+    "Alumni": [
         {
             name: 'Sriram Vema',
-            university: 'UMBC',
+            university: '',
             title: '',
             image: '/assets/members/Sriram Vema.jpg'
         },
