@@ -23,8 +23,10 @@ export default function News() {
                         Gerald Ndawula presented on Knowledge-infused Copilots for Mental Health at the UG Consortium.
                     </p>
 
-                    <h2 className="text-2xl font-semibold mb-4">AAAI Main Track Presentation: The MAD Dataset for Code
-                        Obfuscation</h2>
+                    <h2 className="text-2xl font-semibold mb-4">AAAI Main Track Presentation: <a
+                        href="https://arxiv.org/pdf/2412.16135?" target="_blank" rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 hover:underline">The MAD Dataset for Code
+                        Obfuscation</a></h2>
                     <p className="mb-6">
                         Congratulations to Seyedreza Mohseni and Ali Mohammadi on their presentation at the AAAI Main
                         Track.
