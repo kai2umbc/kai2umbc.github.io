@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="fixed some publications not showing authors" />
+    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="manually fixed certain publications who weren't showing contributors">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -213,7 +215,7 @@
       <workItem from="1740546563863" duration="3000" />
       <workItem from="1740546864724" duration="4794000" />
       <workItem from="1740551799357" duration="186000" />
-      <workItem from="1740584994528" duration="8092000" />
+      <workItem from="1740584994528" duration="10077000" />
     </task>
     <task id="LOCAL-00001" summary="fixed most">
       <option name="closed" value="true" />
@@ -359,7 +361,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740612130097</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="manually fixed certain publications who weren't showing contributors">
+      <option name="closed" value="true" />
+      <created>1740612585675</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1740612585675</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -395,7 +405,8 @@
     <MESSAGE value="added more orcidIds and commented whose ID" />
     <MESSAGE value="added Ali's WellDunn publication" />
     <MESSAGE value="fixed some publications not showing authors" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed some publications not showing authors" />
+    <MESSAGE value="manually fixed certain publications who weren't showing contributors" />
+    <option name="LAST_COMMIT_MESSAGE" value="manually fixed certain publications who weren't showing contributors" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
