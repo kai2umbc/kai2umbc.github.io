@@ -249,6 +249,13 @@ const memberData = {
 };
 
 const Member = () => {
+    // Get the Principal Investigator
+    const pi = memberData["Principal Investigator"][0];
+
+    // Remove Principal Investigator from display data
+    const displayData = {...memberData};
+    delete displayData["Principal Investigator"];
+
     return (
         <div className="min-h-screen">
             <div className="bg-[#091c22] h-[25vh] flex flex-col justify-center items-center">
@@ -258,71 +265,114 @@ const Member = () => {
                 </div>
             </div>
 
-            <div className="w-full py-8">
-                {Object.entries(memberData).map(([section, members]) => {
-                    const getFlexWidth = (count) => {
-                        if (count === 1) return 'w-72';
-                        if (count === 2) return 'w-[600px]';
-                        if (count === 3) return 'w-[900px]';
-                        return 'w-[1200px]';
-                    };
-
-                    return (
-                        <div key={section} className="mb-12">
-                            <h2 className="text-2xl font-bold mb-6 text-center">{section}</h2>
-                            <div className="flex justify-center">
-                                <div
-                                    className={`${getFlexWidth(members.length)} flex flex-wrap gap-6 justify-center mx-auto`}>
-                                    {members.map((member, index) => (
-                                        <Card
-                                            key={`${member.name}-${index}`}
-                                            className="w-72 overflow-hidden hover:shadow-lg transition-shadow"
+            <div className="w-full py-8 px-4">
+                <div className="container mx-auto">
+                    {/* Split layout with PI on left, categories on right */}
+                    <div className="flex flex-col md:flex-row gap-8">
+                        {/* Principal Investigator column - left side */}
+                        <div className="md:w-1/4">
+                            <Card className="w-full overflow-hidden hover:shadow-lg transition-shadow">
+                                <CardContent className="p-0">
+                                    {pi.externalLink ? (
+                                        <a
+                                            href={pi.externalLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="block"
                                         >
-                                            <CardContent className="p-0">
-                                                {member.externalLink ? (
-                                                    <a
-                                                        href={member.externalLink}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="block"
-                                                    >
-                                                        <div className="aspect-square overflow-hidden">
-                                                            <img
-                                                                src={member.image}
-                                                                alt={member.name}
-                                                                className="w-full h-full object-cover transition-transform hover:scale-105"
-                                                            />
-                                                        </div>
-                                                        <div className="p-4">
-                                                            <h3 className="font-semibold text-lg mb-1">{member.name}</h3>
-                                                            <p className="#717568 text-sm mb-1">{member.university}</p>
-                                                            <p className="text-sm">{member.title}</p>
-                                                        </div>
-                                                    </a>
-                                                ) : (
-                                                    <div>
-                                                        <div className="aspect-square overflow-hidden">
-                                                            <img
-                                                                src={member.image}
-                                                                alt={member.name}
-                                                                className="w-full h-full object-cover"
-                                                            />
-                                                        </div>
-                                                        <div className="p-4">
-                                                            <h3 className="font-semibold text-lg mb-1">{member.name}</h3>
-                                                            <p className="#717568 text-sm mb-1">{member.university}</p>
-                                                            <p className="text-sm">{member.title}</p>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </CardContent>
-                                        </Card>
-                                    ))}
-                                </div>
-                            </div>
+                                            <div className="aspect-square overflow-hidden">
+                                                <img
+                                                    src={pi.image}
+                                                    alt={pi.name}
+                                                    className="w-full h-full object-cover transition-transform hover:scale-105"
+                                                />
+                                            </div>
+                                            <div className="p-4">
+                                                <h3 className="font-semibold text-lg mb-1">{pi.name}</h3>
+                                                <p className="text-sm mb-1 text-gray-600">Principal Investigator</p>
+                                                <p className="text-sm mb-1">{pi.university}</p>
+                                                <p className="text-sm">{pi.title}</p>
+                                            </div>
+                                        </a>
+                                    ) : (
+                                        <div>
+                                            <div className="aspect-square overflow-hidden">
+                                                <img
+                                                    src={pi.image}
+                                                    alt={pi.name}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                            <div className="p-4">
+                                                <h3 className="font-semibold text-lg mb-1">{pi.name}</h3>
+                                                <p className="text-sm mb-1 text-gray-600">Principal Investigator</p>
+                                                <p className="text-sm mb-1">{pi.university}</p>
+                                                <p className="text-sm">{pi.title}</p>
+                                            </div>
+                                        </div>
+                                    )}
+                                </CardContent>
+                            </Card>
                         </div>
-                    );
-                })}
+
+                        {/* Other categories - right side */}
+                        <div className="md:w-3/4">
+                            {Object.entries(displayData).map(([section, members]) => (
+                                <div key={section} className="mb-8">
+                                    <h2 className="text-xl font-bold mb-4">{section}</h2>
+                                    <div
+                                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                                        {members.map((member, index) => (
+                                            <Card
+                                                key={`${member.name}-${index}`}
+                                                className="w-full overflow-hidden hover:shadow-lg transition-shadow"
+                                            >
+                                                <CardContent className="p-0">
+                                                    {member.externalLink ? (
+                                                        <a
+                                                            href={member.externalLink}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="block"
+                                                        >
+                                                            <div className="aspect-square overflow-hidden">
+                                                                <img
+                                                                    src={member.image}
+                                                                    alt={member.name}
+                                                                    className="w-full h-full object-cover transition-transform hover:scale-105"
+                                                                />
+                                                            </div>
+                                                            <div className="p-3">
+                                                                <h3 className="font-semibold text-base mb-0.5">{member.name}</h3>
+                                                                <p className="text-xs mb-0.5 text-gray-600">{member.university}</p>
+                                                                <p className="text-xs">{member.title}</p>
+                                                            </div>
+                                                        </a>
+                                                    ) : (
+                                                        <div>
+                                                            <div className="aspect-square overflow-hidden">
+                                                                <img
+                                                                    src={member.image}
+                                                                    alt={member.name}
+                                                                    className="w-full h-full object-cover"
+                                                                />
+                                                            </div>
+                                                            <div className="p-3">
+                                                                <h3 className="font-semibold text-base mb-0.5">{member.name}</h3>
+                                                                <p className="text-xs mb-0.5 text-gray-600">{member.university}</p>
+                                                                <p className="text-xs">{member.title}</p>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </CardContent>
+                                            </Card>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
