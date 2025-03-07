@@ -44,7 +44,7 @@ const Research = () => {
 
     return (
         <div className="min-h-screen">
-            {/* Black header section taking up 1/4 of viewport height */}
+            {/* Black header section */}
             <div className="bg-[#091c22] h-[25vh] flex flex-col justify-center items-center">
                 <div className="flex flex-col items-center">
                     <h1 className="text-white text-4xl font-bold">Research</h1>
@@ -54,8 +54,7 @@ const Research = () => {
 
             <div className="container mx-auto px-6 py-8">
                 <h2 className="text-4xl font-bold text-center mb-12 leading-tight">
-                    Leading Neuro-Symbolic AI by integrating diverse human knowledge for safe, explainable
-                    innovation.
+                    Leading Neuro-Symbolic AI by integrating diverse human knowledge for safe, explainable innovation.
                 </h2>
 
                 {/* Network Graph Section */}
@@ -65,6 +64,17 @@ const Research = () => {
                             Research Communities Network
                         </h1>
                         <NetworkGraph/>
+                    </div>
+                </div>
+
+                {/* Visual Selection Image */}
+                <div className="py-8 px-4">
+                    <div className="w-full max-w-4xl mx-auto">
+                        <img
+                            src="/assets/AI Research Domains and Objectives.png"
+                            alt="Visual Selection from Napkin AI"
+                            className="w-full object-contain"
+                        />
                     </div>
                 </div>
 
@@ -120,9 +130,7 @@ const Research = () => {
                                         key={index}
                                         onClick={() => setCurrentSlide(index)}
                                         className={`w-2 h-2 rounded-full transition-all ${
-                                            currentSlide === index
-                                                ? 'bg-gray-800 w-4'
-                                                : 'bg-gray-300'
+                                            currentSlide === index ? 'bg-gray-800 w-4' : 'bg-gray-300'
                                         }`}
                                     />
                                 ))}
