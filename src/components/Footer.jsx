@@ -68,7 +68,7 @@ const Footer = () => {
                             </div>
                         </a>
                         <div className="text-gray-400 text-sm mt-4">
-                            © {currentYear} KAI2 Lab
+                            © {currentYear} KAI² Lab
                         </div>
                     </div>
 
