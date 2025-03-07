@@ -200,7 +200,7 @@ const memberData = {
         {
             name: 'Sriram Vema',
             university: '',
-            title: '',
+            title: 'Graduate Student',
             image: '/assets/members/Sriram Vema.jpg'
         },
         {
