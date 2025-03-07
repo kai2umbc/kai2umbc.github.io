@@ -71,10 +71,10 @@ const Navbar = () => {
         <div className="relative">
             <nav className={`${getNavbarColor()} text-white shadow-lg`}>
                 <div className="w-full">
-                    <div className="flex justify-between items-center relative">
-                        {/* Logo Container */}
-                        <div className="flex-shrink-0 pl-4 md:pl-8">
-                            <a href="/" onClick={(e) => handleNavClick(e, '/')}>
+                    <div className="flex items-center relative">
+                        {/* Left section with logo and lab name */}
+                        <div className="flex items-center flex-1 pl-4 md:pl-8">
+                            <a href="/" onClick={(e) => handleNavClick(e, '/')} className="flex items-center">
                                 <div className="h-16 w-16">
                                     <img
                                         src={getNavbarImage()}
@@ -83,6 +83,10 @@ const Navbar = () => {
                                     />
                                 </div>
                             </a>
+                            <div className="flex-grow text-center mr-4 md:mr-0">
+                                <span
+                                    className="text-white font-medium text-2xl">Knowledge Infused AI and Inference Lab</span>
+                            </div>
                         </div>
 
                         {/* Desktop Navigation */}
