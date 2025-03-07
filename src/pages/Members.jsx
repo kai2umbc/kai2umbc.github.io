@@ -92,18 +92,18 @@ const memberData = {
             image: '/assets/members/Mathew Dawit.jpg'
         },
     ],
-    "High School Intern": [
+    "High School Interns": [
         {
             name: 'Atmika Gorti',
             university: 'Freedom High School and Academies',
             title: 'Student',
-            image: '/assets/Black KAI2 Logo.jpg'
+            image: '/assets/members/Atmika Gorti.jpg'
         },
         {
             name: 'Batool Haider',
             university: 'Centerville High School',
             title: 'Student',
-            image: '/assets/Black KAI2 Logo.jpg'
+            image: '/assets/members/Batool Haider.jpg'
         },
     ],
     "Collaborators": [
@@ -248,12 +248,24 @@ const memberData = {
     ]
 };
 
+// Function to sort members alphabetically by name
+const sortMembersByName = (members) => {
+    return [...members].sort((a, b) => a.name.localeCompare(b.name));
+};
+
 const Member = () => {
     // Get the Principal Investigator
     const pi = memberData["Principal Investigator"][0];
 
+    // Sort Research Scholars alphabetically
+    const sortedResearchScholars = sortMembersByName(memberData["Research Scholars"]);
+
+    // Create a new object with sorted Research Scholars
+    const sortedMemberData = {...memberData};
+    sortedMemberData["Research Scholars"] = sortedResearchScholars;
+
     // Remove Principal Investigator from display data
-    const displayData = {...memberData};
+    const displayData = {...sortedMemberData};
     delete displayData["Principal Investigator"];
 
     return (
