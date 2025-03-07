@@ -31,7 +31,9 @@ const NetworkGraph = () => {
     const [initialPositions, setInitialPositions] = useState({});
     const [hoveredNode, setHoveredNode] = useState(null);
     const [draggedNode, setDraggedNode] = useState(null);
+    const [isAnimating, setIsAnimating] = useState(false);
     const svgRef = useRef(null);
+    const nodeRefs = useRef({});
 
     const calculatePositions = () => {
         const newPositions = {};
@@ -72,7 +74,46 @@ const NetworkGraph = () => {
     }, [nodes]);
 
     const handleReset = () => {
-        setPositions(initialPositions);
+        setIsAnimating(true);
+
+        // Animate nodes to their initial positions
+        nodes.forEach(node => {
+            const nodeElement = nodeRefs.current[node.id];
+            if (nodeElement) {
+                const initPos = initialPositions[node.id];
+                if (initPos) {
+                    // Use requestAnimationFrame for smoother animation
+                    const startPos = {...positions[node.id]};
+                    const startTime = Date.now();
+                    const duration = 800; // Animation duration in ms
+
+                    const animate = () => {
+                        const elapsed = Date.now() - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        // Easing function for smooth animation (ease-out cubic)
+                        const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+                        const currentX = startPos.x + (initPos.x - startPos.x) * easeProgress;
+                        const currentY = startPos.y + (initPos.y - startPos.y) * easeProgress;
+
+                        // Update position state for this node
+                        setPositions(prev => ({
+                            ...prev,
+                            [node.id]: {x: currentX, y: currentY}
+                        }));
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        } else if (node.id === nodes[nodes.length - 1].id) {
+                            // Last node has finished animating
+                            setIsAnimating(false);
+                        }
+                    };
+
+                    requestAnimationFrame(animate);
+                }
+            }
+        });
     };
 
     const getSVGCoordinates = (event) => {
@@ -91,6 +132,7 @@ const NetworkGraph = () => {
     };
 
     const handleMouseDown = (nodeId, event) => {
+        if (isAnimating) return; // Prevent dragging during animation
         event.preventDefault();
         setDraggedNode({
             id: nodeId,
@@ -102,7 +144,7 @@ const NetworkGraph = () => {
     };
 
     const handleMouseMove = (event) => {
-        if (!draggedNode) return;
+        if (!draggedNode || isAnimating) return;
 
         const coords = getSVGCoordinates(event);
         setPositions(prev => ({
@@ -160,11 +202,12 @@ const NetworkGraph = () => {
             return (
                 <g
                     key={node.id}
+                    ref={el => nodeRefs.current[node.id] = el}
                     transform={`translate(${pos.x},${pos.y})`}
                     onMouseEnter={() => setHoveredNode(node.id)}
                     onMouseLeave={() => setHoveredNode(null)}
                     onMouseDown={(e) => handleMouseDown(node.id, e)}
-                    className="cursor-move"
+                    className={`cursor-move ${isAnimating ? 'transition-transform duration-800 ease-out' : ''}`}
                 >
                     <circle
                         r={hoveredNode === node.id ? 25 : 20}
@@ -207,33 +250,36 @@ const NetworkGraph = () => {
     };
 
     return (
-        <Card className="w-full max-w-3xl mx-auto">
-            <CardHeader>
-                <CardTitle>Network Graph</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col items-center gap-4">
-                <div className="relative w-full aspect-square">
-                    <svg
-                        ref={svgRef}
-                        viewBox="0 0 400 360"
-                        className="w-full h-full"
-                        onMouseMove={handleMouseMove}
-                        onMouseUp={handleMouseUp}
-                        onMouseLeave={handleMouseUp}
+        <div className="w-full max-w-4xl mx-auto">
+            <Card className="w-full">
+                <CardHeader>
+                    <CardTitle>Network Graph</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-col items-center gap-4">
+                    <div className="relative w-full aspect-square">
+                        <svg
+                            ref={svgRef}
+                            viewBox="0 0 400 360"
+                            className="w-full h-full"
+                            onMouseMove={handleMouseMove}
+                            onMouseUp={handleMouseUp}
+                            onMouseLeave={handleMouseUp}
+                        >
+                            {renderEdges()}
+                            {renderNodes()}
+                        </svg>
+                    </div>
+                    <button
+                        onClick={handleReset}
+                        className={`inline-flex items-center justify-center rounded-md text-sm font-medium h-9 px-3 py-2 bg-blue-500 text-white hover:bg-blue-600 transition-colors ${isAnimating ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        disabled={isAnimating}
                     >
-                        {renderEdges()}
-                        {renderNodes()}
-                    </svg>
-                </div>
-                <button
-                    onClick={handleReset}
-                    className="inline-flex items-center justify-center rounded-md text-sm font-medium h-9 px-3 py-2 bg-blue-500 text-white hover:bg-blue-600 transition-colors"
-                >
-                    <RotateCcw className="w-4 h-4 mr-2"/>
-                    Reset Layout
-                </button>
-            </CardContent>
-        </Card>
+                        <RotateCcw className="w-4 h-4 mr-2"/>
+                        Reset Layout
+                    </button>
+                </CardContent>
+            </Card>
+        </div>
     );
 };
 
