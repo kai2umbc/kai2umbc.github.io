@@ -34,6 +34,10 @@ const NetworkGraph = () => {
     const [isAnimating, setIsAnimating] = useState(false);
     const svgRef = useRef(null);
     const nodeRefs = useRef({});
+    const animationRef = useRef(null);
+    const startTimeRef = useRef(null);
+    const startPositionsRef = useRef({});
+    const targetPositionsRef = useRef({});
 
     const calculatePositions = () => {
         const newPositions = {};
@@ -73,47 +77,68 @@ const NetworkGraph = () => {
         setInitialPositions(newPositions);
     }, [nodes]);
 
-    const handleReset = () => {
+    const animateToPositions = (targetPositions) => {
+        // Store current positions as starting point
+        startPositionsRef.current = {...positions};
+        // Store target positions
+        targetPositionsRef.current = targetPositions;
+
+        // Start animation
         setIsAnimating(true);
+        startTimeRef.current = Date.now();
 
-        // Animate nodes to their initial positions
-        nodes.forEach(node => {
-            const nodeElement = nodeRefs.current[node.id];
-            if (nodeElement) {
-                const initPos = initialPositions[node.id];
-                if (initPos) {
-                    // Use requestAnimationFrame for smoother animation
-                    const startPos = {...positions[node.id]};
-                    const startTime = Date.now();
-                    const duration = 800; // Animation duration in ms
+        if (animationRef.current) {
+            cancelAnimationFrame(animationRef.current);
+        }
 
-                    const animate = () => {
-                        const elapsed = Date.now() - startTime;
-                        const progress = Math.min(elapsed / duration, 1);
-                        // Easing function for smooth animation (ease-out cubic)
-                        const easeProgress = 1 - Math.pow(1 - progress, 3);
+        const animate = () => {
+            const currentTime = Date.now();
+            const elapsed = currentTime - startTimeRef.current;
+            const duration = 800; // ms
 
-                        const currentX = startPos.x + (initPos.x - startPos.x) * easeProgress;
-                        const currentY = startPos.y + (initPos.y - startPos.y) * easeProgress;
+            if (elapsed < duration) {
+                // Calculate progress (0 to 1)
+                const progress = elapsed / duration;
+                // Use ease-out function
+                const easeProgress = 1 - Math.pow(1 - progress, 3); // Cubic ease-out
 
-                        // Update position state for this node
-                        setPositions(prev => ({
-                            ...prev,
-                            [node.id]: {x: currentX, y: currentY}
-                        }));
+                // Interpolate positions
+                const newPositions = {};
+                for (const nodeId in startPositionsRef.current) {
+                    const start = startPositionsRef.current[nodeId];
+                    const target = targetPositionsRef.current[nodeId];
 
-                        if (progress < 1) {
-                            requestAnimationFrame(animate);
-                        } else if (node.id === nodes[nodes.length - 1].id) {
-                            // Last node has finished animating
-                            setIsAnimating(false);
-                        }
+                    newPositions[nodeId] = {
+                        x: start.x + (target.x - start.x) * easeProgress,
+                        y: start.y + (target.y - start.y) * easeProgress
                     };
-
-                    requestAnimationFrame(animate);
                 }
+
+                setPositions(newPositions);
+                animationRef.current = requestAnimationFrame(animate);
+            } else {
+                // Finish animation exactly at target positions
+                setPositions(targetPositionsRef.current);
+                setIsAnimating(false);
+                animationRef.current = null;
             }
-        });
+        };
+
+        animationRef.current = requestAnimationFrame(animate);
+    };
+
+    // Clean up animation on unmount
+    useEffect(() => {
+        return () => {
+            if (animationRef.current) {
+                cancelAnimationFrame(animationRef.current);
+            }
+        };
+    }, []);
+
+    const handleReset = () => {
+        if (isAnimating) return;
+        animateToPositions(initialPositions);
     };
 
     const getSVGCoordinates = (event) => {
@@ -164,7 +189,7 @@ const NetworkGraph = () => {
         const edges = [];
         nodes.forEach(node => {
             node.connections.forEach(targetId => {
-                if (node.id < targetId) {
+                if (node.id < targetId) { // Prevent duplicate edges
                     const start = positions[node.id];
                     const end = positions[targetId];
                     if (start && end) {
@@ -184,7 +209,7 @@ const NetworkGraph = () => {
                                     hoveredNode === node.id || hoveredNode === targetId
                                         ? 'stroke-2 opacity-100'
                                         : 'stroke-1 opacity-50'
-                                } transition-all duration-200`}
+                                }`}
                             />
                         );
                     }
@@ -207,7 +232,7 @@ const NetworkGraph = () => {
                     onMouseEnter={() => setHoveredNode(node.id)}
                     onMouseLeave={() => setHoveredNode(null)}
                     onMouseDown={(e) => handleMouseDown(node.id, e)}
-                    className={`cursor-move ${isAnimating ? 'transition-transform duration-800 ease-out' : ''}`}
+                    className="cursor-move"
                 >
                     <circle
                         r={hoveredNode === node.id ? 25 : 20}
