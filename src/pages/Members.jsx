@@ -89,7 +89,7 @@ const memberData = {
             name: 'Mathew Dawit',
             university: 'UMBC',
             title: 'Freshman',
-            image: '/assets/members/Mathew Dawit.jpg'
+            image: '/assets/members/Mathew Dawit.png'
         },
     ],
     "High School Interns": [
@@ -139,7 +139,8 @@ const memberData = {
             name: 'Ankur Padia',
             university: 'Industry -- Liberty Mutual Insurance',
             title: 'Director',
-            image: '/assets/members/Ankur Padia.jpg'
+            image: '/assets/members/Ankur Padia.jpg',
+            externalLink: 'https://padiaankur.github.io/'
         },
         {
             name: 'Jeffrey Davis',
@@ -172,7 +173,8 @@ const memberData = {
             name: 'Srinivasan Parthasarathy',
             university: 'Academia -- Ohio State University',
             title: 'Professor',
-            image: '/assets/members/Srinivasan Parthasarathy.jpg'
+            image: '/assets/members/Srinivasan Parthasarathy.jpg',
+            externalLink: 'https://data-analytics.osu.edu/people/parthasarathy.2'
         },
         {
             name: 'Krishnaprasad Thirunarayan',
@@ -244,6 +246,13 @@ const memberData = {
             title: 'Software Engineer - Speech AI',
             image: '/assets/members/Harisahan Venkata.jpg',
             externalLink: 'https://www.linkedin.com/in/harisahan'
+        },
+        {
+            name: 'Aayush Jannumahanti',
+            university: 'Bristol Myers Squibb',
+            title: 'Senior Python Engineer',
+            image: '/assets/members/Aayush Jannumahanti.png',
+            externalLink: 'https://aayushkumarjvs.github.io/'
         },
     ]
 };
