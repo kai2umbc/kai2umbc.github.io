@@ -61,7 +61,7 @@ const Footer = () => {
                         <a href="/" onClick={(e) => handleNavClick(e, '/')}>
                             <div className="h-16 w-16">
                                 <img
-                                    src="/assets/Black KAI2 Logo.jpg"
+                                    src="/assets/logos/Black KAI2 Logo.jpg"
                                     alt="KAI2 Logo"
                                     className="object-contain brightness-100 contrast-125"
                                 />
