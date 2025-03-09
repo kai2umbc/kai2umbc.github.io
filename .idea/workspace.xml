@@ -4,16 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="pushing members images" />
+    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="Updated Footer">
+      <change beforePath="$PROJECT_DIR$/src/components/NetworkGraph.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NetworkGraph.jsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
   <component name="FormatOnSaveOptions">
     <option name="myRunOnSave" value="true" />
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="main" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="publication-test" />
@@ -222,6 +242,7 @@
       <workItem from="1740546864724" duration="4794000" />
       <workItem from="1740551799357" duration="186000" />
       <workItem from="1740584994528" duration="10077000" />
+      <workItem from="1741295603238" duration="9757000" />
     </task>
     <task id="LOCAL-00001" summary="fixed most">
       <option name="closed" value="true" />
@@ -407,7 +428,63 @@
       <option name="project" value="LOCAL" />
       <updated>1741292087727</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="updated Krishnaprasad Thirunarayan.jpg">
+      <option name="closed" value="true" />
+      <created>1741308748514</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1741308748514</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Revamped Members.jsx">
+      <option name="closed" value="true" />
+      <created>1741309850780</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1741309850780</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Added information to the Navbar.jsx">
+      <option name="closed" value="true" />
+      <created>1741310432361</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1741310432361</updated>
+    </task>
+    <task id="LOCAL-00027" summary="updated front page picture">
+      <option name="closed" value="true" />
+      <created>1741332852501</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1741332852501</updated>
+    </task>
+    <task id="LOCAL-00028" summary="updated members images">
+      <option name="closed" value="true" />
+      <created>1741333598826</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1741333598827</updated>
+    </task>
+    <task id="LOCAL-00029" summary="added member images and reordered phd students ordering">
+      <option name="closed" value="true" />
+      <created>1741333809463</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1741333809463</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Updated Footer">
+      <option name="closed" value="true" />
+      <created>1741334458076</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1741334458076</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -437,11 +514,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed most" />
-    <MESSAGE value="updated members and publications" />
-    <MESSAGE value="updated package.json" />
-    <MESSAGE value="deploy" />
-    <MESSAGE value="deploy update" />
     <MESSAGE value="small fixes" />
     <MESSAGE value="last fix" />
     <MESSAGE value="new fix" />
@@ -460,7 +532,14 @@
     <MESSAGE value="updated lab news page" />
     <MESSAGE value="fixed a hyperlink in News.jsx" />
     <MESSAGE value="pushing members images" />
-    <option name="LAST_COMMIT_MESSAGE" value="pushing members images" />
+    <MESSAGE value="updated Krishnaprasad Thirunarayan.jpg" />
+    <MESSAGE value="Revamped Members.jsx" />
+    <MESSAGE value="Added information to the Navbar.jsx" />
+    <MESSAGE value="updated front page picture" />
+    <MESSAGE value="updated members images" />
+    <MESSAGE value="added member images and reordered phd students ordering" />
+    <MESSAGE value="Updated Footer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated Footer" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
