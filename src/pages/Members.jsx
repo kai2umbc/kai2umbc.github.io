@@ -17,32 +17,37 @@ const memberData = {
             university: 'UMBC',
             title: 'PhD Student',
             image: '/assets/members/Yash Saxena.jpg',
-            externalLink: 'https://yashsaxena21.github.io/Portfolio/'
+            externalLink: 'https://yashsaxena21.github.io/Portfolio/',
+            interests: 'Trust, Attribution, Neurosymbolic AI'
         },
         {
             name: 'Nilanjana Das',
             university: 'UMBC',
             title: 'PhD Student',
-            image: '/assets/Black KAI2 Logo.jpg'
+            image: '/assets/Black KAI2 Logo.jpg',
+            interests: 'Adversarial Attacks, Interpretability, AI Safety'
         },
         {
             name: 'Ali Mohammadi',
             university: 'UMBC',
             title: 'PhD Student',
             image: '/assets/members/Ali Mohammadi.JPG',
-            externalLink: 'https://mohammadi-ali.github.io/'
+            externalLink: 'https://mohammadi-ali.github.io/',
+            interests: 'Explainability, Interpretability, Knowledge Graphs, NeuroSymbolic AI'
         },
         {
             name: 'Seyedreza Mohseni',
             university: 'UMBC',
             title: 'PhD Student',
             image: '/assets/Black KAI2 Logo.jpg',
+            interests: 'Code Generative LLMs, Code Obfuscation and Deobfuscation, Cybersecurity'
         },
         {
             name: 'Shaswati Saha',
             university: 'UMBC',
             title: 'PhD Student',
             image: '/assets/members/Shaswati Saha.jpg',
+            interests: 'Concept Erasure, Computer Vision'
         },
         {
             name: 'Sarvesh Baskar',
@@ -366,7 +371,13 @@ const Member = () => {
                                                             <div className="p-3">
                                                                 <h3 className="font-semibold text-base mb-0.5">{member.name}</h3>
                                                                 <p className="text-xs mb-0.5 text-gray-600">{member.university}</p>
-                                                                <p className="text-xs">{member.title}</p>
+                                                                <p className="text-xs mb-0.5">{member.title}</p>
+                                                                {member.interests && (
+                                                                    <p className="text-xs text-gray-700 italic">
+                                                                        <span
+                                                                            className="font-medium">Interests:</span> {member.interests}
+                                                                    </p>
+                                                                )}
                                                             </div>
                                                         </a>
                                                     ) : (
@@ -381,7 +392,13 @@ const Member = () => {
                                                             <div className="p-3">
                                                                 <h3 className="font-semibold text-base mb-0.5">{member.name}</h3>
                                                                 <p className="text-xs mb-0.5 text-gray-600">{member.university}</p>
-                                                                <p className="text-xs">{member.title}</p>
+                                                                <p className="text-xs mb-0.5">{member.title}</p>
+                                                                {member.interests && (
+                                                                    <p className="text-xs text-gray-700 italic">
+                                                                        <span
+                                                                            className="font-medium">Interests:</span> {member.interests}
+                                                                    </p>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     )}
@@ -399,4 +416,4 @@ const Member = () => {
     );
 };
 
-export default Member
+export default Member;
