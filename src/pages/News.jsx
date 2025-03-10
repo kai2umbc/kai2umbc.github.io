@@ -41,7 +41,7 @@ export default function News() {
         },
         {
             type: "Publication",
-            name: "COBIAS",
+            name: "COBIAS Presentation",
             event: "ACM Web Science Conference",
             location: "Glasgow, UK",
             date: new Date("2025-03-05"),
@@ -133,7 +133,7 @@ export default function News() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen">
             {/* Header section with gradient background */}
             <div
                 className="bg-gradient-to-r from-[#091c22] to-[#1a3a47] h-[30vh] flex flex-col justify-center items-center">
