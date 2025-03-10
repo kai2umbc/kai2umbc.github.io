@@ -1,43 +1,250 @@
+import React, {useEffect, useState} from 'react';
+import {Award, Calendar, ChevronDown, FileText, Filter, MapPin, Presentation, Users} from 'lucide-react';
+
 export default function News() {
+    // Sample news data with dates as Date objects for easier sorting
+    const newsItemsData = [
+        {
+            type: "Tutorial",
+            name: "Neurosymbolic AI for Explainability, Grounding, and Instructibility",
+            event: "AAAI 2025",
+            location: "Washington D.C., USA",
+            date: new Date("2025-02-15"),
+            team: ["Deepa Tilwani", "Ali Mohammadi", "Edward Raff", "Aman Chadha"],
+            links: [
+                {label: "Tutorial Page", url: "https://nesy-egi.github.io/"},
+                {label: "Slides", url: "#"}
+            ]
+        },
+        {
+            type: "Presentation",
+            name: "Knowledge-infused Copilots for Mental Health",
+            event: "UG Consortium",
+            location: "Virtual Event",
+            date: new Date("2025-01-28"),
+            team: ["Gerald Ndawula"],
+            links: [
+                {label: "Presentation", url: "#"}
+            ]
+        },
+        {
+            type: "Publication",
+            name: "The MAD Dataset for Code Obfuscation",
+            event: "AAAI 2025 Main Track",
+            location: "Washington D.C., USA",
+            date: new Date("2025-02-16"),
+            team: ["Seyedreza Mohseni", "Ali Mohammadi"],
+            links: [
+                {label: "Paper", url: "https://arxiv.org/pdf/2412.16135"},
+                {label: "Presentation", url: "#"}
+            ]
+        },
+        {
+            type: "Publication",
+            name: "COBIAS",
+            event: "ACM Web Science Conference",
+            location: "Glasgow, UK",
+            date: new Date("2025-03-05"),
+            team: ["Priyanshul Govil"],
+            links: [
+                {label: "Paper", url: "#"},
+                {label: "Conference", url: "#"}
+            ]
+        }
+    ];
+
+    // Format date function
+    const formatDate = (date) => {
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    };
+
+    // State for filter and events
+    const [selectedType, setSelectedType] = useState("All");
+    const [newsItems, setNewsItems] = useState([]);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    // Get all unique event types for the dropdown
+    const eventTypes = ["All", ...new Set(newsItemsData.map(item => item.type))];
+
+    // Sort and filter events on load and when filter changes
+    useEffect(() => {
+        let filteredItems = [...newsItemsData];
+
+        // Apply type filter if not "All"
+        if (selectedType !== "All") {
+            filteredItems = filteredItems.filter(item => item.type === selectedType);
+        }
+
+        // Sort by date (most recent first)
+        filteredItems.sort((a, b) => b.date - a.date);
+
+        setNewsItems(filteredItems);
+    }, [selectedType]);
+
+    // Toggle dropdown
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
+
+    // Select filter type
+    const selectType = (type) => {
+        setSelectedType(type);
+        setIsDropdownOpen(false);
+    };
+
+    // Function to get icon based on event type
+    const getIcon = (type) => {
+        switch (type.toLowerCase()) {
+            case 'tutorial':
+                return <FileText className="w-5 h-5 text-emerald-600"/>;
+            case 'presentation':
+                return <Presentation className="w-5 h-5 text-blue-600"/>;
+            case 'publication':
+                return <Award className="w-5 h-5 text-purple-600"/>;
+            case 'grant':
+                return <Award className="w-5 h-5 text-yellow-600"/>;
+            case 'visit':
+                return <MapPin className="w-5 h-5 text-red-600"/>;
+            default:
+                return <Calendar className="w-5 h-5 text-gray-600"/>;
+        }
+    };
+
+    // Function to get color based on event type
+    const getTypeColor = (type) => {
+        switch (type.toLowerCase()) {
+            case 'tutorial':
+                return 'bg-emerald-100 text-emerald-800';
+            case 'presentation':
+                return 'bg-blue-100 text-blue-800';
+            case 'publication':
+                return 'bg-purple-100 text-purple-800';
+            case 'grant':
+                return 'bg-yellow-100 text-yellow-800';
+            case 'visit':
+                return 'bg-red-100 text-red-800';
+            default:
+                return 'bg-gray-100 text-gray-800';
+        }
+    };
+
     return (
-        <div className="min-h-screen">
-            {/* Black header section taking up 1/4 of viewport height */}
-            <div className="bg-[#091c22] h-[25vh] flex flex-col justify-center items-center">
+        <div className="min-h-screen bg-gray-50">
+            {/* Header section with gradient background */}
+            <div
+                className="bg-gradient-to-r from-[#091c22] to-[#1a3a47] h-[30vh] flex flex-col justify-center items-center">
                 <div className="flex flex-col items-center">
-                    <h1 className="text-white text-4xl font-bold">Lab News</h1>
-                    <div className="w-full h-0.5 bg-white mt-2"></div>
+                    <h1 className="text-white text-5xl font-bold tracking-tight">Lab News</h1>
+                    <p className="text-gray-300 mt-4 text-xl">Latest achievements and activities</p>
+                    <div className="w-32 h-1 bg-white mt-6 rounded-full"></div>
+                </div>
+            </div>
+
+            {/* Filter section */}
+            <div className="container mx-auto px-6 -mt-8 z-10 relative">
+                <div className="bg-white rounded-lg shadow-md p-4 mb-8 flex justify-between items-center">
+                    <h3 className="text-lg font-medium text-gray-700 flex items-center">
+                        <Filter className="w-5 h-5 mr-2"/>
+                        Filter Events
+                    </h3>
+
+                    <div className="relative">
+                        <button
+                            onClick={toggleDropdown}
+                            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            {selectedType}
+                            <ChevronDown className="ml-2 h-4 w-4"/>
+                        </button>
+
+                        {isDropdownOpen && (
+                            <div
+                                className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20">
+                                <div className="py-1" role="menu" aria-orientation="vertical">
+                                    {eventTypes.map((type) => (
+                                        <button
+                                            key={type}
+                                            onClick={() => selectType(type)}
+                                            className={`block px-4 py-2 text-sm w-full text-left ${selectedType === type ? 'bg-gray-100 text-gray-900' : 'text-gray-700 hover:bg-gray-50'}`}
+                                            role="menuitem"
+                                        >
+                                            {type}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
 
             {/* Content section */}
-            <div className="container mx-auto px-6 py-8">
-                <article className="prose max-w-none">
-                    <h2 className="text-2xl font-semibold mb-4">Tutorial on Neurosymbolic AI for Explainability,
-                        Grounding, and Instructibility at AAAI 2025</h2>
-                    <p className="mb-6">
-                        Kudos to the amazing team: Deepa Tilwani, Ali Mohammadi, Edward Raff, Aman Chadha
-                    </p>
+            <div className="container mx-auto px-6 py-4 -mt-4">
+                <div className="grid grid-cols-1 gap-8">
+                    {newsItems.length > 0 ? (
+                        newsItems.map((item, index) => (
+                            <div
+                                key={index}
+                                className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1"
+                            >
+                                <div className="p-6">
+                                    <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+                                        <span
+                                            className={`px-3 py-1 rounded-full text-sm font-medium flex items-center ${getTypeColor(item.type)}`}>
+                                            {getIcon(item.type)}
+                                            <span className="ml-1">{item.type}</span>
+                                        </span>
+                                        <span className="text-gray-500 text-sm flex items-center">
+                                            <Calendar className="w-4 h-4 mr-1"/>
+                                            {formatDate(item.date)}
+                                        </span>
+                                    </div>
 
-                    <h2 className="text-2xl font-semibold mb-4">UG Consortium Presentation by Gerald Ndawula</h2>
-                    <p className="mb-6">
-                        Gerald Ndawula presented on Knowledge-infused Copilots for Mental Health at the UG Consortium.
-                    </p>
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-2">{item.name}</h2>
+                                    <h3 className="text-xl text-gray-600 mb-4">{item.event}</h3>
 
-                    <h2 className="text-2xl font-semibold mb-4">AAAI Main Track Presentation: <a
-                        href="https://arxiv.org/pdf/2412.16135?" target="_blank" rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800 hover:underline">The MAD Dataset for Code
-                        Obfuscation</a></h2>
-                    <p className="mb-6">
-                        Congratulations to Seyedreza Mohseni and Ali Mohammadi on their presentation at the AAAI Main
-                        Track.
-                    </p>
+                                    <div className="flex items-center text-gray-600 mb-4">
+                                        <MapPin className="w-5 h-5 mr-2 text-gray-500"/>
+                                        <span>{item.location}</span>
+                                    </div>
 
-                    <h2 className="text-2xl font-semibold mb-4">COBIAS at ACM Web Science Conference</h2>
-                    <p className="mb-6">
-                        COBIAS will be presented at the ACM Web Science Conference. Congratulations to our lab intern,
-                        Priyanshul Govil.
-                    </p>
-                </article>
+                                    <div className="flex items-start mb-5">
+                                        <Users className="w-5 h-5 mr-2 text-gray-500 mt-1"/>
+                                        <div>
+                                            <p className="text-gray-600 font-medium">Team Members:</p>
+                                            <p className="text-gray-700">
+                                                {item.team.join(", ")}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-wrap gap-3 mt-4">
+                                        {item.links.map((link, linkIndex) => (
+                                            <a
+                                                key={linkIndex}
+                                                href={link.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+                                            >
+                                                <FileText className="w-4 h-4 mr-2"/>
+                                                {link.label}
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="text-center py-12">
+                            <p className="text-lg text-gray-600">No events found for the selected filter.</p>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
