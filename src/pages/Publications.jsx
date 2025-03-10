@@ -1,7 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Card, CardContent} from '@/components/ui/card';
-import {Input} from "@/components/ui/input";
-import {Search} from 'lucide-react';
 import {
     Pagination,
     PaginationContent,
@@ -11,138 +8,132 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination";
 
+// Import your component files
+import PublicationCard from '@/components/PublicationCard';
+import PublicationSkeleton from '@/components/PublicationSkeleton';
+import SearchInput from '@/components/SearchInput';
+import SuccessFeedback from '@/components/SuccessFeedback';
+
+// Cache for API responses
+const apiCache = new Map();
+
+// Function to perform cached fetch
+async function cachedFetch(url, options) {
+    const cacheKey = url + JSON.stringify(options || {});
+
+    // Check if response is in cache and not expired (e.g., 1 hour)
+    if (apiCache.has(cacheKey)) {
+        const {data, timestamp} = apiCache.get(cacheKey);
+        if (Date.now() - timestamp < 3600000) { // 1 hour cache
+            return {ok: true, json: () => Promise.resolve(data)};
+        }
+    }
+
+    // If not in cache or expired, make the actual fetch
+    const response = await fetch(url, options);
+    if (response.ok) {
+        const data = await response.json();
+        apiCache.set(cacheKey, {data, timestamp: Date.now()});
+        return {ok: true, json: () => Promise.resolve(data)};
+    }
+
+    return response;
+}
+
 // Function to remove HTML tags from strings
 function stripHtmlTags(str) {
     if (!str) return '';
     return str.replace(/<[^>]*>/g, '');
 }
 
-
-// Function to fetch name for a given ORCID ID (Not used directly in final version but kept for potential future use)
-async function fetchName(orcid) {
-    try {
-        const response = await fetch(`https://pub.orcid.org/v3.0/${orcid}/person`, {
-            headers: {
-                'Accept': 'application/json',
-            },
-        });
-        if (!response.ok) throw new Error(`Failed to fetch person for ORCID ${orcid}`);
-        const data = await response.json();
-        const name = data.name;
-        if (name) {
-            if (name['credit-name']?.value) {
-                return name['credit-name'].value;
-            } else if (name['given-names']?.value && name['family-name']?.value) {
-                return `${name['given-names'].value} ${name['family-name'].value}`;
-            } else if (name['given-names']?.value) {
-                return name['given-names'].value;
-            } else if (name['family-name']?.value) {
-                return name['family-name'].value;
-            }
-        }
-        return null;
-    } catch (error) {
-        console.error(`Error fetching name for ORCID ${orcid}:`, error);
-        return null;
-    }
-}
-
-// Function to fetch detailed work data for a specific put-code
+// Function to fetch detailed work data for a specific put-code with caching
 async function fetchWorkDetail(orcid, putCode) {
     try {
-        const response = await fetch(`https://pub.orcid.org/v3.0/${orcid}/work/${putCode}`, {
+        const response = await cachedFetch(`https://pub.orcid.org/v3.0/${orcid}/work/${putCode}`, {
             headers: {
                 'Accept': 'application/json',
             },
         });
         if (!response.ok) {
             console.error(`HTTP error! status: ${response.status} fetching work details for ORCID ${orcid}, putCode ${putCode}`);
-            return null; // Return null instead of throwing error, handle null in caller
+            return null;
         }
         return await response.json();
     } catch (error) {
         console.error(`Error fetching work detail: ${error.message}`);
-        return null; // Return null in case of error
+        return null;
     }
 }
 
-// Function to fetch all works and collect unique contributor ORCID IDs
+// Function to fetch works for an ORCID ID with batching
+async function fetchWorksBatch(orcidBatch) {
+    return Promise.all(
+        orcidBatch.map(orcid =>
+            cachedFetch(`https://pub.orcid.org/v3.0/${orcid}/works`, {
+                headers: {'Accept': 'application/json'}
+            }).then(res => res.ok ? res.json() : {group: []})
+        )
+    );
+}
+
+// Function to fetch all works with improved batching
 async function fetchAllWorks(orcidIds) {
     const workDetails = [];
     const orcidSet = new Set();
+    const batchSize = 3; // Process 3 ORCID IDs at a time
 
-    for (const orcid of orcidIds) {
-        try {
-            console.log(`Fetching works for ORCID: ${orcid}`);
-            const response = await fetch(`https://pub.orcid.org/v3.0/${orcid}/works`, {
-                headers: {
-                    'Accept': 'application/json',
-                },
-            });
+    for (let i = 0; i < orcidIds.length; i += batchSize) {
+        const batch = orcidIds.slice(i, i + batchSize);
+        console.log(`Processing ORCID batch ${i / batchSize + 1}: ${batch.join(', ')}`);
 
-            if (!response.ok) {
-                console.error(`HTTP error! status: ${response.status} fetching works for ORCID ${orcid}`);
-                continue; // Continue to next ORCID if fetching works fails for one
-            }
+        const batchResults = await fetchWorksBatch(batch);
 
-            const data = await response.json();
+        // Process each ORCID's results in the batch
+        for (let j = 0; j < batchResults.length; j++) {
+            const data = batchResults[j];
+            const orcid = batch[j];
+
             const workGroups = data.group || [];
+            console.log(`Found ${workGroups.length} work groups for ORCID ${orcid}`);
 
-            // Process each work group
+            // Use Promise.all for parallel processing of work details
+            const detailPromises = [];
+
+            // Queue up all the work detail requests
             for (const group of workGroups) {
                 const summaries = group['work-summary'] || [];
-
-                for (const summary of summaries) { // Loop through summaries to handle cases with multiple summaries in a group
+                for (const summary of summaries) {
                     const putCode = summary['put-code'];
                     const sourceOrcid = summary['source']['source-orcid']?.path || orcid;
+                    detailPromises.push(fetchWorkDetail(sourceOrcid, putCode));
+                }
+            }
 
-                    // Fetch full work details for this put-code
-                    const workDetail = await fetchWorkDetail(sourceOrcid, putCode);
+            // Wait for all work detail requests to complete
+            const details = await Promise.all(detailPromises);
 
-                    if (workDetail) {
-                        workDetails.push(workDetail);
+            // Process the completed work details
+            for (const workDetail of details) {
+                if (workDetail) {
+                    workDetails.push(workDetail);
 
-                        // Collect contributor ORCID IDs
-                        const contributors = workDetail.contributors?.contributor || [];
-                        for (const contributor of contributors) {
-                            const orcidPath = contributor['contributor-orcid']?.path;
-                            if (orcidPath) {
-                                orcidSet.add(orcidPath);
-                            }
+                    // Collect contributor ORCID IDs
+                    const contributors = workDetail.contributors?.contributor || [];
+                    for (const contributor of contributors) {
+                        const orcidPath = contributor['contributor-orcid']?.path;
+                        if (orcidPath) {
+                            orcidSet.add(orcidPath);
                         }
                     }
                 }
             }
-        } catch (error) {
-            console.error(`Error processing works for ORCID ${orcid}:`, error);
         }
     }
 
     return {workDetails, orcidSet: Array.from(orcidSet)};
 }
 
-// Function to fetch names for a list of ORCID IDs (Not used in final author extraction but kept for potential enhancements)
-async function fetchNames(orcidSet) {
-    const nameMap = new Map();
-
-    // Process in batches to avoid overwhelming the API (Not used in current author extraction logic)
-    const batchSize = 10;
-    for (let i = 0; i < orcidSet.length; i += batchSize) {
-        const batch = orcidSet.slice(i, i + batchSize);
-        const namePromises = batch.map(orcid => fetchName(orcid));
-        const names = await Promise.all(namePromises);
-
-        batch.forEach((orcid, index) => {
-            if (names[index]) {
-                nameMap.set(orcid, names[index]);
-            }
-        });
-    }
-
-    return nameMap;
-}
-
-// Improved Function to extract author names from work details (Integrated from previous response)
+// Improved Function to extract author names from work details
 const extractAuthorNames = (workDetails) => {
     const authors = [];
     if (workDetails && workDetails.citation && workDetails.citation['citation-formatted'] && workDetails.citation['citation-formatted']['content']) {
@@ -184,11 +175,10 @@ function parsePublicationDate(dateObj) {
     return new Date(`${year}-${month}-${day}`);
 }
 
-
 // Main function to fetch and process publications
 async function fetchPublications(orcidIds) {
     console.log("Fetching work details...");
-    const {workDetails} = await fetchAllWorks(orcidIds); // Assume this fetches raw data
+    const {workDetails} = await fetchAllWorks(orcidIds);
     console.log(`Fetched ${workDetails.length} work details`);
 
     // Use a Map to track the most recent publication for each unique key
@@ -202,9 +192,9 @@ async function fetchPublications(orcidIds) {
 
         // Optional: Filter by year (e.g., 2023 or later)
         if (year && parseInt(year) >= 2023) {
-            const authors = extractAuthorNames(work); // Assume this extracts authors
+            const authors = extractAuthorNames(work);
             const publication = {
-                title: stripHtmlTags(work.title.title.value), // Assume stripHtmlTags removes HTML
+                title: stripHtmlTags(work.title.title.value),
                 journal: work['journal-title']?.value || null,
                 authors: authors.length > 0 ? authors : ['Author information unavailable'],
                 year: year,
@@ -252,6 +242,10 @@ const PublicationsPage = () => {
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [retryCount, setRetryCount] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [visibleCount, setVisibleCount] = useState(5);
+    const [loadingProgress, setLoadingProgress] = useState(0);
     const publicationsPerPage = 10;
 
     const orcidIds = [
@@ -271,31 +265,89 @@ const PublicationsPage = () => {
         async function loadPublications() {
             try {
                 setLoading(true);
+                setLoadingProgress(0);
+
+                // Simulate progress updates
+                const progressInterval = setInterval(() => {
+                    setLoadingProgress(prev => {
+                        const newProgress = prev + Math.random() * 15;
+                        return newProgress > 90 ? 90 : newProgress;
+                    });
+                }, 800);
+
                 console.log("Starting to fetch publications...");
                 const data = await fetchPublications(orcidIds);
                 console.log(`Fetched ${data.length} publications`);
+
+                clearInterval(progressInterval);
+                setLoadingProgress(100);
+
                 setPublications(data);
                 setError(null);
+
+                if (data.length > 0) {
+                    setShowSuccess(true);
+                    setTimeout(() => setShowSuccess(false), 4000);
+                }
             } catch (err) {
                 console.error("Failed to fetch publications:", err);
                 setError("Failed to load publications. Please try again later.");
             } finally {
-                setLoading(false);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 500); // Small delay for smoother transition
             }
         }
 
         loadPublications();
-    }, []);
+    }, [retryCount]);
+
+    // Handle retry
+    const handleRetry = () => {
+        setError(null);
+        setLoading(true);
+        setRetryCount(prev => prev + 1);
+    };
 
     // Reset to first page when search query changes
     useEffect(() => {
         setCurrentPage(1);
     }, [searchQuery]);
 
+    // Incremental loading effect
+    useEffect(() => {
+        if (!loading) {
+            setVisibleCount(5); // Reset to initial count when new data loads
+
+            const incrementVisibility = () => {
+                setVisibleCount(prev => {
+                    const filteredLength = filteredPublications.length;
+                    const currentSlice = filteredPublications.slice(
+                        indexOfFirstPublication,
+                        indexOfLastPublication
+                    ).length;
+
+                    return Math.min(prev + 2, currentSlice);
+                });
+            };
+
+            // Start incrementing after a delay
+            const timer = setTimeout(incrementVisibility, 100);
+            const interval = setInterval(incrementVisibility, 150);
+
+            return () => {
+                clearTimeout(timer);
+                clearInterval(interval);
+            };
+        }
+    }, [loading, currentPage, searchQuery]);
+
     // Filter publications based on search query
     const filteredPublications = publications.filter(pub =>
         pub.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        pub.authors.some(author => author.toLowerCase().includes(searchQuery.toLowerCase()))
+        pub.authors.some(author => author.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (pub.journal && pub.journal.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (pub.type && pub.type.toLowerCase().includes(searchQuery.toLowerCase()))
     );
 
     // Pagination logic
@@ -307,139 +359,156 @@ const PublicationsPage = () => {
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
             setCurrentPage(page);
+            setVisibleCount(1); // Reset visible count for new page
             window.scrollTo(0, 0); // Scroll to top on page change
         }
     };
 
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+        setVisibleCount(1); // Reset visible count for new search
+    };
+
     return (
         <div className="min-h-screen">
-            {/* Black header section */}
-            <div className="bg-[#091c22] h-[25vh] flex flex-col justify-center items-center">
+            {/* Enhanced header section with gradient */}
+            <div
+                className="bg-gradient-to-r from-[#091c22] to-[#0f2c38] h-[30vh] flex flex-col justify-center items-center">
                 <div className="flex flex-col items-center">
-                    <h1 className="text-white text-4xl font-bold">Publications</h1>
-                    <div className="w-full h-0.5 bg-white mt-2"></div>
+                    <h1 className="text-white text-5xl font-bold tracking-tight">Publications</h1>
+                    <p className="text-gray-300 mt-4 text-xl">Our recent research contributions</p>
+                    <div className="w-32 h-1 bg-white mt-6 rounded-full"></div>
                 </div>
             </div>
 
-            <div className="max-w-4xl mx-auto p-6">
-                {/* Search Input */}
-                <div className="relative mb-6">
-                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground"/>
-                    <Input
-                        type="text"
-                        placeholder="Search by title or author..."
+            <div className="max-w-4xl mx-auto p-6 -mt-8 relative z-10">
+                <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                    {/* Enhanced Search Input */}
+                    <SearchInput
                         value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-8"
+                        onChange={handleSearchChange}
                     />
-                </div>
 
-                {/* Loading and Error States */}
-                {loading && (
-                    <div className="text-center py-8">
-                        <p>Loading publications...</p>
-                    </div>
-                )}
-
-                {error && (
-                    <div className="text-center text-red-500 py-8">
-                        <p>{error}</p>
-                    </div>
-                )}
-
-                {/* No results message */}
-                {!loading && !error && filteredPublications.length === 0 && searchQuery && (
-                    <div className="text-center text-gray-500 py-8">
-                        No publications found matching your search.
-                    </div>
-                )}
-
-                {/* No publications loaded */}
-                {!loading && !error && publications.length === 0 && (
-                    <div className="text-center text-gray-500 py-8">
-                        No publications found. Please check the ORCID IDs and try again.
-                    </div>
-                )}
-
-                {/* Publications list */}
-                {!loading && !error && (
-                    <div className="space-y-4 mb-8">
-                        {currentPublications.map((pub, index) => (
-                            <Card key={index} className="hover:shadow-lg transition-shadow">
-                                <CardContent className="p-4">
-                                    <h2 className="text-xl font-semibold mb-2">
-                                        {pub.url ? (
-                                            <a
-                                                href={pub.url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-blue-600 hover:text-blue-800 hover:underline"
-                                            >
-                                                {pub.title}
-                                            </a>
-                                        ) : (
-                                            pub.title
-                                        )}
-                                    </h2>
-                                    <div className="text-gray-600">
-                                        {pub.journal && <span className="block">{pub.journal}</span>}
-                                        {pub.authors && pub.authors.length > 0 && (
-                                            <div className="text-sm mt-2 italic">
-                                                {pub.authors.join(', ')}
-                                            </div>
-                                        )}
-                                        <div className="flex gap-4 mt-2 text-sm">
-                                            {pub.year && <span>{pub.year}</span>}
-                                            {pub.type && (
-                                                <span className="capitalize">
-                                                    {pub.type.toLowerCase().replace('-', ' ')}
-                                                </span>
-                                            )}
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-                )}
-
-                {/* Pagination */}
-                {!loading && !error && totalPages > 1 && (
-                    <div className="flex flex-col items-center gap-2 pb-8">
-                        <Pagination>
-                            <PaginationContent>
-                                <PaginationItem>
-                                    <PaginationPrevious
-                                        onClick={() => handlePageChange(currentPage - 1)}
-                                        className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                                    />
-                                </PaginationItem>
-                                {[...Array(totalPages)].map((_, i) => (
-                                    <PaginationItem key={i + 1}>
-                                        <PaginationLink
-                                            onClick={() => handlePageChange(i + 1)}
-                                            isActive={currentPage === i + 1}
-                                            className="cursor-pointer"
-                                        >
-                                            {i + 1}
-                                        </PaginationLink>
-                                    </PaginationItem>
-                                ))}
-                                <PaginationItem>
-                                    <PaginationNext
-                                        onClick={() => handlePageChange(currentPage + 1)}
-                                        className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                                    />
-                                </PaginationItem>
-                            </PaginationContent>
-                        </Pagination>
-                        <div className="text-sm text-gray-600">
-                            Showing
-                            publications {indexOfFirstPublication + 1}-{Math.min(indexOfLastPublication, filteredPublications.length)} of {filteredPublications.length}
+                    {/* Loading Progress Bar */}
+                    {loading && (
+                        <div className="mb-6">
+                            <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                                <div
+                                    className="h-full bg-blue-500 rounded-full transition-all duration-500 ease-out"
+                                    style={{width: `${loadingProgress}%`}}
+                                ></div>
+                            </div>
+                            <p className="text-center text-sm text-gray-500 mt-2">
+                                Loading publications... {Math.round(loadingProgress)}%
+                            </p>
                         </div>
-                    </div>
-                )}
+                    )}
+
+                    {/* Loading Skeleton */}
+                    {loading && <PublicationSkeleton/>}
+
+                    {/* Error State with Retry */}
+                    {error && (
+                        <div className="text-center py-8">
+                            <p className="text-red-500 mb-4">{error}</p>
+                            <button
+                                onClick={handleRetry}
+                                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                            >
+                                Try Again
+                            </button>
+                        </div>
+                    )}
+
+                    {/* No results message */}
+                    {!loading && !error && filteredPublications.length === 0 && searchQuery && (
+                        <div className="text-center text-gray-500 py-8">
+                            <p className="text-lg mb-2">No publications found matching "{searchQuery}"</p>
+                            <p>Try adjusting your search terms or clear the search to see all publications.</p>
+                        </div>
+                    )}
+
+                    {/* No publications loaded */}
+                    {!loading && !error && publications.length === 0 && (
+                        <div className="text-center text-gray-500 py-8">
+                            <p className="text-lg mb-2">No publications found</p>
+                            <p>Please check the ORCID IDs and try again.</p>
+                        </div>
+                    )}
+
+                    {/* Publications list with incremental loading */}
+                    {!loading && !error && filteredPublications.length > 0 && (
+                        <div className="space-y-4 mb-8">
+                            {currentPublications.slice(0, visibleCount).map((pub, index) => (
+                                <PublicationCard
+                                    key={`${pub.doi || pub.title}-${index}`}
+                                    publication={pub}
+                                />
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Pagination */}
+                    {!loading && !error && totalPages > 1 && (
+                        <div className="flex flex-col items-center gap-2 pb-4">
+                            <Pagination>
+                                <PaginationContent>
+                                    <PaginationItem>
+                                        <PaginationPrevious
+                                            onClick={() => handlePageChange(currentPage - 1)}
+                                            className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                        />
+                                    </PaginationItem>
+                                    {/* Show limited page numbers for better UX */}
+                                    {[...Array(totalPages)].map((_, i) => {
+                                        // Show first page, last page, and current page +/- 1
+                                        if (
+                                            i === 0 ||
+                                            i === totalPages - 1 ||
+                                            (i >= currentPage - 2 && i <= currentPage)
+                                        ) {
+                                            return (
+                                                <PaginationItem key={i + 1}>
+                                                    <PaginationLink
+                                                        onClick={() => handlePageChange(i + 1)}
+                                                        isActive={currentPage === i + 1}
+                                                        className="cursor-pointer"
+                                                    >
+                                                        {i + 1}
+                                                    </PaginationLink>
+                                                </PaginationItem>
+                                            );
+                                        }
+                                        // Show ellipsis for skipped pages
+                                        if (i === 1 && currentPage > 3) {
+                                            return <PaginationItem key="ellipsis-start">...</PaginationItem>;
+                                        }
+                                        if (i === totalPages - 2 && currentPage < totalPages - 2) {
+                                            return <PaginationItem key="ellipsis-end">...</PaginationItem>;
+                                        }
+                                        return null;
+                                    })}
+                                    <PaginationItem>
+                                        <PaginationNext
+                                            onClick={() => handlePageChange(currentPage + 1)}
+                                            className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                        />
+                                    </PaginationItem>
+                                </PaginationContent>
+                            </Pagination>
+                            <div className="text-sm text-gray-600">
+                                Showing
+                                publications {indexOfFirstPublication + 1}-{Math.min(indexOfLastPublication, filteredPublications.length)} of {filteredPublications.length}
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
+
+            {/* Success Feedback */}
+            {showSuccess && (
+                <SuccessFeedback message={`Successfully loaded ${publications.length} publications!`}/>
+            )}
         </div>
     );
 };
