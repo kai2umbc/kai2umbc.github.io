@@ -24,7 +24,7 @@ const memberData = {
             name: 'Nilanjana Das',
             university: 'UMBC',
             title: 'PhD Student',
-            image: '/assets/Black KAI2 Logo.jpg',
+            image: '/assets/logos/Black KAI2 Logo.jpg',
             interests: 'Adversarial Attacks, Interpretability, AI Safety'
         },
         {
@@ -39,7 +39,7 @@ const memberData = {
             name: 'Seyedreza Mohseni',
             university: 'UMBC',
             title: 'PhD Student',
-            image: '/assets/Black KAI2 Logo.jpg',
+            image: '/assets/logos/Black KAI2 Logo.jpg',
             interests: 'Code Generative LLMs, Code Obfuscation and Deobfuscation, Cybersecurity'
         },
         {
