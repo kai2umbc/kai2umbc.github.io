@@ -284,7 +284,8 @@ const Member = () => {
 
     return (
         <div className="min-h-screen">
-            <div className="bg-[#091c22] h-[25vh] flex flex-col justify-center items-center">
+            <div
+                className="bg-gradient-to-r from-[#091c22] to-[#1a3a47] h-[25vh] flex flex-col justify-center items-center">
                 <div className="flex flex-col items-center">
                     <h1 className="text-white text-4xl font-bold">Members</h1>
                     <div className="w-full h-0.5 bg-white mt-2"></div>
