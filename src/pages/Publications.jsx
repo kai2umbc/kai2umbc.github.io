@@ -373,7 +373,7 @@ const PublicationsPage = () => {
         <div className="min-h-screen">
             {/* Enhanced header section with gradient */}
             <div
-                className="bg-gradient-to-r from-[#091c22] to-[#0f2c38] h-[30vh] flex flex-col justify-center items-center">
+                className="bg-gradient-to-r from-[#091c22] to-[#1a3a47] h-[30vh] flex flex-col justify-center items-center">
                 <div className="flex flex-col items-center">
                     <h1 className="text-white text-5xl font-bold tracking-tight">Publications</h1>
                     <p className="text-gray-300 mt-4 text-xl">Our recent research contributions</p>
