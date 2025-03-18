@@ -1,9 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {Award, Calendar, ChevronDown, FileText, Filter, MapPin, Presentation, Users} from 'lucide-react';
+import {Award, Calendar, ChevronDown, FileText, Filter, Gift, MapPin, Presentation, Users} from 'lucide-react';
 
 export default function News() {
     // Sample news data with dates as Date objects for easier sorting
     const newsItemsData = [
+        {
+            type: "Presentation",
+            name: "Trustworthy Generative AI: The Hybridization of Large Language Models with NeuroSymbolic AI",
+            event: "National Faculty Development Programme (FDP) on \"Reinventing Pedagogy in the Age of AI: Methods, Approaches, and Perspectives\"",
+            location: "Maitreyi College",
+            date: new Date("2024-01-10"),
+            team: ["Manas Gaur"],
+            links: [
+                {label: "Presentation", url: "https://www.youtube.com/watch?v=s1mk2tIi5VI"},
+            ]
+        },
         {
             type: "Tutorial",
             name: "Neurosymbolic AI for Explainability, Grounding, and Instructibility",
@@ -40,7 +51,7 @@ export default function News() {
             ]
         },
         {
-            type: "Publication",
+            type: "Presentation",
             name: "COBIAS Presentation",
             event: "ACM Web Science Conference",
             location: "Glasgow, UK",
@@ -49,6 +60,65 @@ export default function News() {
             links: [
                 {label: "Paper", url: "#"},
                 {label: "Conference", url: "#"}
+            ]
+        },
+        {
+            type: "Publication",
+            name: "Book Chapter On NeuroSymbolic Legal",
+            event: "Academic Publication",
+            location: "N/A",
+            date: new Date("2025-01-15"), // Estimated date since not specified
+            team: ["UMBC KAI2-Lab"],
+            links: [
+                {label: "Publication", url: "#"}
+            ]
+        },
+        {
+            type: "Award",
+            name: "LocalIntel: Generating Organizational Threat Intelligence from Global and Local Cyber Knowledge",
+            event: "17th International Symposium on Foundations & Practice of Security (FPS – 2024)",
+            location: "FPS 2024",
+            date: new Date("2024-12-10"), // Estimated date since only year was provided
+            team: ["Shaswata Mitra", "Subash Neupane", "Trisha Chakraborty", "Sudip Mittal", "Aritran Piplai", "Manas Gaur", "Shahram Rahimi"],
+            links: [
+                {label: "Paper", url: "https://fps-2024.hec.ca/cfp/accepted-papers/"}
+            ]
+        },
+        {
+            type: "Collaboration",
+            name: "UMBC KAI2-Lab Launched a Collaborative Project with PAQS.biz",
+            event: "Industry Collaboration",
+            location: "UMBC",
+            date: new Date("2024-12-01"), // Estimated date since not specified
+            team: ["UMBC KAI2-Lab", "A. Vaidyanathan (Founder PAQS.biz)"],
+            links: []
+        },
+        {
+            type: "Collaboration",
+            name: "Joint Study Agreement with IBM Research",
+            event: "Research Partnership",
+            location: "UMBC",
+            date: new Date("2024-11-15"), // Estimated date since not specified
+            team: ["UMBC KAI2-Lab", "Dr. Harsha Kokel"],
+            links: [
+                {label: "Agreement Details", url: "#"}
+            ]
+        },
+        {
+            type: "Workshop",
+            name: (
+                <>
+                    2nd Edition of Workshop on Knowledge Graphs for Responsible AI -
+                    <span className="italic font-serif"> Calling for Papers</span>
+                </>
+            ),
+            event: "Academic Workshop",
+            location: "Virtual",
+            date: new Date("2025-02-28"),
+            team: ["KAI2-Lab", "Edlira Vakaj", "Arijit Khan", "Nandana Mihindukulasooriya"],
+            links: [
+                {label: "Workshop Page", url: "https://sites.google.com/view/kg-star/team?authuser=0"},
+                {label: "Previous Edition", url: "https://kil-workshop.github.io/KG-STAR/"}
             ]
         }
     ];
@@ -104,9 +174,15 @@ export default function News() {
             case 'presentation':
                 return <Presentation className="w-5 h-5 text-blue-600"/>;
             case 'publication':
-                return <Award className="w-5 h-5 text-purple-600"/>;
-            case 'grant':
+                return <FileText className="w-5 h-5 text-purple-600"/>;
+            case 'award':
                 return <Award className="w-5 h-5 text-yellow-600"/>;
+            case 'grant':
+                return <Gift className="w-5 h-5 text-green-600"/>;
+            case 'workshop':
+                return <Users className="w-5 h-5 text-orange-600"/>;
+            case 'collaboration':
+                return <Users className="w-5 h-5 text-indigo-600"/>;
             case 'visit':
                 return <MapPin className="w-5 h-5 text-red-600"/>;
             default:
@@ -123,8 +199,14 @@ export default function News() {
                 return 'bg-blue-100 text-blue-800';
             case 'publication':
                 return 'bg-purple-100 text-purple-800';
-            case 'grant':
+            case 'award':
                 return 'bg-yellow-100 text-yellow-800';
+            case 'grant':
+                return 'bg-green-100 text-green-800';
+            case 'workshop':
+                return 'bg-orange-100 text-orange-800';
+            case 'collaboration':
+                return 'bg-indigo-100 text-indigo-800';
             case 'visit':
                 return 'bg-red-100 text-red-800';
             default:
@@ -215,7 +297,7 @@ export default function News() {
                                     <div className="flex items-start mb-5">
                                         <Users className="w-5 h-5 mr-2 text-gray-500 mt-1"/>
                                         <div>
-                                            <p className="text-gray-600 font-medium">Team Members:</p>
+                                            <p className="text-gray-600 font-medium">Participants:</p>
                                             <p className="text-gray-700">
                                                 {item.team.join(", ")}
                                             </p>
