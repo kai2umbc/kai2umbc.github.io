@@ -211,6 +211,12 @@ const memberData = {
             image: '/assets/members/Sriram Vema.jpg'
         },
         {
+            name: 'Sreeram Reddy Vennam',
+            university: 'CMU',
+            title: 'Undergraduate Student',
+            image: '/assets/logos/Black KAI2 Logo.jpg'
+        },
+        {
             name: 'Anmol Agrawal',
             university: 'CMU',
             title: 'Graduate Student',
@@ -285,10 +291,11 @@ const Member = () => {
     return (
         <div className="min-h-screen">
             <div
-                className="bg-gradient-to-r from-[#091c22] to-[#1a3a47] h-[25vh] flex flex-col justify-center items-center">
+                className="bg-gradient-to-r from-[#091c22] to-[#1a3a47] h-[30vh] flex flex-col justify-center items-center">
                 <div className="flex flex-col items-center">
-                    <h1 className="text-white text-4xl font-bold">Members</h1>
-                    <div className="w-full h-0.5 bg-white mt-2"></div>
+                    <h1 className="text-white text-5xl font-bold tracking-tight">Research Team</h1>
+                    <p className="text-gray-300 mt-4 text-xl">Meet the minds behind our innovations</p>
+                    <div className="w-32 h-1 bg-white mt-6 rounded-full"></div>
                 </div>
             </div>
 
