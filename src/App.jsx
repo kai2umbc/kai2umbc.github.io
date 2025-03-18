@@ -8,6 +8,7 @@ import Publications from "./pages/Publications.jsx";
 import Home from "./pages/Home.jsx";
 import Footer from "./components/Footer.jsx";
 import Talks from "./pages/Talks.jsx";
+import Grants from "./pages/Grants.jsx";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                         <Route path="/research" element={<Research/>}/>
                         <Route path="/news" element={<News/>}/>
                         <Route path="/publications" element={<Publications/>}/>
+                        <Route path="/grants" element={<Grants/>}/>
 
                     </Routes>
 

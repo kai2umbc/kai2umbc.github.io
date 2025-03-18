@@ -37,17 +37,17 @@ const Footer = () => {
             ]
         },
         {
-            title: 'Talks',
-            link: '/talks',
+            title: 'Grants',
+            link: '/grants',
             items: [
-                {name: 'Publications', link: '/publications'}
+                {name: 'Talks', link: '/talks'}
             ]
         },
         {
-            title: 'Members',
-            link: '/members',
+            title: 'Publications',
+            link: '/publications',
             items: [
-                {name: 'Join', link: '/#join-lab'}
+                {name: 'Members', link: '/members'}
             ]
         }
     ];

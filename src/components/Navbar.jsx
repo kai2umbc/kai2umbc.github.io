@@ -61,6 +61,7 @@ const Navbar = () => {
     const navItems = [
         {name: 'Research', href: '/research'},
         {name: 'News', href: '/news'},
+        {name: 'Grants', href: '/grants'}, // Added Grants link
         {name: 'Talks', href: '/talks'},
         {name: 'Publications', href: '/publications'},
         {name: 'Members', href: '/members'},
@@ -85,7 +86,7 @@ const Navbar = () => {
                             </a>
                             <div className="flex-grow text-center mr-4 md:mr-0">
                                 <span
-                                    className="text-white font-medium text-2xl">Knowledge Infused AI and Inference Lab</span>
+                                    className="text-white font-small text-2xl">Knowledge Infused AI and Inference Lab</span>
                             </div>
                         </div>
 
