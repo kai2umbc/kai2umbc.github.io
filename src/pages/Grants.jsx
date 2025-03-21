@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Award, ChevronDown, DollarSign, FileText, Filter, Search, Shield, Zap} from 'lucide-react';
+import {Award, ChevronDown, FileText, Filter, Search, Shield, Zap} from 'lucide-react';
 
 export default function Grants() {
     // Sample grants data
@@ -8,7 +8,7 @@ export default function Grants() {
             title: "USISTEF Award",
             project: "Hyper local air quality - AI-enabled context-aware content system",
             type: "Research",
-            amount: "$50,000", // Placeholder amount
+            amount: "", // Placeholder amount
             status: "Active",
             year: "2024",
             description: "This project focuses on developing AI-enabled systems for monitoring and reporting hyper-local air quality, providing context-aware information to communities.",
@@ -189,10 +189,6 @@ export default function Grants() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex items-center space-x-2">
-                                            <DollarSign className="w-5 h-5 text-green-600"/>
-                                            <span className="text-xl font-semibold text-green-600">{grant.amount}</span>
-                                        </div>
                                     </div>
 
                                     <div className="mb-4">
@@ -213,19 +209,13 @@ export default function Grants() {
                                             </p>
                                         </div>
                                     </div>
-
-                                    <div className="flex justify-end mt-4">
-                                        <span
-                                            className={`px-4 py-2 rounded-md text-sm font-bold ${grant.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
-                                            {grant.status}
-                                        </span>
-                                    </div>
+                                    <div className="h-2 mt-4"></div>
                                 </div>
                             </div>
                         ))
                     ) : (
                         <div className="text-center py-12">
-                            <p className="text-lg text-gray-600">No grants found for the selected criteria.</p>
+                            <p className="text-lg text-gray-600">No grants found.</p>
                         </div>
                     )}
                 </div>
