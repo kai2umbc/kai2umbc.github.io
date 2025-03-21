@@ -4,17 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="Updated Footer">
-      <change beforePath="$PROJECT_DIR$/src/components/NetworkGraph.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NetworkGraph.jsx" afterDir="false" />
+    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="Edited Grants.jsx">
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ChangesViewManager">
+  <component name="ChangesViewManager" show_ignored="true">
     <option name="groupingKeys">
       <option value="directory" />
+      <option value="module" />
     </option>
   </component>
   <component name="FormatOnSaveOptions">
@@ -87,10 +89,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/assets/logos" />
+      <recent name="$PROJECT_DIR$/public/assets/talks" />
       <recent name="$PROJECT_DIR$/public/assests/members" />
       <recent name="$PROJECT_DIR$/public/assests/" />
       <recent name="$PROJECT_DIR$/" />
-      <recent name="$PROJECT_DIR$/src/img/members" />
     </key>
   </component>
   <component name="RunManager">
@@ -242,95 +245,11 @@
       <workItem from="1740546864724" duration="4794000" />
       <workItem from="1740551799357" duration="186000" />
       <workItem from="1740584994528" duration="10077000" />
-      <workItem from="1741295603238" duration="9757000" />
-    </task>
-    <task id="LOCAL-00001" summary="fixed most">
-      <option name="closed" value="true" />
-      <created>1740513085171</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1740513085171</updated>
-    </task>
-    <task id="LOCAL-00002" summary="updated members and publications">
-      <option name="closed" value="true" />
-      <created>1740513755750</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1740513755750</updated>
-    </task>
-    <task id="LOCAL-00003" summary="updated package.json">
-      <option name="closed" value="true" />
-      <created>1740514071629</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1740514071629</updated>
-    </task>
-    <task id="LOCAL-00004" summary="deploy">
-      <option name="closed" value="true" />
-      <created>1740514258459</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1740514258459</updated>
-    </task>
-    <task id="LOCAL-00005" summary="deploy update">
-      <option name="closed" value="true" />
-      <created>1740515213614</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1740515213614</updated>
-    </task>
-    <task id="LOCAL-00006" summary="small fixes">
-      <option name="closed" value="true" />
-      <created>1740516954675</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1740516954675</updated>
-    </task>
-    <task id="LOCAL-00007" summary="last fix">
-      <option name="closed" value="true" />
-      <created>1740517656167</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1740517656167</updated>
-    </task>
-    <task id="LOCAL-00008" summary="new fix">
-      <option name="closed" value="true" />
-      <created>1740518609761</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1740518609761</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Fix routing for GitHub Pages">
-      <option name="closed" value="true" />
-      <created>1740532703052</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1740532703052</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Fix more routing for GitHub Pages">
-      <option name="closed" value="true" />
-      <created>1740534231418</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1740534231418</updated>
-    </task>
-    <task id="LOCAL-00011" summary="small fixes for AAAI">
-      <option name="closed" value="true" />
-      <created>1740548058430</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1740548058431</updated>
+      <workItem from="1741295603238" duration="37761000" />
+      <workItem from="1742025846806" duration="665000" />
+      <workItem from="1742157299353" duration="8301000" />
+      <workItem from="1742252871397" duration="3608000" />
+      <workItem from="1742348691339" duration="9705000" />
     </task>
     <task id="LOCAL-00012" summary="fixed sizing for shadcn card for research page and members page">
       <option name="closed" value="true" />
@@ -484,15 +403,265 @@
       <option name="project" value="LOCAL" />
       <updated>1741334458076</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Updated the research page">
+      <option name="closed" value="true" />
+      <created>1741339009739</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1741339009739</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Updated the network graph to be animated">
+      <option name="closed" value="true" />
+      <created>1741339018121</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1741339018121</updated>
+    </task>
+    <task id="LOCAL-00033" summary="added a web diagram image">
+      <option name="closed" value="true" />
+      <created>1741376813224</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1741376813224</updated>
+    </task>
+    <task id="LOCAL-00034" summary="NetworkGraph.jsx properly animates now">
+      <option name="closed" value="true" />
+      <created>1741378563249</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1741378563249</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Updated Member images and information">
+      <option name="closed" value="true" />
+      <created>1741480400969</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1741480400969</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Made Orchid Id's more readable">
+      <option name="closed" value="true" />
+      <created>1741480414120</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1741480414120</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Added Research Scholars interests to Members.jsx">
+      <option name="closed" value="true" />
+      <created>1741482510169</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1741482510169</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Edited images">
+      <option name="closed" value="true" />
+      <created>1741484362035</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1741484362035</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Revamped Talks page">
+      <option name="closed" value="true" />
+      <created>1741505790940</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1741505790940</updated>
+    </task>
+    <task id="LOCAL-00040" summary="moved files around">
+      <option name="closed" value="true" />
+      <created>1741505971768</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1741505971768</updated>
+    </task>
+    <task id="LOCAL-00041" summary="fixed incorrect file path names">
+      <option name="closed" value="true" />
+      <created>1741506098770</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1741506098770</updated>
+    </task>
+    <task id="LOCAL-00042" summary="First news page revamp">
+      <option name="closed" value="true" />
+      <created>1741618591321</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1741618591321</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Revamped Publications.jsx">
+      <option name="closed" value="true" />
+      <created>1741627748994</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1741627748994</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Revamped Members.jsx">
+      <option name="closed" value="true" />
+      <created>1741627770881</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1741627770881</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Revamped News.jsx">
+      <option name="closed" value="true" />
+      <created>1741627775984</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1741627775984</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Revamped Research.jsx">
+      <option name="closed" value="true" />
+      <created>1741627780558</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1741627780558</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Revamped Talks.jsx">
+      <option name="closed" value="true" />
+      <created>1741627783460</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1741627783461</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Revamped Home.jsx">
+      <option name="closed" value="true" />
+      <created>1741627787619</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1741627787619</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Modifications">
+      <option name="closed" value="true" />
+      <created>1741627810802</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1741627810802</updated>
+    </task>
+    <task id="LOCAL-00050" summary="background changes">
+      <option name="closed" value="true" />
+      <created>1741639925196</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1741639925198</updated>
+    </task>
+    <task id="LOCAL-00051" summary="updated pictures">
+      <option name="closed" value="true" />
+      <created>1741639959324</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1741639959324</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Added Grants page and added hyperlinks to relevant pages">
+      <option name="closed" value="true" />
+      <created>1742281288821</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1742281288822</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Added a new member and changed member page title">
+      <option name="closed" value="true" />
+      <created>1742281310071</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1742281310071</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Added more lab news">
+      <option name="closed" value="true" />
+      <created>1742281316097</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1742281316097</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Changed Ali's picture">
+      <option name="closed" value="true" />
+      <created>1742536726921</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1742536726921</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Edited a image and link for News.jsx">
+      <option name="closed" value="true" />
+      <created>1742536745988</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1742536745988</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Edited Research Text in Home.jsx">
+      <option name="closed" value="true" />
+      <created>1742536776076</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1742536776076</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Added more talks and updated linked in Talks.jsx">
+      <option name="closed" value="true" />
+      <created>1742536791302</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1742536791302</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Fixed Success Feedback display">
+      <option name="closed" value="true" />
+      <created>1742536802888</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1742536802888</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Edited Grants.jsx">
+      <option name="closed" value="true" />
+      <created>1742536835547</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1742536835547</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="7188a43f-8b2f-49cd-9c36-1109e53f8790" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
+        <entry key="7188a43f-8b2f-49cd-9c36-1109e53f8790">
+          <value>
+            <State />
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State>
@@ -514,32 +683,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="small fixes" />
-    <MESSAGE value="last fix" />
-    <MESSAGE value="new fix" />
-    <MESSAGE value="Fix routing for GitHub Pages" />
-    <MESSAGE value="Fix more routing for GitHub Pages" />
-    <MESSAGE value="small fixes for AAAI" />
-    <MESSAGE value="fixed sizing for shadcn card for research page and members page" />
-    <MESSAGE value="replaced grants with talks and added dummy information to lab news" />
-    <MESSAGE value="added alumni to members page" />
-    <MESSAGE value="made the footer not cover information on mobile" />
-    <MESSAGE value="added more orcidIds and commented whose ID" />
-    <MESSAGE value="added Ali's WellDunn publication" />
-    <MESSAGE value="fixed some publications not showing authors" />
-    <MESSAGE value="manually fixed certain publications who weren't showing contributors" />
-    <MESSAGE value="added more lab members" />
-    <MESSAGE value="updated lab news page" />
-    <MESSAGE value="fixed a hyperlink in News.jsx" />
-    <MESSAGE value="pushing members images" />
-    <MESSAGE value="updated Krishnaprasad Thirunarayan.jpg" />
+    <MESSAGE value="Made Orchid Id's more readable" />
+    <MESSAGE value="Added Research Scholars interests to Members.jsx" />
+    <MESSAGE value="Edited images" />
+    <MESSAGE value="Revamped Talks page" />
+    <MESSAGE value="moved files around" />
+    <MESSAGE value="fixed incorrect file path names" />
+    <MESSAGE value="First news page revamp" />
+    <MESSAGE value="Revamped Publications.jsx" />
     <MESSAGE value="Revamped Members.jsx" />
-    <MESSAGE value="Added information to the Navbar.jsx" />
-    <MESSAGE value="updated front page picture" />
-    <MESSAGE value="updated members images" />
-    <MESSAGE value="added member images and reordered phd students ordering" />
-    <MESSAGE value="Updated Footer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated Footer" />
+    <MESSAGE value="Revamped News.jsx" />
+    <MESSAGE value="Revamped Research.jsx" />
+    <MESSAGE value="Revamped Talks.jsx" />
+    <MESSAGE value="Revamped Home.jsx" />
+    <MESSAGE value="Modifications" />
+    <MESSAGE value="background changes" />
+    <MESSAGE value="updated pictures" />
+    <MESSAGE value="Added Grants page and added hyperlinks to relevant pages" />
+    <MESSAGE value="Added a new member and changed member page title" />
+    <MESSAGE value="Added more lab news" />
+    <MESSAGE value="Changed Ali's picture" />
+    <MESSAGE value="Edited a image and link for News.jsx" />
+    <MESSAGE value="Edited Research Text in Home.jsx" />
+    <MESSAGE value="Added more talks and updated linked in Talks.jsx" />
+    <MESSAGE value="Fixed Success Feedback display" />
+    <MESSAGE value="Edited Grants.jsx" />
+    <option name="LAST_COMMIT_MESSAGE" value="Edited Grants.jsx" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
