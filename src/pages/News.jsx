@@ -24,7 +24,10 @@ export default function News() {
             team: ["Deepa Tilwani", "Ali Mohammadi", "Edward Raff", "Aman Chadha"],
             links: [
                 {label: "Tutorial Page", url: "https://nesy-egi.github.io/"},
-                {label: "Slides", url: "#"}
+                {
+                    label: "Slides",
+                    url: "https://docs.google.com/presentation/d/1cw2RqVvkIGFNyHZxhO_F1DUPdTYTQ13a/edit?usp=sharing&ouid=115373182588084065297&rtpof=true&sd=true"
+                }
             ]
         },
         {
@@ -35,7 +38,10 @@ export default function News() {
             date: new Date("2025-01-28"),
             team: ["Gerald Ndawula"],
             links: [
-                {label: "Presentation", url: "#"}
+                {
+                    label: "Paper",
+                    url: "https://drive.google.com/file/d/1Xrgc-N04IZA079P2ZgIsVO8DK5zlyTSb/view?usp=sharing"
+                }
             ]
         },
         {
@@ -47,7 +53,6 @@ export default function News() {
             team: ["Seyedreza Mohseni", "Ali Mohammadi"],
             links: [
                 {label: "Paper", url: "https://arxiv.org/pdf/2412.16135"},
-                {label: "Presentation", url: "#"}
             ]
         },
         {
@@ -58,7 +63,7 @@ export default function News() {
             date: new Date("2025-03-05"),
             team: ["Priyanshul Govil"],
             links: [
-                {label: "Paper", url: "#"},
+                {label: "Paper", url: "https://arxiv.org/abs/2402.14889"},
                 {label: "Conference", url: "#"}
             ]
         },
@@ -69,19 +74,22 @@ export default function News() {
             location: "N/A",
             date: new Date("2025-01-15"), // Estimated date since not specified
             team: ["UMBC KAI2-Lab"],
-            links: [
-                {label: "Publication", url: "#"}
-            ]
+            links: []
         },
         {
             type: "Award",
-            name: "LocalIntel: Generating Organizational Threat Intelligence from Global and Local Cyber Knowledge",
+            name: (<>
+                    LocalIntel: Generating Organizational Threat Intelligence from Global and Local Cyber Knowledge -
+                    <span className="italic font-serif"><div></div>Best Paper Award</span>
+                </>
+            ),
             event: "17th International Symposium on Foundations & Practice of Security (FPS – 2024)",
             location: "FPS 2024",
             date: new Date("2024-12-10"), // Estimated date since only year was provided
             team: ["Shaswata Mitra", "Subash Neupane", "Trisha Chakraborty", "Sudip Mittal", "Aritran Piplai", "Manas Gaur", "Shahram Rahimi"],
             links: [
-                {label: "Paper", url: "https://fps-2024.hec.ca/cfp/accepted-papers/"}
+                {label: "Paper", url: "https://arxiv.org/abs/2401.10036"},
+                {label: "Award Details", url: "https://fps-2024.hec.ca/cfp/accepted-papers/"}
             ]
         },
         {
@@ -100,9 +108,7 @@ export default function News() {
             location: "UMBC",
             date: new Date("2024-11-15"), // Estimated date since not specified
             team: ["UMBC KAI2-Lab", "Dr. Harsha Kokel"],
-            links: [
-                {label: "Agreement Details", url: "#"}
-            ]
+            links: []
         },
         {
             type: "Workshop",
@@ -119,6 +125,17 @@ export default function News() {
             links: [
                 {label: "Workshop Page", url: "https://sites.google.com/view/kg-star/team?authuser=0"},
                 {label: "Previous Edition", url: "https://kil-workshop.github.io/KG-STAR/"}
+            ]
+        },
+        {
+            type: "Presentation",
+            name: "WellDunn: On the Robustness and Explainability of Language Models and Large Language Models in Identifying Wellness Dimensions\n",
+            event: "EMNLP 2024",
+            location: "Miami, Florida",
+            date: new Date("2024-11-15"),
+            team: ["Ali Mohammadi"],
+            links: [
+                {label: "Paper", url: "https://aclanthology.org/2024.blackboxnlp-1.23/"}
             ]
         }
     ];
