@@ -19,11 +19,11 @@ export default function Talks() {
     const talks = [
         {
             id: 1,
-            title: "NeuroSymbolic AI for Grounding, Instructibility, and Explainability",
+            title: "Towards Knowledge-aware Learning for Mental Health Communications",
             event: "UT Dallas Center for Machine Learning Lecture",
             description: "Knowledge-aware Learning for Mental Health Communications: Statistical and Semantic AI. Lecture Series, Center for Machine Learning, University of Texas at Dallas. Hosted by Prof(Dr). Sriraam Natarajan, Director of Center for Machine Learning and Starling Lab.",
-            image: "/api/placeholder/800/400",
-            link: "http://bit.ly/AII_UTD",
+            image: "/assets/talks/Towards Knowledge-aware Learning for Mental Health Communications.png",
+            link: "https://docs.google.com/presentation/d/1IJZGVkJ4yrK62vXKFKk5lEDPhFAbDhAAhAef8Cpe8cE/edit?usp=sharing",
             date: "February 2025",
             location: "Dallas, TX, USA",
             categories: ['Academic', 'Research']
@@ -34,7 +34,7 @@ export default function Talks() {
             event: "Presentations at Indian Institutions",
             description: "Knowledge-infused AI for Healthcare presented at Indraprastha Institute of Information Technology, Delhi with Dr. Raghava Mutharaju. AI for Social Good: Knowledge-aware Characterization of Web Communications delivered at LNM Institute of Information Technology, hosted by Prof(Dr.) Rahul Banerjee, Director.",
             image: "/assets/talks/Presentations at Indian Institutions.png",
-            link: "http://bit.ly/AII_IIITDdelhi",
+            link: "https://www.slideshare.net/secret/Fvod1gEDa5Fsvn",
             date: "January 2025",
             location: "Delhi, India",
             categories: ['Academic', 'Research']
@@ -150,7 +150,7 @@ export default function Talks() {
                                 className="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1"
                             >
                                 <div className="md:flex">
-                                    <div className="md:w-1/3 relative">
+                                    <div className="md:w-2/3 relative">
                                         <img
                                             src={talk.image}
                                             alt={talk.title}
