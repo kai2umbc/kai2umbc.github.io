@@ -223,6 +223,17 @@ async function fetchPublications(orcidIds) {
     // Convert Map values to an array of unique publications
     const uniquePublications = Array.from(publicationsMap.values());
 
+    uniquePublications.push({
+        title: "Quantized Large Language Models for Mental Health Applications: A Benchmark Study on Efficiency, Accuracy and Resource Allocation",
+        journal: "Master's Thesis",
+        authors: ["Aayush Jannumahanti"],
+        year: "2024",
+        type: "THESIS",
+        url: "https://drive.google.com/file/d/1VdYCjUZyGn4TII2b_I2PGOb1ivh64apj/view",
+        doi: null,
+        publicationDate: {year: {value: "2024"}, month: {value: "05"}, day: {value: "01"}}
+    });
+
     // Sort by year descending, then by title ascending
     uniquePublications.sort((a, b) => {
         const yearA = parseInt(a.year);
@@ -507,7 +518,9 @@ const PublicationsPage = () => {
 
             {/* Success Feedback */}
             {showSuccess && (
-                <SuccessFeedback message={`Successfully loaded ${publications.length} publications!`}/>
+                <div className="relative z-50">
+                    <SuccessFeedback message={`Successfully loaded ${publications.length} publications!`}/>
+                </div>
             )}
         </div>
     );
