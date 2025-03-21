@@ -90,7 +90,7 @@ const Home = () => {
             icon: <Lightbulb className="w-12 h-12 text-emerald-600"/>
         },
         {
-            title: "Human-Centered AI",
+            title: "Human-Focused AI",
             description: "Developing AI systems that align with human values, needs, and cognitive processes for real-world applications.",
             icon: <Globe className="w-12 h-12 text-purple-600"/>
         }
@@ -170,7 +170,7 @@ const Home = () => {
                         </h2>
                         <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-12">
                             Bridging neural networks with symbolic reasoning to build more interpretable,
-                            explainable, and human-centered AI systems.
+                            explainable, and human-focused AI systems.
                         </p>
                         <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
                             <button
@@ -202,10 +202,6 @@ const Home = () => {
                 <div className="max-w-6xl mx-auto px-6">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl font-bold mb-6">Our Research Focus</h2>
-                        <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-                            At the KAI<sup>2</sup> Lab, we combine neural networks with symbolic reasoning
-                            to create AI systems that are more aligned with human reasoning.
-                        </p>
                         <div className="w-24 h-1 bg-blue-500 mx-auto mt-8 rounded-full"></div>
                     </div>
 
@@ -304,6 +300,7 @@ const Home = () => {
                                     and
                                     various IEEE transactions.
                                 </p>
+                                <div className="h-6"></div>
                                 <button
                                     onClick={() => handleNavigation('/publications')}
                                     className="inline-flex items-center space-x-2 bg-purple-600 text-white px-4 py-2 rounded-lg transition-all duration-300 hover:bg-purple-700 w-full justify-center">
