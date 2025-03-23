@@ -161,9 +161,26 @@ const extractAuthorNames = (workDetails) => {
     return ["Authors not available"]; // Fallback if no contributor info
 };
 
-// Get a unique key for deduplication (DOI if available, else title)
+// Function to determine the priority of a publication URL
+// Lower number = higher priority
+function getPublicationPriority(publication) {
+    if (!publication.url) return 999; // No URL = lowest priority
+
+    const url = publication.url.toLowerCase();
+
+    // Priority order: Journal DOIs > Conference links > University repositories > ArXiv > Others
+    if (url.includes('doi.org')) return 10;
+    if (url.includes('acm.org') || url.includes('ieee.org') || url.includes('springer.com')) return 20;
+    if (url.includes('edu') || url.includes('university')) return 30;
+    if (url.includes('arxiv.org')) return 40;
+
+    return 50; // Other links
+}
+
+// Get a unique key for deduplication - use title as the primary key
 function getUniqueKey(publication) {
-    return publication.doi || publication.title;
+    // Normalize the title by removing special characters and lowercasing
+    return publication.title.toLowerCase().replace(/[^\w\s]/g, '').trim();
 }
 
 // Parse the publication date into a Date object
@@ -181,7 +198,7 @@ async function fetchPublications(orcidIds) {
     const {workDetails} = await fetchAllWorks(orcidIds);
     console.log(`Fetched ${workDetails.length} work details`);
 
-    // Use a Map to track the most recent publication for each unique key
+    // Use a Map to track the best publication for each unique title
     const publicationsMap = new Map();
 
     // Process each work
@@ -206,15 +223,26 @@ async function fetchPublications(orcidIds) {
 
             const key = getUniqueKey(publication);
             const currentDate = parsePublicationDate(publication.publicationDate);
+            const currentPriority = getPublicationPriority(publication);
 
-            // If key exists, compare dates and keep the more recent one
+            // Decision logic for keeping or replacing a publication
             if (!publicationsMap.has(key)) {
                 publicationsMap.set(key, publication);
+                console.log(`Added new publication: "${publication.title}"`);
             } else {
                 const existing = publicationsMap.get(key);
                 const existingDate = parsePublicationDate(existing.publicationDate);
-                if (currentDate > existingDate) {
+                const existingPriority = getPublicationPriority(existing);
+
+                // Compare based on URL priority first
+                if (currentPriority < existingPriority) {
                     publicationsMap.set(key, publication);
+                    console.log(`Replaced duplicate: "${publication.title}" with higher priority version (${currentPriority} vs ${existingPriority})`);
+                }
+                // If same priority, use the most recent version
+                else if (currentPriority === existingPriority && currentDate > existingDate) {
+                    publicationsMap.set(key, publication);
+                    console.log(`Replaced duplicate: "${publication.title}" with more recent version`);
                 }
             }
         }
@@ -223,16 +251,20 @@ async function fetchPublications(orcidIds) {
     // Convert Map values to an array of unique publications
     const uniquePublications = Array.from(publicationsMap.values());
 
-    uniquePublications.push({
-        title: "Quantized Large Language Models for Mental Health Applications: A Benchmark Study on Efficiency, Accuracy and Resource Allocation",
-        journal: "Master's Thesis",
-        authors: ["Aayush Jannumahanti"],
-        year: "2024",
-        type: "THESIS",
-        url: "https://drive.google.com/file/d/1VdYCjUZyGn4TII2b_I2PGOb1ivh64apj/view",
-        doi: null,
-        publicationDate: {year: {value: "2024"}, month: {value: "05"}, day: {value: "01"}}
-    });
+    // Add the thesis if not already present (checking by title)
+    const thesisTitle = "Quantized Large Language Models for Mental Health Applications: A Benchmark Study on Efficiency, Accuracy and Resource Allocation";
+    if (!uniquePublications.some(pub => getUniqueKey(pub) === getUniqueKey({title: thesisTitle}))) {
+        uniquePublications.push({
+            title: thesisTitle,
+            journal: "Master's Thesis",
+            authors: ["Aayush Jannumahanti"],
+            year: "2024",
+            type: "THESIS",
+            url: "https://drive.google.com/file/d/1VdYCjUZyGn4TII2b_I2PGOb1ivh64apj/view",
+            doi: null,
+            publicationDate: {year: {value: "2024"}, month: {value: "05"}, day: {value: "01"}}
+        });
+    }
 
     // Sort by year descending, then by title ascending
     uniquePublications.sort((a, b) => {
