@@ -9,7 +9,7 @@ export default function News() {
             name: "Trustworthy Generative AI: The Hybridization of Large Language Models with NeuroSymbolic AI",
             event: "National Faculty Development Programme (FDP) on \"Reinventing Pedagogy in the Age of AI: Methods, Approaches, and Perspectives\"",
             location: "Maitreyi College",
-            date: new Date("2024-01-10"),
+            date: new Date(2024, 0, 10),
             team: ["Manas Gaur"],
             links: [
                 {label: "Presentation", url: "https://www.youtube.com/watch?v=s1mk2tIi5VI"},
@@ -20,14 +20,15 @@ export default function News() {
             name: "Neurosymbolic AI for Explainability, Grounding, and Instructibility",
             event: "AAAI 2025",
             location: "Washington D.C., USA",
-            date: new Date("2025-02-15"),
+            date: new Date(2025, 1, 15),
             team: ["Deepa Tilwani", "Ali Mohammadi", "Edward Raff", "Aman Chadha"],
             links: [
                 {label: "Tutorial Page", url: "https://nesy-egi.github.io/"},
                 {
                     label: "Slides",
                     url: "https://docs.google.com/presentation/d/1cw2RqVvkIGFNyHZxhO_F1DUPdTYTQ13a/edit?usp=sharing&ouid=115373182588084065297&rtpof=true&sd=true"
-                }
+                },
+                {label: "Conference", url: "https://aaai.org/conference/aaai/aaai-25/"}
             ]
         },
         {
@@ -35,7 +36,7 @@ export default function News() {
             name: "Knowledge-infused Copilots for Mental Health",
             event: "UG Consortium",
             location: "Virtual Event",
-            date: new Date("2025-01-28"),
+            date: new Date(2025, 0, 28),
             team: ["Gerald Ndawula"],
             links: [
                 {
@@ -49,7 +50,7 @@ export default function News() {
             name: "The MAD Dataset for Code Obfuscation",
             event: "AAAI 2025 Main Track",
             location: "Washington D.C., USA",
-            date: new Date("2025-02-16"),
+            date: new Date(2025, 1, 16),
             team: ["Seyedreza Mohseni", "Ali Mohammadi"],
             links: [
                 {label: "Paper", url: "https://arxiv.org/pdf/2412.16135"},
@@ -60,11 +61,11 @@ export default function News() {
             name: "COBIAS Presentation",
             event: "ACM Web Science Conference",
             location: "Glasgow, UK",
-            date: new Date("2025-03-05"),
+            date: new Date(2025, 2, 5),
             team: ["Priyanshul Govil"],
             links: [
                 {label: "Paper", url: "https://arxiv.org/abs/2402.14889"},
-                {label: "Conference", url: "#"}
+                {label: "Conference", url: "https://www.websci25.org/"}
             ]
         },
         {
@@ -72,7 +73,7 @@ export default function News() {
             name: "Book Chapter On NeuroSymbolic Legal",
             event: "Academic Publication",
             location: "N/A",
-            date: new Date("2025-01-15"), // Estimated date since not specified
+            date: new Date(2025, 0, 15), // Estimated date since not specified
             team: ["UMBC KAI2-Lab"],
             links: []
         },
@@ -85,7 +86,7 @@ export default function News() {
             ),
             event: "17th International Symposium on Foundations & Practice of Security (FPS – 2024)",
             location: "FPS 2024",
-            date: new Date("2024-12-10"), // Estimated date since only year was provided
+            date: new Date(2024, 11, 10), // Estimated date since only year was provided
             team: ["Shaswata Mitra", "Subash Neupane", "Trisha Chakraborty", "Sudip Mittal", "Aritran Piplai", "Manas Gaur", "Shahram Rahimi"],
             links: [
                 {label: "Paper", url: "https://arxiv.org/abs/2401.10036"},
@@ -97,7 +98,7 @@ export default function News() {
             name: "UMBC KAI2-Lab Launched a Collaborative Project with PAQS.biz",
             event: "Industry Collaboration",
             location: "UMBC",
-            date: new Date("2024-12-01"), // Estimated date since not specified
+            date: new Date(2024, 11, 1), // Estimated date since not specified
             team: ["UMBC KAI2-Lab", "A. Vaidyanathan (Founder PAQS.biz)"],
             links: []
         },
@@ -106,7 +107,7 @@ export default function News() {
             name: "Joint Study Agreement with IBM Research",
             event: "Research Partnership",
             location: "UMBC",
-            date: new Date("2024-11-15"), // Estimated date since not specified
+            date: new Date(2024, 10, 15), // Estimated date since not specified
             team: ["UMBC KAI2-Lab", "Dr. Harsha Kokel"],
             links: []
         },
@@ -120,7 +121,7 @@ export default function News() {
             ),
             event: "Academic Workshop",
             location: "Virtual",
-            date: new Date("2025-02-28"),
+            date: new Date(2025, 1, 28),
             team: ["KAI2-Lab", "Edlira Vakaj", "Arijit Khan", "Nandana Mihindukulasooriya"],
             links: [
                 {label: "Workshop Page", url: "https://sites.google.com/view/kg-star/team?authuser=0"},
@@ -132,7 +133,7 @@ export default function News() {
             name: "WellDunn: On the Robustness and Explainability of Language Models and Large Language Models in Identifying Wellness Dimensions\n",
             event: "EMNLP 2024",
             location: "Miami, Florida",
-            date: new Date("2024-11-15"),
+            date: new Date(2024, 10, 15),
             team: ["Ali Mohammadi"],
             links: [
                 {label: "Paper", url: "https://aclanthology.org/2024.blackboxnlp-1.23/"}
@@ -140,9 +141,15 @@ export default function News() {
         }
     ];
 
-    // Format date function
     const formatDate = (date) => {
-        return date.toLocaleDateString('en-US', {
+        // Create a date with the same year, month and day in local time
+        const localDate = new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate()
+        );
+
+        return localDate.toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
