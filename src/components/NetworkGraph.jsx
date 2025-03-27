@@ -14,11 +14,12 @@ const NetworkGraph = () => {
         {id: 6, name: 'Ben Lagnese', community: 2, connections: [7, 8, 9]},
         {id: 7, name: 'Sriram Vema', community: 2, connections: [6, 8, 9]},
         {id: 8, name: 'Seyedreza Mohseni', community: 2, connections: [2, 6, 7, 9]},
-        {id: 9, name: 'Michael Zhang', community: 2, connections: [1, 5, 6, 7, 8]},
+        {id: 9, name: 'Sarvesh Baskar', community: 2, connections: [1, 5, 6, 7, 8]},
         // Community 3
-        {id: 10, name: 'Emma Wilson', community: 3, connections: [6, 7, 11, 12]},
-        {id: 11, name: 'David Chen', community: 3, connections: [7, 8, 10, 12]},
-        {id: 12, name: 'Sofia Garcia', community: 3, connections: [10, 11, 6, 8]}
+        {id: 10, name: 'Gerald Ndawula', community: 3, connections: [6, 7, 11, 12]},
+        {id: 11, name: 'Priyanshul Govil', community: 3, connections: [7, 8, 10, 12]},
+        {id: 12, name: 'Mathew Dawit', community: 3, connections: [10, 11, 6, 13]},
+        {id: 13, name: 'Vamshi Bonagiri', community: 3, connections: [10, 11, 6, 8]}
     ]);
 
     const communityColors = {
