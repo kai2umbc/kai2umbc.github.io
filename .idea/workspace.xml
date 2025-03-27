@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="Edited Grants.jsx">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Research.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Research.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -249,39 +249,9 @@
       <workItem from="1742025846806" duration="665000" />
       <workItem from="1742157299353" duration="8301000" />
       <workItem from="1742252871397" duration="3608000" />
-      <workItem from="1742348691339" duration="9705000" />
-    </task>
-    <task id="LOCAL-00012" summary="fixed sizing for shadcn card for research page and members page">
-      <option name="closed" value="true" />
-      <created>1740550135718</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1740550135718</updated>
-    </task>
-    <task id="LOCAL-00013" summary="replaced grants with talks and added dummy information to lab news">
-      <option name="closed" value="true" />
-      <created>1740551186454</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1740551186454</updated>
-    </task>
-    <task id="LOCAL-00014" summary="added alumni to members page">
-      <option name="closed" value="true" />
-      <created>1740551978247</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1740551978247</updated>
-    </task>
-    <task id="LOCAL-00015" summary="made the footer not cover information on mobile">
-      <option name="closed" value="true" />
-      <created>1740608265425</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1740608265425</updated>
+      <workItem from="1742348691339" duration="13871000" />
+      <workItem from="1742927740696" duration="58000" />
+      <workItem from="1743093201576" duration="617000" />
     </task>
     <task id="LOCAL-00016" summary="added more orcidIds and commented whose ID">
       <option name="closed" value="true" />
@@ -643,7 +613,39 @@
       <option name="project" value="LOCAL" />
       <updated>1742536835547</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Added an image for Talks.jsx">
+      <option name="closed" value="true" />
+      <created>1742537033202</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1742537033202</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Properly fixed how dates are displayed">
+      <option name="closed" value="true" />
+      <created>1742692406617</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1742692406619</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Added relevant images.">
+      <option name="closed" value="true" />
+      <created>1742692419140</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1742692419140</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Deduplicated publications displayed on publications page">
+      <option name="closed" value="true" />
+      <created>1742692435674</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1742692435674</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -683,10 +685,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Made Orchid Id's more readable" />
-    <MESSAGE value="Added Research Scholars interests to Members.jsx" />
-    <MESSAGE value="Edited images" />
-    <MESSAGE value="Revamped Talks page" />
     <MESSAGE value="moved files around" />
     <MESSAGE value="fixed incorrect file path names" />
     <MESSAGE value="First news page revamp" />
@@ -708,7 +706,11 @@
     <MESSAGE value="Added more talks and updated linked in Talks.jsx" />
     <MESSAGE value="Fixed Success Feedback display" />
     <MESSAGE value="Edited Grants.jsx" />
-    <option name="LAST_COMMIT_MESSAGE" value="Edited Grants.jsx" />
+    <MESSAGE value="Added an image for Talks.jsx" />
+    <MESSAGE value="Properly fixed how dates are displayed" />
+    <MESSAGE value="Added relevant images." />
+    <MESSAGE value="Deduplicated publications displayed on publications page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Deduplicated publications displayed on publications page" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
