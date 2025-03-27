@@ -1,9 +1,27 @@
 import React, {useState} from 'react';
-import {BookOpen, BrainCircuit, ChevronLeft, ChevronRight, Lightbulb, Share2, Shield} from 'lucide-react';
+import {BookOpen, Brain, BrainCircuit, ChevronLeft, ChevronRight, Globe, Lightbulb, Share2, Shield} from 'lucide-react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/research-card';
 import NetworkGraph from '/src/components/NetworkGraph.jsx';
 
 const Research = () => {
+    const researchAreas = [
+        {
+            title: "Neuro-Symbolic AI",
+            description: "Combining neural networks with symbolic reasoning to create more robust and interpretable AI systems.",
+            icon: <Brain className="w-12 h-12 text-blue-600"/>
+        },
+        {
+            title: "Knowledge Integration",
+            description: "Incorporating domain knowledge, commonsense reasoning, and structured knowledge into machine learning models.",
+            icon: <Lightbulb className="w-12 h-12 text-emerald-600"/>
+        },
+        {
+            title: "Human-Focused AI",
+            description: "Developing AI systems that align with human values, needs, and cognitive processes for real-world applications.",
+            icon: <Globe className="w-12 h-12 text-purple-600"/>
+        }
+    ];
+
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const slides = [
@@ -151,20 +169,29 @@ const Research = () => {
                 </div>
 
                 {/* Visual Selection Image - Enhanced presentation */}
-                <div className="py-12">
-                    <div className="bg-white rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
-                        <h2 className="text-3xl font-bold text-center mb-8 leading-tight text-gray-800">
-                            AI Research Domains & Objectives
-                        </h2>
-                        <div className="relative overflow-hidden rounded-lg shadow-inner">
-                            <img
-                                src="/assets/AI Research Domains and Objectives.png"
-                                alt="Visual Selection from Napkin AI"
-                                className="w-full object-contain transform transition-transform duration-500 hover:scale-105"
-                            />
+                <section id="research-areas" className="py-24 bg-[#E8F1F2]">
+                    <div className="max-w-6xl mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl font-bold mb-6">AI Research Domains</h2>
+                            <div className="w-24 h-1 bg-blue-500 mx-auto mt-8 rounded-full"></div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                            {researchAreas.map((area, index) => (
+                                <div
+                                    key={index}
+                                    className="bg-white rounded-xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+                                >
+                                    <div className="flex justify-center mb-6">
+                                        {area.icon}
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-center mb-4">{area.title}</h3>
+                                    <p className="text-gray-700 text-center">{area.description}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
         </div>
     );
