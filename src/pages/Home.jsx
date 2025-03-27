@@ -204,20 +204,12 @@ const Home = () => {
                         <h2 className="text-4xl font-bold mb-6">Our Research Focus</h2>
                         <div className="w-24 h-1 bg-blue-500 mx-auto mt-8 rounded-full"></div>
                     </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                        {researchAreas.map((area, index) => (
-                            <div
-                                key={index}
-                                className="bg-white rounded-xl shadow-lg p-8 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
-                            >
-                                <div className="flex justify-center mb-6">
-                                    {area.icon}
-                                </div>
-                                <h3 className="text-2xl font-bold text-center mb-4">{area.title}</h3>
-                                <p className="text-gray-700 text-center">{area.description}</p>
-                            </div>
-                        ))}
+                    <div className="rounded-lg shadow-inner overflow-hidden max-w-4xl mx-auto">
+                        <img
+                            src="/assets/AI Research Domains and Objectives.png"
+                            alt="Visual Selection from Napkin AI"
+                            className="w-full object-contain hover:scale-105 transition-transform duration-500 max-h-[600px]"
+                        />
                     </div>
                 </div>
             </section>
