@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="68fb7942-99ec-4023-a4b8-5cc295a38007" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Research.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Research.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/News.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/News.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -251,23 +251,8 @@
       <workItem from="1742252871397" duration="3608000" />
       <workItem from="1742348691339" duration="13871000" />
       <workItem from="1742927740696" duration="58000" />
-      <workItem from="1743093201576" duration="617000" />
-    </task>
-    <task id="LOCAL-00016" summary="added more orcidIds and commented whose ID">
-      <option name="closed" value="true" />
-      <created>1740608579811</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1740608579811</updated>
-    </task>
-    <task id="LOCAL-00017" summary="added Ali's WellDunn publication">
-      <option name="closed" value="true" />
-      <created>1740611151984</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1740611151984</updated>
+      <workItem from="1743093201576" duration="1554000" />
+      <workItem from="1743182661776" duration="1352000" />
     </task>
     <task id="LOCAL-00018" summary="fixed some publications not showing authors">
       <option name="closed" value="true" />
@@ -645,7 +630,23 @@
       <option name="project" value="LOCAL" />
       <updated>1742692435674</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Swapped images on Home and Research page">
+      <option name="closed" value="true" />
+      <created>1743093925213</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1743093925214</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Added members to network graph on research page">
+      <option name="closed" value="true" />
+      <created>1743094122655</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1743094122655</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -685,8 +686,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="moved files around" />
-    <MESSAGE value="fixed incorrect file path names" />
     <MESSAGE value="First news page revamp" />
     <MESSAGE value="Revamped Publications.jsx" />
     <MESSAGE value="Revamped Members.jsx" />
@@ -710,7 +709,9 @@
     <MESSAGE value="Properly fixed how dates are displayed" />
     <MESSAGE value="Added relevant images." />
     <MESSAGE value="Deduplicated publications displayed on publications page" />
-    <option name="LAST_COMMIT_MESSAGE" value="Deduplicated publications displayed on publications page" />
+    <MESSAGE value="Swapped images on Home and Research page" />
+    <MESSAGE value="Added members to network graph on research page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added members to network graph on research page" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
