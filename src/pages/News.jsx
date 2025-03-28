@@ -5,6 +5,15 @@ export default function News() {
     // Sample news data with dates as Date objects for easier sorting
     const newsItemsData = [
         {
+            type: "Collaboration",
+            name: "Joint Study Agreement with IBM Research",
+            event: "IBM",
+            location: "N/A",
+            date: new Date(2025, 2, 28),
+            team: ["Sarvesh Basker"],
+            links: []
+        },
+        {
             type: "Presentation",
             name: "Trustworthy Generative AI: The Hybridization of Large Language Models with NeuroSymbolic AI",
             event: "National Faculty Development Programme (FDP) on \"Reinventing Pedagogy in the Age of AI: Methods, Approaches, and Perspectives\"",
