@@ -8,7 +8,7 @@ export default function News() {
             type: "Collaboration",
             name: "Joint Study Agreement with IBM Research",
             event: "IBM",
-            location: "N/A",
+            location: "UMBC",
             date: new Date(2025, 2, 28),
             team: ["Sarvesh Basker"],
             links: []
@@ -81,7 +81,7 @@ export default function News() {
             type: "Publication",
             name: "Book Chapter On NeuroSymbolic Legal",
             event: "Academic Publication",
-            location: "N/A",
+            location: "UMBC",
             date: new Date(2025, 0, 15), // Estimated date since not specified
             team: ["UMBC KAI2-Lab"],
             links: []
