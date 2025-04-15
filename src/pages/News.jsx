@@ -69,7 +69,7 @@ export default function News() {
             type: "Presentation",
             name: "COBIAS Presentation",
             event: "ACM Web Science Conference",
-            location: "Glasgow, UK",
+            location: "New Brunswick, New Jersey",
             date: new Date(2025, 2, 5),
             team: ["Priyanshul Govil"],
             links: [
