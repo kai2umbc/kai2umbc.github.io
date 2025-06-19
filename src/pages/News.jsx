@@ -5,6 +5,44 @@ export default function News() {
     // Sample news data with dates as Date objects for easier sorting
     const newsItemsData = [
         {
+            type: "Presentation",
+            name: "Ranking Free RAG Presentation",
+            event: "Bloomberg's Law, Language and AI Symposium",
+            location: "New York City, New York",
+            date: new Date(2025, 5, 9),
+            team: ["Yash Saxena"],
+            links: [{label: "Paper", url: "https://arxiv.org/abs/2505.16014"},
+                    {label: "Confrence", url: "https://pro.bloomberglaw.com/ai-symposium/#overview" }
+            ]
+        },
+        {
+            type: "Award",
+            name: "LSAMP Fellow 2025",
+            //event: "IBM",
+            location: "UMBC",
+            date: new Date(2025,4,20 ),
+            team: ["Nia Richard"],
+            links: []
+        },
+        {
+            type: "Award",
+            name: "Gerald Ndawaula recived his Bachelor of Science in Computer Science",
+            event: "Graduation",
+            location: "UMBC",
+            date: new Date(2025,4,22),
+            team: ["Gerald Ndawaula"],
+            links: []
+        },
+        {
+            type: "Award",
+            name: "Outstanding Achievement in Computer Science 2024-2025",
+            //event: "IBM",
+            location: "UMBC",
+            date: new Date(2025,4,20 ),
+            team: ["Gerald Ndawaula"],
+            links: []
+        },
+        {
             type: "Collaboration",
             name: "Joint Study Agreement with IBM Research",
             event: "IBM",
