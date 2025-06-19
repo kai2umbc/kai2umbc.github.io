@@ -206,9 +206,9 @@ const Home = () => {
                     </div>
                     <div className="rounded-lg shadow-inner overflow-hidden max-w-4xl mx-auto">
                         <img
-                            src="/assets/AI Research Domains and Objectives.png"
+                            src="/assets/Updated AI Research and Domain Objectives.png"
                             alt="Visual Selection from Napkin AI"
-                            className="w-full object-contain hover:scale-105 transition-transform duration-500 max-h-[600px]"
+                            className="w-full object-contain hover:scale-103 transition-transform duration-500 max-h-[600px]"
                         />
                     </div>
                 </div>
@@ -324,29 +324,40 @@ const Home = () => {
                                     <span
                                         className="px-3 py-1 rounded-full text-sm font-medium flex items-center bg-purple-100 text-purple-800">
                                         <Award className="w-5 h-5 text-purple-600 mr-1"/>
-                                        <span>Publication</span>
+                                        <span>Presentation</span>
                                     </span>
                                     <span className="text-gray-500 text-sm flex items-center">
                                         <Calendar className="w-4 h-4 mr-1"/>
-                                        February 16, 2025
+                                        June 9, 2025
                                     </span>
                                 </div>
-                                <h2 className="text-2xl font-bold text-gray-800 mb-2">The MAD Dataset for Code
-                                    Obfuscation</h2>
-                                <h3 className="text-xl text-gray-600 mb-4">AAAI 2025 Main Track</h3>
+                                <h2 className="text-2xl font-bold text-gray-800 mb-2">Ranking Free RAG Presentation </h2>
+                                <h3 className="text-xl text-gray-600 mb-4">Bloomberg's Law, Language and AI Symposium</h3>
                                 <div className="flex items-center text-gray-600 mb-4">
                                     <MapPin className="w-5 h-5 mr-2 text-gray-500"/>
-                                    <span>Washington D.C., USA</span>
+                                    <span>New York City, New York, USA</span>
                                 </div>
+                                <div className="flex gap-4 mt-4">
                                 <a
-                                    href="https://arxiv.org/pdf/2412.16135"
+                                    href="https://arxiv.org/abs/2505.16014"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center px-4 py-2 mt-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
                                 >
                                     <FileText className="w-4 h-4 mr-2"/>
-                                    View Paper
+                                    Paper
                                 </a>
+
+                                <a
+                                    href="https://pro.bloomberglaw.com/ai-symposium/#overview"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center px-4 py-2 mt-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+                                >
+                                    <FileText className="w-4 h-4 mr-2"/>
+                                    Conference
+                                </a>
+                                </div>
                             </div>
                         </div>
 
