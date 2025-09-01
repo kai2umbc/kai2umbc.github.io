@@ -12,9 +12,12 @@ frontend/.env       # frontend secrets if any
 # Python / Backend
 # ------------------------
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
 backend/.env        # backend secrets
 venv/
-*.pyc
+.env                # in case of a root-level env file
 
 # ------------------------
 # IDE / Editor
@@ -26,10 +29,10 @@ venv/
 # OS
 # ------------------------
 .DS_Store
+Thumbs.db
 
 # ------------------------
 # Others
 # ------------------------
 *.local
 *.lock
-node_modules
