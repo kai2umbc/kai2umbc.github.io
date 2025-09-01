@@ -1,8 +1,25 @@
-# React + Vite
+# KAI2 UMBC Website – How to Run
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a **React + Vite** web application for the KAI2 UMBC website.
 
-Currently, two official plugins are available:
+## 1. Clone the Repository
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+git clone https://github.com/MatDawit/kai2umbc.github.io.git
+cd kai2umbc.github.io
+
+## 2. Install Dependencies
+
+```bash
+cd frontend
+npm install
+
+## 3. Run the Development Server
+
+```bash
+npm run dev
+
+## 4. Install Backend Dependencies
+
+```bash
+pip install -r requirements.txt
