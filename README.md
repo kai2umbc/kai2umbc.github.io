@@ -26,5 +26,6 @@ npm run dev
 
 ```bash
 cd ../backend
+# Do below inside a pvenv
 pip install -r requirements.txt
 ```
