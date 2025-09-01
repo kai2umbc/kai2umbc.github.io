@@ -6,7 +6,7 @@ dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-frontend/.env       # frontend secrets if any
+frontend/.env
 
 # ------------------------
 # Python / Backend
@@ -15,9 +15,9 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-backend/.env        # backend secrets
+backend/.env
 venv/
-.env                # in case of a root-level env file
+.env
 
 # ------------------------
 # IDE / Editor
