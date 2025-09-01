@@ -13,6 +13,7 @@ frontend/.env       # frontend secrets if any
 # ------------------------
 __pycache__/
 backend/.env        # backend secrets
+venv/
 *.pyc
 
 # ------------------------
@@ -31,3 +32,4 @@ backend/.env        # backend secrets
 # ------------------------
 *.local
 *.lock
+node_modules
