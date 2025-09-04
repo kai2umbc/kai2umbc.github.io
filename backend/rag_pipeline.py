@@ -3,7 +3,6 @@
 # -------------------------
 import torch, re, os, fitz  # PyMuPDF for PDFs
 from sentence_transformers import SentenceTransformer, util
-from transformers import AutoTokenizer, AutoModelForCausalLM
 import chromadb
 from chromadb.utils import embedding_functions
 import requests
@@ -14,7 +13,6 @@ load_dotenv()
 # CONFIG
 # -------------------------
 EMBED_MODEL = "all-MiniLM-L6-v2"
-LLM_NAME = "meta-llama/Llama-3.2-1B-Instruct"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 SIMILARITY_THRESHOLD = 0.5
 TOP_K = 3
@@ -79,17 +77,7 @@ for doc in uploaded_docs:
     )
 
 # -------------------------
-# 4) Initialize local LLM (optional, fallback)
-# -------------------------
-tokenizer = AutoTokenizer.from_pretrained(LLM_NAME, use_fast=True)
-try:
-    llm = AutoModelForCausalLM.from_pretrained(LLM_NAME).to(DEVICE)
-except Exception:
-    tokenizer = AutoTokenizer.from_pretrained("sshleifer/tiny-gpt2")
-    llm = AutoModelForCausalLM.from_pretrained("sshleifer/tiny-gpt2").to(DEVICE)
-
-# -------------------------
-# 5) OpenRouter / LLM helper
+# 4) OpenRouter / LLM helper
 # -------------------------
 def call_llm(prompt, max_new_tokens=128, temperature=0.0, use_openrouter=True):
     """
@@ -120,7 +108,7 @@ def call_llm(prompt, max_new_tokens=128, temperature=0.0, use_openrouter=True):
         return tokenizer.decode(out[0], skip_special_tokens=True).strip()
 
 # -------------------------
-# 6) Retrieval helpers
+# 5) Retrieval helpers
 # -------------------------
 def retrieve_from_collection(col, query, n=8):
     res = col.query(query_texts=[query], n_results=n)
@@ -160,7 +148,7 @@ def fuse_candidates(docs_items, notes_items, final_k=FINAL_K):
     return fused
 
 # -------------------------
-# 7) Sentence helpers
+# 6) Sentence helpers
 # -------------------------
 def simple_sent_tokenize(text):
     return [p.strip() for p in re.split(r'(?<=[\.\?\!])\s+', text) if p.strip()]
@@ -177,7 +165,7 @@ def semantic_filter(sentences, context_texts, threshold=SEM_VERIF_THRESHOLD):
     return list(dict.fromkeys(kept))
 
 # -------------------------
-# 8) Distillation
+# 7) Distillation
 # -------------------------
 def distill_context(fused_chunks, max_new_tokens=128):
     raw_text = "\n".join([f["text"] for f in fused_chunks])
@@ -195,7 +183,7 @@ Distilled Facts:"""
     return "; ".join(list(dict.fromkeys(distilled_lines)))
 
 # -------------------------
-# 9) Notes generator
+# 8) Notes generator
 # -------------------------
 def generate_notes(question, answer, distilled_facts, fused_chunks, max_new_tokens=128):
     raw_text = "\n".join([f["text"] for f in fused_chunks])
@@ -225,7 +213,7 @@ New Notes:"""
     return list(dict.fromkeys(new_notes))
 
 # -------------------------
-# 10) Advanced RAG pipeline
+# 9) Advanced RAG pipeline
 # -------------------------
 def advanced_rag_strict(query, n_candidates=8):
     # 1️⃣ Retrieve & rank
