@@ -32,4 +32,4 @@ def chat():
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
     print(f"🚀 Starting Flask server on port {port}...")
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port, debug=False)
