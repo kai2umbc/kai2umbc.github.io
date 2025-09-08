@@ -9,7 +9,7 @@ import fitz  # PyMuPDF for PDFs
 from sentence_transformers import SentenceTransformer, util
 import requests
 from dotenv import load_dotenv
-from pymilvus import connections, Collection, FieldSchema, CollectionSchema, DataType
+from pymilvus import connections, Collection, FieldSchema, CollectionSchema, DataType, utility
 
 load_dotenv()
 
@@ -49,8 +49,6 @@ embedder = SentenceTransformer("sentence-transformers/" + EMBED_MODEL)
 VECTOR_DIM = 384  # all-MiniLM-L6-v2 dim
 
 def get_or_create_and_load_collection(name: str, dim: int = VECTOR_DIM) -> Collection:
-    from pymilvus import utility
-
     # Drop old schema if missing chunk_id
     if utility.has_collection(name):
         col = Collection(name)
@@ -343,10 +341,11 @@ New Notes:"""
 # -------------------------
 # 10) Helper functions for notes (Milvus-based) 
 # -------------------------
-def insert_notes(notes_list, query):
+def insert_notes(notes_list, query, parent_meta_list=None):
     """
     notes_list: list of note strings
     query: original query (for metadata)
+    parent_meta_list: list of parent meta dicts to inherit origin info
     """
     if not notes_list:
         return []
@@ -372,6 +371,10 @@ def insert_notes(notes_list, query):
     to_insert_titles = []
     to_insert_chunk_ids = []
 
+    # Optional: store origin info
+    origin_titles = []
+    origin_doc_ids = []
+
     base_idx = len(existing_ids)
     for idx, note in enumerate(notes_list):
         note_id = f"note_{base_idx + idx}"
@@ -379,18 +382,28 @@ def insert_notes(notes_list, query):
         to_insert_ids.append(note_id)
         to_insert_embs.append(emb.tolist())
         to_insert_texts.append(note)
-        to_insert_titles.append(f"note_{note_id}")
+
+        # ✅ Use origin title instead of note_x
+        if parent_meta_list and idx < len(parent_meta_list):
+            parent_meta = parent_meta_list[idx]
+            origin_title = parent_meta.get("origin_title", parent_meta.get("title", "unknown_pdf"))
+        else:
+            origin_title = "unknown_pdf"
+        to_insert_titles.append(origin_title)
+
         to_insert_chunk_ids.append(idx)
 
-    if to_insert_ids:
-        notes_col.insert([to_insert_ids, to_insert_embs, to_insert_texts, to_insert_titles, to_insert_chunk_ids])
-        try:
-            notes_col.flush()
-            notes_col.load()
-        except Exception:
-            pass
+    # Insert notes into Milvus (keep schema as before)
+    notes_col.insert([to_insert_ids, to_insert_embs, to_insert_texts, to_insert_titles, to_insert_chunk_ids])
+    try:
+        notes_col.flush()
+        notes_col.load()
+    except Exception:
+        pass
 
+    # return inserted note ids
     return to_insert_ids
+
 
 def enforce_note_cap(max_notes=MAX_NOTES):
     # get all note ids in insertion order if possible, otherwise just get IDs and delete oldest by lexicographic order
@@ -450,11 +463,8 @@ def advanced_rag_strict(query, n_candidates=8):
     # 2.5️⃣ Generate temporary notes from fused chunks
     temp_notes = generate_notes(query, "", "", fused)
     temp_notes = list(dict.fromkeys(temp_notes))  # remove duplicates
-    if temp_notes:
-        temp_notes_scored = rerank_and_score(query, [{"text": n} for n in temp_notes])
-        temp_notes = [n["text"] for n in temp_notes_scored[:3]]
 
-    # Convert temp_notes into candidate items for immediate fusion (local ephemeral items)
+    # Convert temp_notes into candidate items for fusion
     query_hash = md5(query.encode()).hexdigest()[:6]
     temp_note_items = []
     for i, n in enumerate(temp_notes):
@@ -464,27 +474,35 @@ def advanced_rag_strict(query, n_candidates=8):
             "score": 1.0,
             "meta": {
                 "doc_id": f"temp_note_{query_hash}_{i}",
-                "source": parent_meta.get("source", "pdf"),
-                "title": parent_meta.get("title", f"note_{query_hash}_{i}"),
-                "chunk_id": i,
+                "title": parent_meta.get("origin_title") or parent_meta.get("title") or "unknown_pdf",
                 "is_note": True,
-                "origin_doc_id": parent_meta.get("doc_id"),
+                "origin_doc_id": parent_meta.get("origin_doc_id") or parent_meta.get("doc_id"),
+                "origin_title": parent_meta.get("origin_title") or parent_meta.get("title"),
+                "chunk_id": i
             }
         })
+
+    # Fuse ephemeral notes into existing chunks
     fused = fuse_candidates(fused, temp_note_items)
 
-    # 3️⃣ Provenance
+    # 3️⃣ Provenance (only real PDFs, ignore ephemeral notes)
     provenance = []
     seen_titles = set()
     for f in fused:
-        title = f["meta"].get("title", "")
-        if title and title not in seen_titles:
-            seen_titles.add(title)
+        meta = f["meta"]
+        origin_title = meta.get("origin_title")
+        origin_doc_id = meta.get("origin_doc_id")
+
+        if not origin_title or origin_title.startswith("note_") or origin_title == "unknown_pdf":
+            continue
+
+        if origin_title not in seen_titles:
+            seen_titles.add(origin_title)
             provenance.append({
-                "source": f["meta"].get("source", "pdf"),
-                "doc_id": f["meta"].get("doc_id"),
-                "title": title,
-                "chunk_id": f["meta"].get("chunk_id"),
+                "source": "pdf",
+                "doc_id": origin_doc_id,
+                "title": origin_title,
+                "chunk_id": meta.get("chunk_id"),
                 "score": round(f.get("score", 0.0), 3)
             })
 
@@ -512,9 +530,9 @@ Answer in 1-2 plain sentences strictly from the facts:"""
         if not natural_answer:
             natural_answer = "I don't know."
 
-    # 6️⃣ Save new notes permanently (Milvus-backed)
+    # 6️⃣ Save new notes permanently (Milvus-backed), pass parent meta
     if temp_notes:
-        inserted_note_ids = insert_notes(temp_notes, query)
+        inserted_note_ids = insert_notes(temp_notes, query, parent_meta_list=[f["meta"] for f in fused[:len(temp_notes)]])
         enforce_note_cap(MAX_NOTES)
 
     return {
