@@ -17,7 +17,7 @@ load_dotenv()
 # ------------------------- 
 # CONFIG 
 # ------------------------- 
-EMBED_MODEL = "all-MiniLM-L6-v2"
+EMBED_MODEL = "all-MiniLM-L3-v2"
 DEVICE = "cpu"  # force CPU to reduce memory
 SIMILARITY_THRESHOLD = 0.5
 TOP_K = 3
@@ -41,19 +41,18 @@ connections.connect(
 # 2) Lazy Sentence Transformer
 # -------------------------
 _embedder = None
-os.environ["OMP_NUM_THREADS"] = "1"
-torch.set_num_threads(1)
-
-try:
-    _embedder = SentenceTransformer("sentence-transformers/" + EMBED_MODEL, device=DEVICE)
-    print(f"✅ Embedder {EMBED_MODEL} preloaded on {DEVICE}")
-except Exception as e:
-    print("❌ Failed to preload embedder:", e)
-    _embedder = None
-
 def get_embedder():
+    global _embedder
     if _embedder is None:
-        raise RuntimeError("Embedder not initialized!")
+        os.environ["OMP_NUM_THREADS"] = "1"
+        torch.set_num_threads(1)
+        try:
+            _embedder = SentenceTransformer("sentence-transformers/" + EMBED_MODEL, device=DEVICE)
+            print(f"✅ Embedder {EMBED_MODEL} loaded on {DEVICE}")
+        except Exception as e:
+            print("❌ Failed to load embedder:", e)
+            _embedder = None
+            raise
     return _embedder
 
 # -------------------------

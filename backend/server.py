@@ -14,7 +14,7 @@ load_dotenv()
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 if not OPENROUTER_API_KEY:
-    raise ValueError("❌ OPENROUTER_API_KEY not found in environment variables")
+    raise ValueError("❌ OPENROUTER_API_KEY not found")
 
 # -----------------------------
 # Flask setup
@@ -30,7 +30,7 @@ advanced_rag_strict = None
 _rag_lock = Lock()
 
 # -----------------------------
-# Load RAG pipeline and embedder
+# Load RAG pipeline in background
 # -----------------------------
 def load_rag_pipeline():
     global advanced_rag_strict
@@ -38,15 +38,14 @@ def load_rag_pipeline():
         if advanced_rag_strict is None:
             try:
                 from rag_pipeline import advanced_rag_strict as pipeline
-                from rag_pipeline import get_embedder  # force embedder load
-                get_embedder()  # preload embeddings at startup
+                from rag_pipeline import get_embedder
+                get_embedder()  # preload embedder safely
                 advanced_rag_strict = pipeline
                 logging.info("✅ RAG pipeline and embedder loaded")
             except Exception as e:
                 logging.error("❌ Failed to load RAG pipeline: %s", e, exc_info=True)
                 advanced_rag_strict = None
 
-# Preload in background thread so startup isn't blocked too long
 Thread(target=load_rag_pipeline, daemon=True).start()
 
 # -----------------------------
@@ -74,7 +73,7 @@ def chat():
 
     except requests.exceptions.RequestException as e:
         logging.error("❌ OpenRouter API error: %s", e, exc_info=True)
-        return jsonify({"reply": "OpenRouter API failed. Please try again later.", "provenance": []}), 503
+        return jsonify({"reply": "OpenRouter API failed.", "provenance": []}), 503
 
     except Exception as e:
         logging.error("❌ RAG pipeline error: %s", e, exc_info=True)
@@ -88,22 +87,15 @@ def health():
 def index():
     return jsonify({"status": "Service is up. Use /chat to query."})
 
-# -----------------------------
-# Flask wakeup route
-# -----------------------------
 @app.route("/wakeup", methods=["GET"])
 def wakeup():
-    """
-    Call this endpoint to preload RAG pipeline + embedder
-    so first /chat requests don’t fail or cause memory spikes.
-    """
     global advanced_rag_strict
     with _rag_lock:
         if advanced_rag_strict is None:
             try:
                 from rag_pipeline import advanced_rag_strict as pipeline
                 from rag_pipeline import get_embedder
-                get_embedder()  # preload embedder
+                get_embedder()
                 advanced_rag_strict = pipeline
                 logging.info("✅ RAG pipeline and embedder loaded via /wakeup")
                 return jsonify({"status": "wakeup completed", "pipeline_loaded": True})
