@@ -5,7 +5,6 @@ from hashlib import md5
 import torch
 import re
 import os
-import fitz  # PyMuPDF for PDFs
 from sentence_transformers import SentenceTransformer, util
 import requests
 from dotenv import load_dotenv
@@ -26,8 +25,6 @@ FINAL_K = 4
 MAX_NEW_TOKENS = 128
 SEM_VERIF_THRESHOLD = 0.5
 MAX_NOTES = 100  # reduced from 200
-PDF_FOLDER = "./uploaded_pdfs"
-CHUNK_SIZE = 500
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 # Milvus host info
@@ -47,6 +44,9 @@ _embedder = None
 def get_embedder():
     global _embedder
     if _embedder is None:
+        import os
+        os.environ["OMP_NUM_THREADS"] = "1"
+        torch.set_num_threads(1)
         _embedder = SentenceTransformer("sentence-transformers/" + EMBED_MODEL, device=DEVICE)
     return _embedder
 
@@ -95,54 +95,36 @@ docs_col = get_or_create_and_load_collection("docs_col", VECTOR_DIM)
 notes_col = get_or_create_and_load_collection("notes_col", VECTOR_DIM)
 
 # -------------------------
-# 4) PDF loader & chunking
+# 4) PDF loader & chunking (commented out, using Milvus cloud only)
 # -------------------------
-def load_pdf_text(path):
-    doc = fitz.open(path)
-    text = "\n".join([page.get_text() for page in doc])
-    doc.close()
-    return text.strip()
+# def load_pdf_text(path):
+#     doc = fitz.open(path)
+#     text = "\n".join([page.get_text() for page in doc])
+#     doc.close()
+#     return text.strip()
 
-def chunk_text(text, chunk_size=CHUNK_SIZE):
-    words = text.split()
-    return [" ".join(words[i:i + chunk_size]) for i in range(0, len(words), chunk_size)]
+# def chunk_text(text, chunk_size=CHUNK_SIZE):
+#     words = text.split()
+#     return [" ".join(words[i:i + chunk_size]) for i in range(0, len(words), chunk_size)]
 
-def ingest_pdfs():
-    existing_ids = set()
-    try:
-        res = docs_col.query(expr="id != ''", output_fields=["id"])
-        for r in res:
-            if isinstance(r, dict) and "id" in r:
-                v = r["id"]
-                if isinstance(v, list): existing_ids.update(v)
-                else: existing_ids.add(v)
-    except Exception:
-        existing_ids = set()
-
-    for i, fname in enumerate(sorted(os.listdir(PDF_FOLDER))):
-        if not fname.lower().endswith(".pdf"):
-            continue
-        path = os.path.join(PDF_FOLDER, fname)
-        text = load_pdf_text(path)
-        chunks = chunk_text(text)
-        for j, chunk in enumerate(chunks):
-            doc_id = f"doc_{i}_chunk{j}"
-            if doc_id in existing_ids:
-                continue
-            emb = get_embedder().encode([chunk], convert_to_numpy=True)[0]
-            docs_col.insert([[doc_id], [emb.tolist()], [chunk], [fname], [j]])
-        gc.collect()  # free memory per PDF
-
-    try:
-        docs_col.flush()
-    except Exception:
-        pass
-
-# ingest PDFs lazily at startup
-try:
-    ingest_pdfs()
-except Exception as e:
-    print("⚠️ ingest_pdfs() failed:", e)
+# def ingest_pdfs():
+#     existing_ids = set()
+#     try:
+#         res = docs_col.query(expr="id != ''", output_fields=["id"])
+#         for r in res:
+#             if isinstance(r, dict) and "id" in r:
+#                 v = r["id"]
+#                 if isinstance(v, list): existing_ids.update(v)
+#                 else: existing_ids.add(v)
+#     except Exception:
+#         existing_ids = set()
+# 
+#     # local PDF ingestion skipped
+# 
+# try:
+#     ingest_pdfs()
+# except Exception as e:
+#     print("⚠️ ingest_pdfs() failed:", e)
 
 # -------------------------
 # 5) LLM Helper
@@ -172,15 +154,15 @@ def call_llm(prompt, max_new_tokens=128, temperature=0.5, use_openrouter=True):
         return tokenizer.decode(out[0], skip_special_tokens=True).strip()
 
 # -------------------------
-# 6) Retrieval helpers (NumPy-based rerank)
+# 6) Retrieval helpers (query-time only embedding)
 # -------------------------
 def retrieve_from_collection(collection: Collection, query: str, top_k=TOP_K):
     try:
         collection.load()
     except Exception:
         pass
-    q_emb = get_embedder().encode([query], convert_to_numpy=True)[0]
-    search_params = {"metric_type": "COSINE", "params": {"nprobe": 2}}  # lower nprobe
+    q_emb = get_embedder().encode([query], convert_to_numpy=True)[0]  # only query embedding
+    search_params = {"metric_type": "COSINE", "params": {"nprobe": 2}}
     results = collection.search(
         data=[q_emb.tolist()],
         anns_field="embedding",
@@ -192,11 +174,12 @@ def retrieve_from_collection(collection: Collection, query: str, top_k=TOP_K):
     for hits in results:
         for hit in hits:
             entity = hit.entity
-            text = getattr(entity, "text", "") or ""
-            title = getattr(entity, "title", "")
-            chunk_id = getattr(entity, "chunk_id", None)
-            id_field = getattr(entity, "id", None)
-            items.append({"text": text, "id": id_field, "meta":{"title": title, "chunk_id": chunk_id}, "score": float(hit.score)})
+            items.append({
+                "text": getattr(entity, "text", ""),
+                "id": getattr(entity, "id", None),
+                "meta": {"title": getattr(entity, "title", "")},
+                "score": float(hit.score)
+            })
     return items
 
 def rerank_and_score(query, items):
