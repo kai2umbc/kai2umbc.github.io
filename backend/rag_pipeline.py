@@ -17,7 +17,7 @@ load_dotenv()
 # ------------------------- 
 # CONFIG 
 # ------------------------- 
-EMBED_MODEL = "all-MiniLM-L3-v2"
+EMBED_MODEL = "paraphrase-MiniLM-L3-v2"
 DEVICE = "cpu"  # force CPU to reduce memory
 SIMILARITY_THRESHOLD = 0.5
 TOP_K = 3
