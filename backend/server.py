@@ -2,7 +2,7 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
-from threading import Lock
+from threading import Lock, Thread
 import logging
 import gc
 import requests
@@ -30,7 +30,7 @@ advanced_rag_strict = None
 _rag_lock = Lock()
 
 # -----------------------------
-# Load RAG pipeline (no background ingestion)
+# Load RAG pipeline and embedder
 # -----------------------------
 def load_rag_pipeline():
     global advanced_rag_strict
@@ -38,13 +38,16 @@ def load_rag_pipeline():
         if advanced_rag_strict is None:
             try:
                 from rag_pipeline import advanced_rag_strict as pipeline
+                from rag_pipeline import get_embedder  # force embedder load
+                get_embedder()  # preload embeddings at startup
                 advanced_rag_strict = pipeline
-                logging.info("✅ RAG pipeline loaded")
+                logging.info("✅ RAG pipeline and embedder loaded")
             except Exception as e:
                 logging.error("❌ Failed to load RAG pipeline: %s", e, exc_info=True)
                 advanced_rag_strict = None
 
-load_rag_pipeline()
+# Preload in background thread so startup isn't blocked too long
+Thread(target=load_rag_pipeline, daemon=True).start()
 
 # -----------------------------
 # Flask routes
@@ -60,7 +63,7 @@ def chat():
         pipeline = advanced_rag_strict
 
     if pipeline is None:
-        return jsonify({"reply": "Model is not ready yet, please wait..."})
+        return jsonify({"reply": "Model is still loading, please wait..."})
 
     try:
         result = pipeline(user_input)
@@ -84,3 +87,28 @@ def health():
 @app.route("/", methods=["GET"])
 def index():
     return jsonify({"status": "Service is up. Use /chat to query."})
+
+# -----------------------------
+# Flask wakeup route
+# -----------------------------
+@app.route("/wakeup", methods=["GET"])
+def wakeup():
+    """
+    Call this endpoint to preload RAG pipeline + embedder
+    so first /chat requests don’t fail or cause memory spikes.
+    """
+    global advanced_rag_strict
+    with _rag_lock:
+        if advanced_rag_strict is None:
+            try:
+                from rag_pipeline import advanced_rag_strict as pipeline
+                from rag_pipeline import get_embedder
+                get_embedder()  # preload embedder
+                advanced_rag_strict = pipeline
+                logging.info("✅ RAG pipeline and embedder loaded via /wakeup")
+                return jsonify({"status": "wakeup completed", "pipeline_loaded": True})
+            except Exception as e:
+                logging.error("❌ Failed to load RAG pipeline in /wakeup: %s", e, exc_info=True)
+                return jsonify({"status": "failed to wakeup", "pipeline_loaded": False}), 500
+        else:
+            return jsonify({"status": "pipeline already loaded", "pipeline_loaded": True})
