@@ -2,10 +2,8 @@
 # 1) Imports & Config
 # -------------------------
 from hashlib import md5
-import torch
 import re
 import os
-from sentence_transformers import SentenceTransformer, util
 import requests
 from dotenv import load_dotenv
 from pymilvus import connections, Collection, FieldSchema, CollectionSchema, DataType, utility
@@ -17,19 +15,22 @@ load_dotenv()
 # ------------------------- 
 # CONFIG 
 # ------------------------- 
-EMBED_MODEL = "paraphrase-MiniLM-L3-v2"
-DEVICE = "cpu"  # force CPU to reduce memory
 SIMILARITY_THRESHOLD = 0.5
 TOP_K = 3
 FINAL_K = 4
 MAX_NEW_TOKENS = 128
 SEM_VERIF_THRESHOLD = 0.5
-MAX_NOTES = 100  # reduced from 200
+MAX_NOTES = 100
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 # Milvus host info
 MILVUS_URI = os.getenv("MILVUS_URI")
 MILVUS_TOKEN = os.getenv("MILVUS_TOKEN")
+
+# HUGGINGFACE INFERENCE CONFIG
+HF_API_KEY = os.getenv("HF_API_KEY")
+HF_EMBED_MODEL = "sentence-transformers/paraphrase-MiniLM-L3-v2"
+HF_API_URL = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{HF_EMBED_MODEL}"
 
 connections.connect(
     alias="default",
@@ -37,42 +38,36 @@ connections.connect(
     token=MILVUS_TOKEN
 )
 
-# -------------------------
-# 2) Lazy Sentence Transformer
-# -------------------------
-_embedder = None
-def get_embedder():
-    global _embedder
-    if _embedder is None:
-        os.environ["OMP_NUM_THREADS"] = "1"
-        torch.set_num_threads(1)
-        try:
-            _embedder = SentenceTransformer("sentence-transformers/" + EMBED_MODEL, device=DEVICE)
-            print(f"✅ Embedder {EMBED_MODEL} loaded on {DEVICE}")
-        except Exception as e:
-            print("❌ Failed to load embedder:", e)
-            _embedder = None
-            raise
-    return _embedder
-
-# -------------------------
-# 3) Milvus collection helpers
-# -------------------------
 VECTOR_DIM = 384
-
 _collections_cache = {}
+_docs_col = None
+_notes_col = None
 
+# -------------------------
+# 2) HuggingFace embedding
+# -------------------------
+def get_embedding_hf(text: str):
+    headers = {"Authorization": f"Bearer {HF_API_KEY}"}
+    payload = {"inputs": text}
+    try:
+        r = requests.post(HF_API_URL, headers=headers, json=payload, timeout=30)
+        r.raise_for_status()
+        emb = np.array(r.json(), dtype=np.float32)
+        if len(emb.shape) == 2:  # token-level embeddings → take mean
+            emb = emb.mean(axis=0)
+        return emb
+    except Exception as e:
+        print("❌ HuggingFace embedding error:", e)
+        return np.zeros(VECTOR_DIM, dtype=np.float32)
+
+# -------------------------
+# 3) Milvus helpers
+# -------------------------
 def get_or_create_collection(name: str, dim: int = VECTOR_DIM) -> Collection:
-    """
-    Returns a Milvus Collection object.
-    - Creates it if missing.
-    - Does NOT load it into RAM until search/load is called explicitly.
-    """
     global _collections_cache
     if name in _collections_cache:
         return _collections_cache[name]
 
-    # Check if collection exists
     if utility.has_collection(name):
         col = Collection(name)
         existing_fields = [f.name for f in col.schema.fields]
@@ -81,7 +76,6 @@ def get_or_create_collection(name: str, dim: int = VECTOR_DIM) -> Collection:
             utility.drop_collection(name)
             col = None
 
-    # Create collection if missing
     if not utility.has_collection(name) or col is None:
         fields = [
             FieldSchema(name="id", dtype=DataType.VARCHAR, is_primary=True, max_length=128),
@@ -94,7 +88,6 @@ def get_or_create_collection(name: str, dim: int = VECTOR_DIM) -> Collection:
         col = Collection(name=name, schema=schema, using="default")
         print(f"✅ Created new collection {name}")
 
-    # Create index if missing
     try:
         if not col.indexes:
             col.create_index(
@@ -102,18 +95,14 @@ def get_or_create_collection(name: str, dim: int = VECTOR_DIM) -> Collection:
                 index_params={
                     "index_type": "IVF_FLAT",
                     "metric_type": "COSINE",
-                    "params": {"nlist": 512}  # smaller nlist reduces RAM
+                    "params": {"nlist": 512}
                 }
             )
     except Exception as e:
         print(f"⚠️ Milvus index creation skipped for {name}: {e}")
 
-    # Do NOT load into RAM yet
     _collections_cache[name] = col
     return col
-
-_docs_col = None
-_notes_col = None
 
 def get_docs_col():
     global _docs_col
@@ -127,41 +116,8 @@ def get_notes_col():
         _notes_col = get_or_create_and_load_collection("notes_col", VECTOR_DIM)
     return _notes_col
 
-
 # -------------------------
-# 4) PDF loader & chunking (commented out, using Milvus cloud only)
-# -------------------------
-# def load_pdf_text(path):
-#     doc = fitz.open(path)
-#     text = "\n".join([page.get_text() for page in doc])
-#     doc.close()
-#     return text.strip()
-
-# def chunk_text(text, chunk_size=CHUNK_SIZE):
-#     words = text.split()
-#     return [" ".join(words[i:i + chunk_size]) for i in range(0, len(words), chunk_size)]
-
-# def ingest_pdfs():
-#     existing_ids = set()
-#     try:
-#         res = docs_col.query(expr="id != ''", output_fields=["id"])
-#         for r in res:
-#             if isinstance(r, dict) and "id" in r:
-#                 v = r["id"]
-#                 if isinstance(v, list): existing_ids.update(v)
-#                 else: existing_ids.add(v)
-#     except Exception:
-#         existing_ids = set()
-# 
-#     # local PDF ingestion skipped
-# 
-# try:
-#     ingest_pdfs()
-# except Exception as e:
-#     print("⚠️ ingest_pdfs() failed:", e)
-
-# -------------------------
-# 5) LLM Helper
+# 4) LLM Helper
 # -------------------------
 def call_llm(prompt, max_new_tokens=128, temperature=0.5, use_openrouter=True):
     if use_openrouter:
@@ -183,19 +139,17 @@ def call_llm(prompt, max_new_tokens=128, temperature=0.5, use_openrouter=True):
             print("❌ OpenRouter error:", e)
             return "I don't know."
     else:
-        inputs = tokenizer(prompt, return_tensors="pt", truncation=True).to(DEVICE)
-        out = llm.generate(**inputs, max_new_tokens=max_new_tokens, temperature=temperature)
-        return tokenizer.decode(out[0], skip_special_tokens=True).strip()
+        raise NotImplementedError("Local LLM not implemented in this low-RAM pipeline.")
 
 # -------------------------
-# 6) Retrieval helpers (query-time only embedding)
+# 5) Retrieval & rerank
 # -------------------------
 def retrieve_from_collection(collection: Collection, query: str, top_k=TOP_K):
     try:
         collection.load()
     except Exception:
         pass
-    q_emb = get_embedder().encode([query], convert_to_numpy=True)[0]  # only query embedding
+    q_emb = get_embedding_hf(query)
     search_params = {"metric_type": "COSINE", "params": {"nprobe": 2}}
     results = collection.search(
         data=[q_emb.tolist()],
@@ -218,11 +172,10 @@ def retrieve_from_collection(collection: Collection, query: str, top_k=TOP_K):
 
 def rerank_and_score(query, items):
     if not items: return []
-    q_emb = get_embedder().encode([query], convert_to_numpy=True)[0]
+    q_emb = get_embedding_hf(query)
     texts = [it["text"] for it in items]
-    embs = get_embedder().encode(texts, convert_to_numpy=True)
-    # NumPy cosine similarity
-    sims = np.dot(embs, q_emb) / (np.linalg.norm(embs, axis=1) * np.linalg.norm(q_emb))
+    embs = np.array([get_embedding_hf(t) for t in texts])
+    sims = np.dot(embs, q_emb)/(np.linalg.norm(embs, axis=1)*np.linalg.norm(q_emb))
     for it, s in zip(items, sims):
         it["score"] = float(s)
     items.sort(key=lambda x: x.get("score",0.0), reverse=True)
@@ -233,6 +186,21 @@ def apply_threshold_and_topk(items, threshold=SIMILARITY_THRESHOLD, top_k=TOP_K)
     kept = [it for it in items if it.get("score",0.0) >= threshold]
     return kept[:top_k] if kept else (items[:1] if items else [])
 
+def semantic_filter(sentences, context_texts, threshold=SEM_VERIF_THRESHOLD):
+    if not sentences or not context_texts: return []
+    ctx_emb = np.array([get_embedding_hf(t) for t in context_texts])
+    kept = []
+    for s in sentences:
+        s_emb = get_embedding_hf(s)
+        sims = np.dot(ctx_emb, s_emb)/(np.linalg.norm(ctx_emb, axis=1)*np.linalg.norm(s_emb))
+        if max(sims) >= threshold:
+            kept.append(s)
+    del ctx_emb, s_emb, sims; gc.collect()
+    return list(dict.fromkeys(kept))
+
+# -------------------------
+# 6) Fusion & notes
+# -------------------------
 def fuse_candidates(docs_items, notes_items, final_k=FINAL_K):
     pool = docs_items + notes_items
     best = {}
@@ -249,27 +217,6 @@ def fuse_candidates(docs_items, notes_items, final_k=FINAL_K):
     del pool, best; gc.collect()
     return fused
 
-# -------------------------
-# 7) Sentence helpers
-# -------------------------
-def simple_sent_tokenize(text):
-    return [p.strip() for p in re.split(r'(?<=[\.\?\!])\s+', text) if p.strip()]
-
-def semantic_filter(sentences, context_texts, threshold=SEM_VERIF_THRESHOLD):
-    if not sentences or not context_texts: return []
-    ctx_emb = get_embedder().encode(context_texts, convert_to_numpy=True)
-    kept = []
-    for s in sentences:
-        s_emb = get_embedder().encode([s], convert_to_numpy=True)[0]
-        sims = np.dot(ctx_emb, s_emb)/(np.linalg.norm(ctx_emb, axis=1)*np.linalg.norm(s_emb))
-        if max(sims) >= threshold:
-            kept.append(s)
-    del ctx_emb, s_emb, sims; gc.collect()
-    return list(dict.fromkeys(kept))
-
-# -------------------------
-# 8) Notes & distillation
-# -------------------------
 def distill_context(fused_chunks, max_new_tokens=MAX_NEW_TOKENS):
     raw_text = "\n".join([f["text"] for f in fused_chunks])
     prompt = f"""Rewrite the following retrieved content into clear, factual statements. Output ONE fact per line. Do NOT invent facts. {raw_text} Distilled Facts:"""
@@ -299,7 +246,7 @@ New Notes:"""
     return list(dict.fromkeys(new_notes))
 
 # -------------------------
-# 9) Advanced RAG pipeline
+# 7) Advanced RAG pipeline
 # -------------------------
 def advanced_rag_strict(query, n_candidates=TOP_K):
     docs_cands = retrieve_from_collection(get_docs_col(), query, top_k=n_candidates*2)
@@ -332,3 +279,9 @@ Answer in 1-2 plain sentences strictly from the facts:"""
     del docs_cands, notes_cands, docs_scored, notes_scored, docs_kept, notes_kept, fused, temp_notes, temp_note_items; gc.collect()
 
     return {"extractive":extractive_answer,"natural":natural_answer,"distilled":distilled_facts,"provenance":[],"prompt":prompt}
+
+# -------------------------
+# 8) Sentence tokenizer
+# -------------------------
+def simple_sent_tokenize(text):
+    return [p.strip() for p in re.split(r'(?<=[\.\?\!])\s+', text) if p.strip()]
