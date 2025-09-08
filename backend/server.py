@@ -2,14 +2,17 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
-from threading import Thread
+from threading import Thread, Lock
 import logging
+import gc
+import time
 
 # -----------------------------
 # Load environment
 # -----------------------------
 load_dotenv()
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+PDF_FOLDER = "./uploaded_pdfs"  # path to PDFs
 if not OPENROUTER_API_KEY:
     raise ValueError("❌ OPENROUTER_API_KEY not found in environment variables")
 
@@ -18,43 +21,86 @@ if not OPENROUTER_API_KEY:
 # -----------------------------
 app = Flask(__name__)
 CORS(app)
-
-# Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
 # -----------------------------
-# Lazy-load RAG pipeline
+# Lazy-load RAG pipeline (RAM optimized)
 # -----------------------------
-advanced_rag_strict = None
+_rag_pipeline = None
+_rag_lock = Lock()
 
 def load_rag_pipeline():
-    global advanced_rag_strict
-    from rag_pipeline import advanced_rag_strict as pipeline
-    advanced_rag_strict = pipeline
-    logging.info("✅ RAG pipeline loaded")
+    global _rag_pipeline
+    with _rag_lock:
+        if _rag_pipeline is None:
+            from rag_pipeline import advanced_rag_strict as pipeline, ingest_pdfs
+            _rag_pipeline = pipeline
+            logging.info("✅ RAG pipeline loaded")
+
+            # Start background PDF ingestion thread
+            Thread(target=background_pdf_ingestion, args=(ingest_pdfs,), daemon=True).start()
 
 # Start loading in background
 Thread(target=load_rag_pipeline, daemon=True).start()
 
 # -----------------------------
-# Routes
+# Background PDF ingestion
+# -----------------------------
+def background_pdf_ingestion(ingest_func, interval=300):
+    """
+    Periodically ingest new PDFs without holding embeddings in RAM.
+    - ingest_func: your RAM-optimized `ingest_pdfs` from rag_pipeline
+    - interval: seconds between ingestion runs
+    """
+    while True:
+        try:
+            logging.info("🔄 Background PDF ingestion started")
+            ingest_func()
+            gc.collect()  # free memory after ingestion
+            logging.info("✅ Background PDF ingestion complete")
+        except Exception as e:
+            logging.error("❌ Error in background ingestion: %s", e, exc_info=True)
+        time.sleep(interval)
+
+# -----------------------------
+# Flask routes
 # -----------------------------
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json(force=True)
-    user_input = data.get("message", "")
+    user_input = data.get("message", "").strip()
 
-    if not user_input.strip():
+    if not user_input:
         return jsonify({"reply": "Please enter a question."})
 
-    if advanced_rag_strict is None:
+    with _rag_lock:
+        pipeline = _rag_pipeline
+
+    if pipeline is None:
         return jsonify({"reply": "Model is still loading, please wait..."})
 
     try:
-        result = advanced_rag_strict(user_input)
+        result = pipeline(user_input)
         reply = result.get("natural", "I don't know.")
         provenance = result.get("provenance", [])
+
+        del result
+        gc.collect()
         return jsonify({"reply": reply, "provenance": provenance})
+
     except Exception as e:
         logging.error("❌ Error in RAG pipeline: %s", e, exc_info=True)
         return jsonify({"reply": "Oops! Something went wrong.", "provenance": []}), 500
+
+# -----------------------------
+# Optional health check
+# -----------------------------
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({"status": "ok"})
+
+# -----------------------------
+# Run server
+# -----------------------------
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
