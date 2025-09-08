@@ -60,15 +60,29 @@ def get_embedder():
 # -------------------------
 VECTOR_DIM = 384
 
-def get_or_create_and_load_collection(name: str, dim: int = VECTOR_DIM) -> Collection:
+_collections_cache = {}
+
+def get_or_create_collection(name: str, dim: int = VECTOR_DIM) -> Collection:
+    """
+    Returns a Milvus Collection object.
+    - Creates it if missing.
+    - Does NOT load it into RAM until search/load is called explicitly.
+    """
+    global _collections_cache
+    if name in _collections_cache:
+        return _collections_cache[name]
+
+    # Check if collection exists
     if utility.has_collection(name):
         col = Collection(name)
         existing_fields = [f.name for f in col.schema.fields]
         if "chunk_id" not in existing_fields:
             print(f"⚠️ Dropping old collection {name} (missing chunk_id)...")
             utility.drop_collection(name)
+            col = None
 
-    if not utility.has_collection(name):
+    # Create collection if missing
+    if not utility.has_collection(name) or col is None:
         fields = [
             FieldSchema(name="id", dtype=DataType.VARCHAR, is_primary=True, max_length=128),
             FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=dim),
@@ -79,8 +93,8 @@ def get_or_create_and_load_collection(name: str, dim: int = VECTOR_DIM) -> Colle
         schema = CollectionSchema(fields, description=f"{name} collection")
         col = Collection(name=name, schema=schema, using="default")
         print(f"✅ Created new collection {name}")
-    else:
-        col = Collection(name)
+
+    # Create index if missing
     try:
         if not col.indexes:
             col.create_index(
@@ -91,13 +105,28 @@ def get_or_create_and_load_collection(name: str, dim: int = VECTOR_DIM) -> Colle
                     "params": {"nlist": 512}  # smaller nlist reduces RAM
                 }
             )
-        col.load()
     except Exception as e:
-        print(f"⚠️ Milvus load/index skipped for {name}: {e}")
+        print(f"⚠️ Milvus index creation skipped for {name}: {e}")
+
+    # Do NOT load into RAM yet
+    _collections_cache[name] = col
     return col
 
-docs_col = get_or_create_and_load_collection("docs_col", VECTOR_DIM)
-notes_col = get_or_create_and_load_collection("notes_col", VECTOR_DIM)
+_docs_col = None
+_notes_col = None
+
+def get_docs_col():
+    global _docs_col
+    if _docs_col is None:
+        _docs_col = get_or_create_and_load_collection("docs_col", VECTOR_DIM)
+    return _docs_col
+
+def get_notes_col():
+    global _notes_col
+    if _notes_col is None:
+        _notes_col = get_or_create_and_load_collection("notes_col", VECTOR_DIM)
+    return _notes_col
+
 
 # -------------------------
 # 4) PDF loader & chunking (commented out, using Milvus cloud only)
@@ -273,8 +302,8 @@ New Notes:"""
 # 9) Advanced RAG pipeline
 # -------------------------
 def advanced_rag_strict(query, n_candidates=TOP_K):
-    docs_cands = retrieve_from_collection(docs_col, query, top_k=n_candidates*2)
-    notes_cands = retrieve_from_collection(notes_col, query, top_k=n_candidates*2)
+    docs_cands = retrieve_from_collection(get_docs_col(), query, top_k=n_candidates*2)
+    notes_cands = retrieve_from_collection(get_notes_col(), query, top_k=n_candidates*2)
     docs_scored = rerank_and_score(query, docs_cands)
     notes_scored = rerank_and_score(query, notes_cands)
     docs_kept = apply_threshold_and_topk(docs_scored, top_k=n_candidates)
