@@ -41,13 +41,19 @@ connections.connect(
 # 2) Lazy Sentence Transformer
 # -------------------------
 _embedder = None
+os.environ["OMP_NUM_THREADS"] = "1"
+torch.set_num_threads(1)
+
+try:
+    _embedder = SentenceTransformer("sentence-transformers/" + EMBED_MODEL, device=DEVICE)
+    print(f"✅ Embedder {EMBED_MODEL} preloaded on {DEVICE}")
+except Exception as e:
+    print("❌ Failed to preload embedder:", e)
+    _embedder = None
+
 def get_embedder():
-    global _embedder
     if _embedder is None:
-        import os
-        os.environ["OMP_NUM_THREADS"] = "1"
-        torch.set_num_threads(1)
-        _embedder = SentenceTransformer("sentence-transformers/" + EMBED_MODEL, device=DEVICE)
+        raise RuntimeError("Embedder not initialized!")
     return _embedder
 
 # -------------------------
