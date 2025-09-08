@@ -3,27 +3,15 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 from threading import Thread
-import logging
+import time
 
-# -----------------------------
-# Load environment
-# -----------------------------
 load_dotenv()
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 if not OPENROUTER_API_KEY:
-    raise ValueError("❌ OPENROUTER_API_KEY not found in environment variables")
+    raise ValueError("❌ OPENROUTER_API_KEY not found in .env")
 
 # -----------------------------
-# Flask setup
-# -----------------------------
-app = Flask(__name__)
-CORS(app)
-
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
-
-# -----------------------------
-# Lazy-load RAG pipeline
+# RAG pipeline will be lazy-loaded
 # -----------------------------
 advanced_rag_strict = None
 
@@ -31,19 +19,17 @@ def load_rag_pipeline():
     global advanced_rag_strict
     from rag_pipeline import advanced_rag_strict as pipeline
     advanced_rag_strict = pipeline
-    logging.info("✅ RAG pipeline loaded")
-
-# Start loading in background
-Thread(target=load_rag_pipeline, daemon=True).start()
+    print("✅ RAG pipeline loaded")
 
 # -----------------------------
-# Routes
+# Flask setup
 # -----------------------------
+app = Flask(__name__)
+CORS(app)
+
 @app.route("/chat", methods=["POST"])
 def chat():
-    data = request.get_json(force=True)
-    user_input = data.get("message", "")
-
+    user_input = request.json.get("message", "")
     if not user_input.strip():
         return jsonify({"reply": "Please enter a question."})
 
@@ -56,5 +42,18 @@ def chat():
         provenance = result.get("provenance", [])
         return jsonify({"reply": reply, "provenance": provenance})
     except Exception as e:
-        logging.error("❌ Error in RAG pipeline: %s", e, exc_info=True)
+        print("❌ Error in RAG pipeline:", e)
         return jsonify({"reply": "Oops! Something went wrong.", "provenance": []}), 500
+
+# -----------------------------
+# Run Flask immediately
+# -----------------------------
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 5000))
+    print(f"🚀 Starting Flask server on port {port}...")
+
+    # Start loading the model in background
+    Thread(target=load_rag_pipeline, daemon=True).start()
+
+    # Start Flask
+    app.run(host="0.0.0.0", port=port, debug=False)
