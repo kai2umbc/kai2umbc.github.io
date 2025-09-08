@@ -56,4 +56,4 @@ if __name__ == "__main__":
     Thread(target=load_rag_pipeline, daemon=True).start()
 
     # Start Flask
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port, debug=False)
