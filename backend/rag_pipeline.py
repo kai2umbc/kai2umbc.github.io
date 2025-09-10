@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 from pymilvus import connections, Collection, FieldSchema, CollectionSchema, DataType, utility
 import numpy as np
 import gc
+import time
+from typing import List, Union, Callable
 
 load_dotenv()
 
@@ -27,11 +29,6 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 MILVUS_URI = os.getenv("MILVUS_URI")
 MILVUS_TOKEN = os.getenv("MILVUS_TOKEN")
 
-# HUGGINGFACE INFERENCE CONFIG
-HF_API_KEY = os.getenv("HF_API_KEY")
-HF_EMBED_MODEL = "sentence-transformers/paraphrase-MiniLM-L3-v2"
-HF_API_URL = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{HF_EMBED_MODEL}"
-
 connections.connect(
     alias="default",
     uri=MILVUS_URI,
@@ -44,21 +41,80 @@ _docs_col = None
 _notes_col = None
 
 # -------------------------
-# 2) HuggingFace embedding
+# 2) HuggingFace embedder (router.huggingface.co, feature-extraction)
 # -------------------------
-def get_embedding_hf(text: str):
-    headers = {"Authorization": f"Bearer {HF_API_KEY}"}
-    payload = {"inputs": text}
-    try:
-        r = requests.post(HF_API_URL, headers=headers, json=payload, timeout=30)
-        r.raise_for_status()
-        emb = np.array(r.json(), dtype=np.float32)
-        if len(emb.shape) == 2:  # token-level embeddings → take mean
-            emb = emb.mean(axis=0)
-        return emb
-    except Exception as e:
-        print("❌ HuggingFace embedding error:", e)
-        return np.zeros(VECTOR_DIM, dtype=np.float32)
+HF_MODEL = os.getenv("HF_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
+HF_API_KEY = os.getenv("HF_API_KEY")
+HF_API_URL = f"https://router.huggingface.co/hf-inference/models/{HF_MODEL}/pipeline/feature-extraction"
+
+HF_TIMEOUT = 30
+HF_MAX_RETRIES = 3
+HF_BACKOFF_FACTOR = 0.6
+
+def _build_hf_session() -> requests.Session:
+    s = requests.Session()
+    adapter = requests.adapters.HTTPAdapter(max_retries=HF_MAX_RETRIES)
+    s.mount("https://", adapter)
+    s.mount("http://", adapter)
+    if HF_API_KEY:
+        s.headers.update({"Authorization": f"Bearer {HF_API_KEY}"})
+    return s
+
+def get_embedder() -> Callable[[Union[str, List[str]]], np.ndarray]:
+    """
+    Returns an embed(texts) function that calls Hugging Face router API
+    with the feature-extraction pipeline.
+    - Sends one text per request (avoids 400s).
+    - Retries with exponential backoff on failure.
+    - Mean-pools token-level embeddings into one vector.
+    """
+    session = _build_hf_session()
+
+    def embed(texts: Union[str, List[str]]) -> np.ndarray:
+        single_input = False
+        if isinstance(texts, str):
+            texts = [texts]
+            single_input = True
+
+        outputs = []
+        for text in texts:
+            payload = {"inputs": text}
+            for attempt in range(HF_MAX_RETRIES):
+                try:
+                    r = session.post(HF_API_URL, json=payload, timeout=HF_TIMEOUT)
+                    r.raise_for_status()
+                    arr = np.array(r.json(), dtype=np.float32)
+
+                    if arr.ndim == 2:   # token-level → mean pool
+                        vec = arr.mean(axis=0)
+                    elif arr.ndim == 1:
+                        vec = arr
+                    else:
+                        vec = arr.reshape(-1).astype(np.float32)
+
+                    outputs.append(vec)
+                    break
+                except Exception as e:
+                    wait_time = HF_BACKOFF_FACTOR * (2 ** attempt)
+                    print(f"❌ HF embed error: {e} | retrying in {wait_time:.1f}s...")
+                    time.sleep(wait_time)
+            else:
+                outputs.append(np.zeros(384, dtype=np.float32))  # fallback vector
+
+        result = np.stack(outputs, axis=0)
+        return result[0] if single_input else result
+
+    return embed
+
+# convenience wrapper
+_embedder_callable = None
+def _ensure_embedder():
+    global _embedder_callable
+    if _embedder_callable is None:
+        _embedder_callable = get_embedder()
+def get_embedding_hf(text: Union[str, List[str]]) -> np.ndarray:
+    _ensure_embedder()
+    return _embedder_callable(text)
 
 # -------------------------
 # 3) Milvus helpers
@@ -68,13 +124,18 @@ def get_or_create_collection(name: str, dim: int = VECTOR_DIM) -> Collection:
     if name in _collections_cache:
         return _collections_cache[name]
 
-    if utility.has_collection(name):
-        col = Collection(name)
-        existing_fields = [f.name for f in col.schema.fields]
-        if "chunk_id" not in existing_fields:
-            print(f"⚠️ Dropping old collection {name} (missing chunk_id)...")
-            utility.drop_collection(name)
-            col = None
+    col = None
+    try:
+        if utility.has_collection(name):
+            col = Collection(name)
+            existing_fields = [f.name for f in col.schema.fields]
+            if "chunk_id" not in existing_fields:
+                print(f"⚠️ Dropping old collection {name} (missing chunk_id)...")
+                utility.drop_collection(name)
+                col = None
+    except Exception as e:
+        print(f"⚠️ Milvus check error for {name}: {e}")
+        col = None
 
     if not utility.has_collection(name) or col is None:
         fields = [
@@ -102,6 +163,14 @@ def get_or_create_collection(name: str, dim: int = VECTOR_DIM) -> Collection:
         print(f"⚠️ Milvus index creation skipped for {name}: {e}")
 
     _collections_cache[name] = col
+    return col
+
+def get_or_create_and_load_collection(name: str, dim: int = VECTOR_DIM):
+    col = get_or_create_collection(name, dim)
+    try:
+        col.load()
+    except Exception:
+        pass
     return col
 
 def get_docs_col():

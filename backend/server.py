@@ -38,10 +38,18 @@ def load_pipeline_safe():
         if advanced_rag_strict is not None:
             return True  # already loaded
         try:
-            from rag_pipeline import advanced_rag_strict as pipeline
-            from rag_pipeline import get_embedder
-            get_embedder()  # preload embedder
-            advanced_rag_strict = pipeline
+            # Import the rag pipeline module; it defines advanced_rag_strict and get_embedder/get_embedding_hf
+            import rag_pipeline as rp
+            # Preload embedder
+            # rp.get_embedder returns a callable; calling it will create the session & warm any model access
+            rp._ensure_embedder()  # create embedder (no network call yet until used)
+            # Preload Milvus collections (optional safe call)
+            try:
+                rp.get_docs_col()
+                rp.get_notes_col()
+            except Exception as e:
+                logging.warning("⚠️ Could not preload Milvus collections: %s", e)
+            advanced_rag_strict = rp.advanced_rag_strict
             logging.info("✅ RAG pipeline and embedder loaded")
             return True
         except Exception as e:
